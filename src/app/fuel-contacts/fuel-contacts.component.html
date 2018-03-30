@@ -1,0 +1,45 @@
+<p-card title="Contact & Summary" styleClass="ui-fluid">
+  <div
+    style="font-family:'Roboto', 'Trebuchet MS', Arial, Helvetica, sans-serif;font-size:14px;text-decoration: underline;font-weight: bold;">
+    Details of those compiling the Fuel Quality Monitoring Report
+  </div>
+  <div style="font-family:'Roboto', 'Trebuchet MS', Arial, Helvetica, sans-serif;font-size:11px;">
+    The authorities responsible for compiling the fuel quality monitoring report are requested to complete the table
+    below.
+  </div>
+
+  <ng-form-input label="Reporting Year:">
+    2016
+  </ng-form-input>
+
+  <ng-form-input elementId="country" label="Country:">
+    <p-autoComplete id="country" [(ngModel)]="contacts.country" [suggestions]="filteredCountries"
+                    (completeMethod)="searchCountries($event)"
+                    field="name" [dropdown]="true">
+    </p-autoComplete>
+  </ng-form-input>
+
+  <ng-form-input elementId="dateReportCompleted" label="Date Report Completed:">
+    <p-calendar id="dateReportCompleted" [(ngModel)]="contacts.dateReportCompleted" dateFormat="dd/mm/y"
+                [showIcon]="true">
+    </p-calendar>
+  </ng-form-input>
+
+  <ng-form-input elementId="organisation" label="Organisation Responsible for Report:">
+    <input id="organisation" type="text" pInputText [(ngModel)]="contacts.organisationResponsibleForReport"/>
+  </ng-form-input>
+
+  <ng-form-input elementId="address" label="Address of Organisation Street:">
+    <input id="address" type="text" pInputText [(ngModel)]="contacts.addressOfOrganisationStreet"/>
+  </ng-form-input>
+
+  <ng-form-input elementId="city" label="City:">
+    <input id="city" type="text" pInputText [(ngModel)]="contacts.city"/>
+  </ng-form-input>
+
+  <ng-form-input elementId="postCode" label="PostCode:">
+    <input id="postCode" type="text" pInputText [(ngModel)]="contacts.postcode"/>
+  </ng-form-input>
+
+
+</p-card>

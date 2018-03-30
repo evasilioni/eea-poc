@@ -12,13 +12,15 @@ import {TabViewModule} from 'primeng/tabview';
 import {CalendarModule} from 'primeng/calendar';
 
 import { AppComponent } from './app.component';
-import { ContactsComponent } from './contacts/contacts.component';
+import { NgFormInputComponent } from './helpers/ng-form-input/ng-form-input.component';
+import {FuelContactsComponent} from './fuel-contacts/fuel-contacts.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ContactsComponent
+    NgFormInputComponent,
+    FuelContactsComponent
   ],
   imports: [
     BrowserModule,

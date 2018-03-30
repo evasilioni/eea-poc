@@ -1,16 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Country } from './country';
-import { Contacts } from './contacts';
-
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import {Component, Input} from '@angular/core';
+import {Contacts} from './contacts';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
+import {Country} from './country';
 
 @Component({
-  selector: 'contacts',
-  templateUrl: './contacts.component.html',
-  styleUrls: ['./contacts.component.css']
+  selector: 'fuel-contacts',
+  templateUrl: './fuel-contacts.component.html',
+  styleUrls: ['./fuel-contacts.component.css']
 })
-export class ContactsComponent implements OnInit {
+export class FuelContactsComponent {
 
   @Input()
   contacts: Contacts;
@@ -26,16 +25,13 @@ export class ContactsComponent implements OnInit {
   }
 
   getCountries(): Observable<Country[]> {
-    return this.http.get<Country[]>("./assets/countries.json");
+    return this.http.get<Country[]>('./assets/countries.json');
   }
 
   searchCountries(event) {
     console.log(this.countries);
     this.filteredCountries = this.countries
       .filter((country: Country) => country.name.toLowerCase().includes(event.query.toLowerCase()));
-  }
-
-  ngOnInit() {
   }
 
 }
