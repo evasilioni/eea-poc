@@ -1,3 +1,17 @@
-<p>
-  contacts works!
-</p>
+<p-card title="Contact">
+  <div class="ui-g">
+    <div class="ui-g-2">Reporting Year</div>
+    <div class="ui-g-2">2016</div>
+  </div>
+
+  <div class="ui-g">
+    <div class="ui-g-2">
+      <label for="country">Country</label>
+    </div>
+    <div class="ui-g-2">
+      <p-autoComplete [(ngModel)]="contacts.country" [suggestions]="filteredCountries" (completeMethod)="searchCountries($event)"
+        field="name" [dropdown]="true">
+      </p-autoComplete>
+    </div>
+  </div>
+</p-card>

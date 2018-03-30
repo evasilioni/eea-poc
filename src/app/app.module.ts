@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {InputTextModule} from 'primeng/inputtext';
 import {CardModule} from 'primeng/card';
 import {AutoCompleteModule} from 'primeng/autocomplete';
+import {TabViewModule} from 'primeng/tabview';
 
 
 import { AppComponent } from './app.component';
@@ -24,7 +25,8 @@ import { ContactsComponent } from './contacts/contacts.component';
     InputTextModule,
     FormsModule,
     CardModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    TabViewModule
   ],
   providers: [],
   bootstrap: [AppComponent]
