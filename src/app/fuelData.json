@@ -1,10 +1,9 @@
 {
-    "contacts":{
-        "reportingYear":2016,
+    "contacts": {
+        "reportingYear": 2016,
         "country": {},
-        "dateReportCompleted":""
+        "dateReportCompleted": ""
     },
-    "petrol":{
-
+    "petrol": {
     }
 }
