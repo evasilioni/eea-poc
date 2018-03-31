@@ -7,10 +7,12 @@
 
 <p-tabView>
     <p-tabPanel header="Contacts & Annual Summary">
-        <fuel-contacts [contacts]="fuelData.contacts"></fuel-contacts>
+        <fuel-contacts [contacts]="fuelData?.contacts"></fuel-contacts>
     </p-tabPanel>
     <p-tabPanel header="Petrol">
         Content 2
     </p-tabPanel>
 </p-tabView>
-{{fuelData | json}}
+<pre>{{fuelData | json}}</pre>
+
+<pre>{{fuelDataXml()}}</pre>
