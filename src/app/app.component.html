@@ -1,16 +1,18 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
+    <h1>
+        Welcome to {{ title }}!
+    </h1>
 </div>
 
 <p-tabView>
     <p-tabPanel header="Contacts & Annual Summary">
-        <contacts [contacts]="fuelData.contacts"></contacts>
+        <fuel-contacts [contacts]="fuelData?.contacts"></fuel-contacts>
     </p-tabPanel>
     <p-tabPanel header="Petrol">
         Content 2
     </p-tabPanel>
 </p-tabView>
-{{fuelData | json}}
+<pre>{{fuelData | json}}</pre>
+
+<pre>{{fuelDataXml()}}</pre>

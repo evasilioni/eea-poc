@@ -4,5 +4,5 @@ export class Contacts {
     organisationResponsibleForReport: string;
     addressOfOrganisationStreet: string;
     city: string;
-    postcode:string;
+    postcode: string;
 }
