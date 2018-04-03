@@ -1,11 +1,9 @@
-<p-card title="Contact & Summary" styleClass="ui-fluid">
-    <div
-        style="font-family:'Roboto', 'Trebuchet MS', Arial, Helvetica, sans-serif;font-size:14px;text-decoration: underline;font-weight: bold;">
+<p-card title="Contact & Summary" styleClass="ui-fluid" [formGroup]="fuelContactForm">
+    <div style="font-family:'Roboto', 'Trebuchet MS', Arial, Helvetica, sans-serif;font-size:14px;text-decoration: underline;font-weight: bold;">
         Details of those compiling the Fuel Quality Monitoring Report
     </div>
     <div style="font-family:'Roboto', 'Trebuchet MS', Arial, Helvetica, sans-serif;font-size:11px;">
-        The authorities responsible for compiling the fuel quality monitoring report are requested to complete the table
-        below.
+        The authorities responsible for compiling the fuel quality monitoring report are requested to complete the table below.
     </div>
 
     <ng-form-input label="Reporting Year:">
@@ -13,33 +11,119 @@
     </ng-form-input>
 
     <ng-form-input elementId="country" label="Country:">
-        <p-autoComplete id="country" [(ngModel)]="contacts.country" [suggestions]="filteredCountries"
-                        (completeMethod)="searchCountries($event)"
-                        field="name" [dropdown]="true">
+        <p-autoComplete id="country" [suggestions]="filteredCountries" (completeMethod)="searchCountries($event)" field="name" [dropdown]="true"
+            formControlName="country" required>
         </p-autoComplete>
+        <div *ngIf="country.invalid && (country.dirty || country.touched)" class="alert alert-danger">
+            <div *ngIf="country.errors.required">
+                Country is required.
+            </div>
+        </div>
     </ng-form-input>
 
     <ng-form-input elementId="dateReportCompleted" label="Date Report Completed:">
-        <p-calendar id="dateReportCompleted" [(ngModel)]="contacts.dateReportCompleted" dateFormat="dd/mm/y"
-                    [showIcon]="true">
+        <p-calendar id="dateReportCompleted" dateFormat="dd/mm/y" [showIcon]="true" formControlName="dateReportCompleted">
         </p-calendar>
     </ng-form-input>
 
     <ng-form-input elementId="organisation" label="Organisation Responsible for Report:">
-        <input id="organisation" type="text" pInputText [(ngModel)]="contacts.organisationResponsibleForReport"/>
+        <input id="organisation" required type="text" pInputText formControlName="organisationResponsibleForReport" />
+
+        <div *ngIf="organisationResponsibleForReport.invalid && (organisationResponsibleForReport.dirty || organisationResponsibleForReport.touched)" 
+        class="alert alert-danger">
+            <div *ngIf="organisationResponsibleForReport.errors.required">
+                Organisation Responsible for Report is required.
+            </div>
+            <div *ngIf="organisationResponsibleForReport.errors.forbiddenName">
+                Organisation Responsible for Report cannot be Alex.
+            </div>
+        </div>
     </ng-form-input>
 
-    <ng-form-input elementId="address" label="Address of Organisation Street:">
-        <input id="address" type="text" pInputText [(ngModel)]="contacts.addressOfOrganisationStreet"/>
+    <div formGroupName="organisationAddress">
+        <ng-form-input elementId="address" label="Address of Organisation Street:">
+            <input id="address" type="text" pInputText formControlName="street" />
+        </ng-form-input>
+
+        <ng-form-input elementId="city" label="City:">
+            <input id="city" type="text" pInputText formControlName="city" />
+        </ng-form-input>
+
+        <ng-form-input elementId="postCode" label="PostCode:">
+            <input id="postCode" required type="text" pInputText formControlName="postcode"  />
+            <!-- <div *ngIf="postcode.invalid && (postcode.dirty || postcode.touched)" class="alert alert-danger">
+                    <div *ngIf="postcode.errors.required">
+                            postcode for Report is required.
+                        </div>
+                    <div *ngIf="postcode.errors.minlength">
+                            PostCode must be at least 5 characters long.
+                    </div>
+                  </div> -->
+        </ng-form-input>
+    </div>
+
+    <ng-form-input elementId="personResponsibleForReport" label="Person Responsible for Report:">
+        <input id="personResponsibleForReport" type="text" pInputText formControlName="personResponsibleForReport" />
+    </ng-form-input>
+    <div formGroupName="personInfo">
+        <ng-form-input elementId="telephoneNumber" label="Telephone Number:">
+            <input id="telephoneNumber" type="text" pInputText formControlName="phoneNumber" />
+        </ng-form-input>
+
+        <ng-form-input elementId="email" label="Email:">
+            <input id="email" type="text" pInputText formControlName="phoneNumber" />
+        </ng-form-input>
+    </div>
+
+
+    <div class="contact-fonts1">
+        DEFINITIONS AND EXPLANATION</div>
+    <div>
+        <p>
+            Parent fuel grade: Directive 98/70/EC sets the environmental specifications for petrol and diesel fuel marketed in the EU.
+            The specifications in the Directive can be thought of as ‘parent fuel grades’. These include (i) regular unleaded
+            petrol (RON > 91), (ii) unleaded petrol (RON > 95) and (iii) diesel fuel.
+            <br> National fuel grade: Member States may, of course, define ‘national’ fuel grades which must still, however,
+            respect the specification of the parent fuel grade. For example, national fuel grades may comprise super unleaded
+            petrol (RON > 98), lead replacement petrol, zero sulphur petrol, zero sulphur diesel, etc.
+            <br> Zero sulphur or sulphur-free fuels: As of 1st January 2009 sulphur content of all fuels marketed within a member
+            state territory must not exceed a maximum of 10 mg/kg.
+        </p>
+
+    </div>
+
+    <div class="contact-fonts1">
+        SUMMARY REPORTING FORMAT FOR PETROL & DIESEL
+    </div>
+    <div>
+        <p>
+            Member States are requested to provide a brief general summary of the results of the year's monitoring, including information
+            on any:
+            <br>- other parameters measured;
+            <br>- exclusions;
+            <br>- further details on breaches of parameter tolerance limits (i.e. number of samples, values);
+            <br>- enforcement actions taken as a result of breaches of the limit values/tolerance limits; and
+            <br>- additional information deemed relevant.
+            <br>In particular, Member States should provide additional explanatory information on reasoning for exceptional cases
+            where exclusions are made, such as:
+            <br>- fuel grades marketed in very small quantities;
+            <br>- mandatory fuel parameters that are not measured;
+            <br>- geographical areas that are left outside the monitoring programme;
+            <br>- exceptionally high or low values of analytical results (i.e. outliers).
+        </p>
+
+    </div>
+
+    <ng-form-input elementId="generalSummary" label="General Summary of Analysis and Additional Information:">
+        <textarea pInputTextarea></textarea>
     </ng-form-input>
 
-    <ng-form-input elementId="city" label="City:">
-        <input id="city" type="text" pInputText [(ngModel)]="contacts.city"/>
-    </ng-form-input>
+    <div style="width:65px">
+        <button pButton type="button" (click)="onSubmit()" label="Save" class="ui-button-success"></button>
+        <!-- [disabled]="!fuelContactForm.valid"  -->
 
-    <ng-form-input elementId="postCode" label="PostCode:">
-        <input id="postCode" type="text" pInputText [(ngModel)]="contacts.postcode"/>
-    </ng-form-input>
-
-
+    </div>
 </p-card>
+
+<!-- <pre> {{ fuelContactForm.get(['postcode','organisationAddress']).valid }} </pre> -->
+<pre>{{fuelContactForm.value | json}}</pre>
