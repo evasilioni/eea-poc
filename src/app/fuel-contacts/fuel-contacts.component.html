@@ -12,7 +12,7 @@
 
     <ng-form-input elementId="country" label="Country:">
         <p-autoComplete id="country" [suggestions]="filteredCountries" (completeMethod)="searchCountries($event)" field="name" [dropdown]="true"
-            formControlName="country" required>
+            formControlName="country">
         </p-autoComplete>
         <div *ngIf="country.invalid && (country.dirty || country.touched)" class="alert alert-danger">
             <div *ngIf="country.errors.required">
@@ -27,7 +27,7 @@
     </ng-form-input>
 
     <ng-form-input elementId="organisation" label="Organisation Responsible for Report:">
-        <input id="organisation" required type="text" pInputText formControlName="organisationResponsibleForReport" />
+        <input id="organisation" type="text" pInputText formControlName="organisationResponsibleForReport" />
 
         <div *ngIf="organisationResponsibleForReport.invalid && (organisationResponsibleForReport.dirty || organisationResponsibleForReport.touched)" 
         class="alert alert-danger">
@@ -50,15 +50,13 @@
         </ng-form-input>
 
         <ng-form-input elementId="postCode" label="PostCode:">
-            <input id="postCode" required type="text" pInputText formControlName="postcode"  />
-            <!-- <div *ngIf="postcode.invalid && (postcode.dirty || postcode.touched)" class="alert alert-danger">
-                    <div *ngIf="postcode.errors.required">
-                            postcode for Report is required.
-                        </div>
-                    <div *ngIf="postcode.errors.minlength">
-                            PostCode must be at least 5 characters long.
-                    </div>
-                  </div> -->
+            <input id="postCode" type="text" pInputText formControlName="postcode"  />
+          
+          <div *ngIf="postcode.invalid && (postcode.dirty || postcode.touched)" class="alert alert-danger">
+                <div *ngIf="postcode.errors.minlength">
+                        PostCode must be at least 5 characters long.
+                </div>
+                  </div> 
         </ng-form-input>
     </div>
 

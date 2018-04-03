@@ -24,27 +24,29 @@ export class FuelContactsComponent {
             .subscribe((data: Country[]) => {
                 this.countries = data;
             });
-        // this.createForm();
     }
 
-    // createForm() {
-    //     this.fuelContactForm = this.fb.group({ // <-- the parent FormGroup
-    //         country: ['', Validators.required],
-    //         dateReportCompleted: null,
-    //         organisationResponsibleForReport: ['',Validators.required],
-    //         organisationAddress: this.fb.group({
-    //             street: ['',Validators.required],
-    //             city:'',
-    //             postcode:['',Validators.minLength(5)]
-    //         }),
-    //         personResponsibleForReport: '',
-    //         personInfo: this.fb.group({ // <-- the child FormGroup
-    //             phoneNumber: '',
-    //             email: ''
-    //         }),
-    //         generalSummary: ''
-    //     })
-    // }
+    ngOnInit() {
+        this.fuelContactForm = this.fb.group({ // <-- the parent FormGroup
+            country: ['', Validators.required],
+            dateReportCompleted: null,
+            organisationResponsibleForReport: ['',
+                [Validators.required,
+                forbiddenNameValidator(/EEA/i)]
+            ],
+            organisationAddress: this.fb.group({
+                street: ['', Validators.required],
+                city: ['', Validators.required],
+                postcode: ['', Validators.minLength(5)]
+            }),
+            personResponsibleForReport: '',
+            personInfo: this.fb.group({
+                phoneNumber: '',
+                email: ''
+            }),
+            generalSummary: ''
+        })
+    }
 
     getCountries(): Observable<Country[]> {
         return this.http.get<Country[]>('./assets/countries.json');
@@ -56,11 +58,11 @@ export class FuelContactsComponent {
             .filter((country: Country) => country.name.toLowerCase().includes(event.query.toLowerCase()));
     }
 
-    onSubmit(){
-        if(this.fuelContactForm.valid){
+    onSubmit() {
+        if (this.fuelContactForm.valid) {
             this.contacts = this.prepareSaveFuelContact();
             console.log(this.contacts);
-        }else {
+        } else {
             alert('Validations!!!');
         }
 
@@ -76,37 +78,17 @@ export class FuelContactsComponent {
             organisationAddress: formModel.organisationAddress,
             personResponsibleForReport: formModel.personResponsibleForReport,
             personInfo: formModel.personInfo,
-            generalSummary:  formModel.generalSummary
+            generalSummary: formModel.generalSummary
         }
 
         return saveFuelContact;
     }
 
-    ngOnInit() {
-        this.fuelContactForm = new FormGroup({ // <-- the parent FormGroup
-            'country': new FormControl(this.contacts.country, [Validators.required]),
-            'dateReportCompleted': new FormControl(this.contacts.dateReportCompleted),
-            'organisationResponsibleForReport': new FormControl(this.contacts.organisationResponsibleForReport,[
-                        Validators.required, 
-                        forbiddenNameValidator(/Alex/i)
-                    ]),
-            'organisationAddress': new FormGroup({
-                street: new FormControl('', [Validators.required]),
-                city:new FormControl('', [Validators.required]),
-                postcode: new FormControl('', [Validators.minLength(5)])
-            }),
-            'personResponsibleForReport': new FormControl(''),
-            'personInfo': new FormGroup({
-                'phoneNumber': new FormControl(''),
-                'email': new FormControl('')
-            }),
-            'generalSummary': new FormControl(this.contacts.generalSummary)
-        })
-    }
+
 
     get country() { return this.fuelContactForm.get('country'); }
     get organisationResponsibleForReport() { return this.fuelContactForm.get('organisationResponsibleForReport'); }
-    get postcode() { return this.fuelContactForm.get('postcode'); }
+    get postcode() { return this.fuelContactForm.get('organisationAddress').get('postcode'); }
 }
 
 export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
