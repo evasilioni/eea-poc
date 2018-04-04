@@ -11,17 +11,21 @@ import {CardModule} from 'primeng/card';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {TabViewModule} from 'primeng/tabview';
 import {CalendarModule} from 'primeng/calendar';
+import {TableModule} from 'primeng/table';
+import { DialogModule } from 'primeng/primeng';
 
 import {AppComponent} from './app.component';
 import {NgFormInputComponent} from './helpers/ng-form-input/ng-form-input.component';
 import {FuelContactsComponent} from './fuel-contacts/fuel-contacts.component';
+import { AppPetrolComponent } from './app-petrol/app-petrol.component';
 
 
 @NgModule({
     declarations: [
         AppComponent,
         NgFormInputComponent,
-        FuelContactsComponent
+        FuelContactsComponent,
+        AppPetrolComponent
     ],
     imports: [
         BrowserModule,
@@ -33,7 +37,9 @@ import {FuelContactsComponent} from './fuel-contacts/fuel-contacts.component';
         CardModule,
         AutoCompleteModule,
         TabViewModule,
-        CalendarModule
+        CalendarModule,
+        TableModule,
+        DialogModule
     ],
     providers: [],
     bootstrap: [AppComponent]

@@ -1,19 +1,19 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-    <h1>
-        Welcome to {{ title }}!
-    </h1>
+<div style="background:white none repeat scroll 0 0;overflow:hidden;">
+    <div id="header">
+        <h1>EEA POC</h1>
+    </div>
+
+    <div>
+            <p-tabView>
+                    <p-tabPanel header="Contacts & Annual Summary">
+                        <fuel-contacts [contacts]="fuelData?.contacts"></fuel-contacts>
+                    </p-tabPanel>
+                    <p-tabPanel header="Petrol"  [selected]="true">
+                        <app-petrol></app-petrol>
+                    </p-tabPanel>
+                </p-tabView>
+    </div>
 </div>
 
-<p-tabView>
-    <p-tabPanel header="Contacts & Annual Summary">
-        <fuel-contacts [contacts]="fuelData?.contacts"></fuel-contacts>
-    </p-tabPanel>
-    <p-tabPanel header="Petrol">
-        Content 2
-    </p-tabPanel>
-</p-tabView>
-<!-- <pre>{{fuelData | json}}</pre>
-
-<pre>{{fuelDataXml()}}</pre> -->
 
