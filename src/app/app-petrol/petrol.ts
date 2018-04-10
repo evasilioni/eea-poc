@@ -1,16 +1,16 @@
 export class Petrol {
-    country: string;
-    reportingYear: number;
+    country?;
+    reportingYear?;
     period: string;
     parentFuelGrade: string;
     nationalFuelGrade: string;
     summerPeriodNorA: string;
     maximumBioethanolContent: string;
     researchOctaneNumber: ReportResult;
-    motorOctanenumber: ReportResult;
-    vapourPressure: ReportResult;
-    distillationEvaporated100: ReportResult;
-    distillationEvaporated150: ReportResult;
+    // motorOctanenumber: ReportResult;
+    // vapourPressure: ReportResult;
+    // distillationEvaporated100: ReportResult;
+    // distillationEvaporated150: ReportResult;
 }
 
 export class ReportResult {
