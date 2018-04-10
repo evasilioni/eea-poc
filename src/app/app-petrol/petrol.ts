@@ -1,6 +1,6 @@
 export class Petrol {
-    country?;
-    reportingYear?;
+    country: string;
+    reportingYear: number;
     period: string;
     parentFuelGrade: string;
     nationalFuelGrade: string;

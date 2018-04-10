@@ -1,4 +1,5 @@
-<p-table [columns]="cols" [value]="petrols" [paginator]="true" [(selection)]="selectedPetrol">
+<p-table [columns]="cols" [value]="petrols" selectionMode="single" [(selection)]="selectedPetrol" (onRowSelect)="onRowSelect($event)"
+  [paginator]="true" [rows]="15">
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th *ngFor="let col of columns">
@@ -16,10 +17,13 @@
 
   <ng-template pTemplate="summary" let-rowData>
     <div style="text-align:left">
-      <button type="button" pButton icon="fa-plus" (click)="showDialogToAdd()" label="Add"></button>
+      <button type="button" pButton icon="fa-plus" (click)="showDialogToAdd()" label="Add">
+      </button>
     </div>
   </ng-template>
+
 </p-table>
+
 
 <pre>{{petrols | json}}</pre>
 
@@ -42,9 +46,8 @@
         <input type="text" pInputText placeholder="Reporting Year" formControlName="reportingYear">
       </div>
     </div>
-  </div>
 
-  <!-- <div class="ui-g-12 ui-md-4">
+    <div class="ui-g-12 ui-md-4">
       <div class="ui-inputgroup">
         <input type="text" pInputText placeholder="Period" formControlName="period">
       </div>
@@ -151,36 +154,36 @@
       </div>
     </div>
     <div class="ui-g">
-        <div class="ui-g-1 ui-sm-6">
+      <div class="ui-g-1 ui-sm-6">
         <label for="directiveMin">Directive Min</label>
-        </div>
-        <div class="ui-g-2 ui-sm-4">
-          <input type="text" pInputText formControlName="directiveMin" />
-        </div>
-        <div class="ui-g-3 ui-sm-6">
-          <label for="directiveMax">Directive Max</label>
-        </div>
-        <div class="ui-g-2 ui-sm-4">
-          <input type="text" pInputText formControlName="directiveMax" />
-        </div>
       </div>
+      <div class="ui-g-2 ui-sm-4">
+        <input type="text" pInputText formControlName="directiveMin" />
+      </div>
+      <div class="ui-g-3 ui-sm-6">
+        <label for="directiveMax">Directive Max</label>
+      </div>
+      <div class="ui-g-2 ui-sm-4">
+        <input type="text" pInputText formControlName="directiveMax" />
+      </div>
+    </div>
 
-      <div class="ui-g">
-          <div class="ui-g-1 ui-sm-6">
-          <label for="method">Method</label>
-          </div>
-          <div class="ui-g-2 ui-sm-4">
-            <input type="text" pInputText formControlName="method" />
-          </div>
-          <div class="ui-g-2 ui-sm-6">
-            <label for="date">Date</label>
-          </div>
-          <div class="ui-g-3 ui-sm-6">
-              <p-calendar id="date" dateFormat="dd/mm/y" [showIcon]="true" formControlName="date">
-              </p-calendar>
-          </div>
-        </div>
-  </div> -->
+    <div class="ui-g">
+      <div class="ui-g-1 ui-sm-6">
+        <label for="method">Method</label>
+      </div>
+      <div class="ui-g-2 ui-sm-4">
+        <input type="text" pInputText formControlName="method" />
+      </div>
+      <div class="ui-g-2 ui-sm-6">
+        <label for="date">Date</label>
+      </div>
+      <div class="ui-g-3 ui-sm-6">
+        <p-calendar id="date" dateFormat="dd/mm/y" [showIcon]="true" formControlName="date">
+        </p-calendar>
+      </div>
+    </div>
+  </div>
 
   <p-footer>
     <div class="ui-dialog-buttonpane ui-helper-clearfix">

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormControl, ValidatorFn } from '@angular/forms';
 import { Petrol } from './petrol';
-import { empty } from 'rxjs/Observer';
+import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-petrol',
@@ -22,35 +23,30 @@ export class AppPetrolComponent implements OnInit {
   newPetrol: boolean;
   petrols: Petrol[];
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private http: HttpClient,
+    private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.petrols = [];
-
-    let petrol = {
-      'country':"Germany",
-      "reportingYear":2016,
-      // "period":"Summer",
-      // "parentFuelGrade":"",
-      // "summerPeriodNorA":"",
-      // "maximumBioethanolContent":"",
-      // "nationalFuelGrade":"",
-      // "researchOctaneNumber":null
-    };
-
-    this.petrols.push(petrol);
-
     this.createPetrolForm();
+
+    this.getPetrolsSample()
+            .subscribe((data: Petrol[]) => {
+                this.petrols = data;
+            });
 
     this.cols = [
       { field: 'country', header: 'Country' },
-      { field: 'reportingYear', header: 'Reporting Year' }
-      // { field: 'period', header: 'Period(Summer or Winter)' },
-      // { field: 'parentFuelGrade', header: 'Parent Fuel Grade' },
-      // { field: 'nationalFuelGrade', header: 'National Fuel Grade' },
-      // { field: 'summerPeriodNorA', header: 'Summer Period (N or A)' },
-      // { field: 'maximumBioethanolContent', header: 'The maximum bioethanol content (% v/v)' }
+      { field: 'reportingYear', header: 'Reporting Year' },
+      { field: 'period', header: 'Period(Summer or Winter)' },
+      { field: 'parentFuelGrade', header: 'Parent Fuel Grade' },
+      { field: 'nationalFuelGrade', header: 'National Fuel Grade' },
+      { field: 'summerPeriodNorA', header: 'Summer Period (N or A)' },
+      { field: 'maximumBioethanolContent', header: 'The maximum bioethanol content (% v/v)' }
     ];
+  }
+
+  getPetrolsSample(): Observable<Petrol[]> {
+    return this.http.get<Petrol[]>('./assets/petrols.json');
   }
 
   showDialogToAdd() {
@@ -62,8 +58,8 @@ export class AppPetrolComponent implements OnInit {
 
   save() {
     let petrols = [...this.petrols];
+    this.petrol = this.prepareSavePetrol();
     if (this.newPetrol) {
-      this.petrol = this.prepareSavePetrol();
       petrols.push(this.petrol);
     }
     else
@@ -84,45 +80,87 @@ export class AppPetrolComponent implements OnInit {
     const formModel = this.petrolForm.value;
 
     const savePetrol: Petrol = {
-        country: formModel.country,
-        reportingYear: formModel.reportingYear
-        // period: formModel.period,
-        // parentFuelGrade: formModel.parentFuelGrade,
-        // nationalFuelGrade: formModel.nationalFuelGrade,
-        // summerPeriodNorA: formModel.summerPeriodNorA,
-        // maximumBioethanolContent: formModel.maximumBioethanolContent,
-        // researchOctaneNumber: formModel.researchOctaneNumber
+      country: formModel.country,
+      reportingYear: formModel.reportingYear,
+      period: formModel.period,
+      parentFuelGrade: formModel.parentFuelGrade,
+      nationalFuelGrade: formModel.nationalFuelGrade,
+      summerPeriodNorA: formModel.summerPeriodNorA,
+      maximumBioethanolContent: formModel.maximumBioethanolContent,
+      researchOctaneNumber: formModel.researchOctaneNumber
     }
 
     return savePetrol;
-}
+  }
 
+  onRowSelect(event) {
+    this.newPetrol = false;
+    this.petrol = this.clonePetrol(event.data);
+    this.displayDialog = true;
+    this.bindDataToForm(this.petrol);
+  }
+
+  clonePetrol(p: Petrol): Petrol {
+    let petrol = {};
+    for (let prop in p) {
+      petrol[prop] = p[prop];
+    }
+    return petrol;
+  }
+
+  bindDataToForm(p: Petrol) {
+    this.petrolForm = this.fb.group({ // <-- the parent FormGroup
+      country: p.country,
+      reportingYear: p.reportingYear,
+      period: p.period,
+      parentFuelGrade: p.parentFuelGrade,
+      nationalFuelGrade: p.nationalFuelGrade,
+      summerPeriodNorA: p.summerPeriodNorA,
+      maximumBioethanolContent: p.maximumBioethanolContent,
+      researchOctaneNumber: this.fb.group({
+        unit: p.researchOctaneNumber.unit,
+        numOfSamples: p.researchOctaneNumber.numOfSamples,
+        min: p.researchOctaneNumber.min,
+        max: p.researchOctaneNumber.max,
+        median: p.researchOctaneNumber.median,
+        standardDeviation: p.researchOctaneNumber.standardDeviation,
+        toleranceLimit: p.researchOctaneNumber.toleranceLimit,
+        sampleValue: p.researchOctaneNumber.sampleValue,
+        nationalMin: p.researchOctaneNumber.nationalMin,
+        nationalMax: p.researchOctaneNumber.nationalMax,
+        directiveMin: p.researchOctaneNumber.directiveMin,
+        directiveMax: p.researchOctaneNumber.directiveMax,
+        method: p.researchOctaneNumber.method,
+        date: p.researchOctaneNumber.date
+      })
+    });
+  }
 
   createPetrolForm() {
     this.petrolForm = this.fb.group({ // <-- the parent FormGroup
       country: '',
-      reportingYear: null
-      // period: '',
-      // parentFuelGrade: '',
-      // nationalFuelGrade: '',
-      // summerPeriodNorA: '',
-      // maximumBioethanolContent: '',
-      // researchOctaneNumber: this.fb.group({
-      //   unit: "",
-      //   numOfSamples: null,
-      //   min: null,
-      //   max: null,
-      //   median: null,
-      //   standardDeviation: null,
-      //   toleranceLimit: null,
-      //   sampleValue: null,
-      //   nationalMin: null,
-      //   nationalMax: null,
-      //   directiveMin: null,
-      //   directiveMax: null,
-      //   method: "",
-      //   date: ""
-      // })
+      reportingYear: null,
+      period: '',
+      parentFuelGrade: '',
+      nationalFuelGrade: '',
+      summerPeriodNorA: '',
+      maximumBioethanolContent: '',
+      researchOctaneNumber: this.fb.group({
+        unit: "",
+        numOfSamples: null,
+        min: null,
+        max: null,
+        median: null,
+        standardDeviation: null,
+        toleranceLimit: null,
+        sampleValue: null,
+        nationalMin: null,
+        nationalMax: null,
+        directiveMin: null,
+        directiveMax: null,
+        method: "",
+        date: ""
+      })
     })
   }
 }
