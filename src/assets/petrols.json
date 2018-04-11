@@ -22,7 +22,11 @@
             "directiveMax": 67,
             "method": "random",
             "date": "12/08/18"
-      }
+      },
+      "motorOctanenumber":{},
+      "vapourPressure":{},
+      "distillationEvaporated100":{},
+      "distillationEvaporated150":{}
     },
     {
       "country": "Spain",
@@ -47,7 +51,11 @@
             "directiveMax": 67,
             "method": "random",
             "date": "12/08/14"
-      }
+      },
+      "motorOctanenumber":{},
+      "vapourPressure":{},
+      "distillationEvaporated100":{},
+      "distillationEvaporated150":{}
     },
     {
       "country": "Italy",
@@ -72,6 +80,10 @@
             "directiveMax": 67,
             "method": "random",
             "date": "12/08/17"
-      }
+      },
+      "motorOctanenumber":{},
+      "vapourPressure":{},
+      "distillationEvaporated100":{},
+      "distillationEvaporated150":{}
     }
 ]

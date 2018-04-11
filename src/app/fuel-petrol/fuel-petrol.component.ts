@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormControl, ValidatorFn } from '@angular/forms';
-import { Petrol } from './petrol';
+import { Petrol, ReportResult } from './petrol';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
+import { identifierModuleUrl } from '@angular/compiler';
 
 @Component({
   selector: 'fuel-petrol',
@@ -15,6 +16,7 @@ export class FuelPetrolComponent implements OnInit {
   petrolForm: FormGroup;
 
   cols: any[];
+  reportResultTypes: any[];
   petrol: Petrol;
 
   displayDialog: boolean;
@@ -30,9 +32,9 @@ export class FuelPetrolComponent implements OnInit {
     this.createPetrolForm();
 
     this.getPetrolsSample()
-            .subscribe((data: Petrol[]) => {
-                this.petrols = data;
-            });
+      .subscribe((data: Petrol[]) => {
+        this.petrols = data;
+      });
 
     this.cols = [
       { field: 'country', header: 'Country' },
@@ -42,6 +44,14 @@ export class FuelPetrolComponent implements OnInit {
       { field: 'nationalFuelGrade', header: 'National Fuel Grade' },
       { field: 'summerPeriodNorA', header: 'Summer Period (N or A)' },
       { field: 'maximumBioethanolContent', header: 'The maximum bioethanol content (% v/v)' }
+    ];
+
+    this.reportResultTypes = [
+      {id:1, field:'researchOctaneNumber', header: 'Research Octane Number' },
+      {id:2, field:'motorOctanenumber', header: 'Motor Octane Number' },
+      {id:3, field:'vapourPressure', header: 'Vapour Pressure' },
+      {id:4, field:'distillationEvaporated100', header: 'Distillation Evaporated 100' },
+      {id:5, field:'distillationEvaporated150', header: 'Distillation Evaporated 150' },
     ];
   }
 
@@ -105,25 +115,37 @@ export class FuelPetrolComponent implements OnInit {
       nationalFuelGrade: p.nationalFuelGrade,
       summerPeriodNorA: p.summerPeriodNorA,
       maximumBioethanolContent: p.maximumBioethanolContent,
-      researchOctaneNumber: this.fb.group({
-        unit: p.researchOctaneNumber.unit,
-        numOfSamples: p.researchOctaneNumber.numOfSamples,
-        min: p.researchOctaneNumber.min,
-        max: p.researchOctaneNumber.max,
-        median: p.researchOctaneNumber.median,
-        standardDeviation: p.researchOctaneNumber.standardDeviation,
-        toleranceLimit: p.researchOctaneNumber.toleranceLimit,
-        sampleValue: p.researchOctaneNumber.sampleValue,
-        nationalMin: p.researchOctaneNumber.nationalMin,
-        nationalMax: p.researchOctaneNumber.nationalMax,
-        directiveMin: p.researchOctaneNumber.directiveMin,
-        directiveMax: p.researchOctaneNumber.directiveMax,
-        method: p.researchOctaneNumber.method,
-        date: p.researchOctaneNumber.date
-      })
+      researchOctaneNumber: this.fb.group(
+        this.bindReportResultGroup(p, 'researchOctaneNumber')),
+      motorOctanenumber: this.fb.group(
+        this.bindReportResultGroup(p, 'motorOctanenumber')),
+      vapourPressure: this.fb.group(
+        this.bindReportResultGroup(p, 'vapourPressure')),
+      distillationEvaporated100: this.fb.group(
+        this.bindReportResultGroup(p, 'distillationEvaporated100')),
+      distillationEvaporated150: this.fb.group(
+        this.bindReportResultGroup(p, 'distillationEvaporated150')),
     });
   }
 
+  bindReportResultGroup(p: Petrol, type: string){
+    return {
+      unit: p[type].unit,
+      numOfSamples: p[type].numOfSamples,
+      min: p[type].min,
+      max: p[type].max,
+      median: p[type].median,
+      standardDeviation: p[type].standardDeviation,
+      toleranceLimit: p[type].toleranceLimit,
+      sampleValue: p[type].sampleValue,
+      nationalMin: p[type].nationalMin,
+      nationalMax: p[type].nationalMax,
+      directiveMin: p[type].directiveMin,
+      directiveMax: p[type].directiveMax,
+      method: p[type].method,
+      date: p[type].date
+    }
+  }
   createPetrolForm() {
     this.petrolForm = this.fb.group({ // <-- the parent FormGroup
       country: '',
@@ -135,11 +157,23 @@ export class FuelPetrolComponent implements OnInit {
       maximumBioethanolContent: '',
       researchOctaneNumber: this.fb.group(
         this.getReportResultGroup()
+      ),
+      motorOctanenumber: this.fb.group(
+        this.getReportResultGroup()
+      ),
+      vapourPressure: this.fb.group(
+        this.getReportResultGroup()
+      ),
+      distillationEvaporated100: this.fb.group(
+        this.getReportResultGroup()
+      ),
+      distillationEvaporated150: this.fb.group(
+        this.getReportResultGroup()
       )
     })
   }
 
-  getReportResultGroup(){
+  getReportResultGroup() {
     return {
       unit: "",
       numOfSamples: null,
@@ -157,4 +191,5 @@ export class FuelPetrolComponent implements OnInit {
       date: ""
     };
   }
+
 }
