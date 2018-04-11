@@ -5,12 +5,12 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-petrol',
-  templateUrl: './app-petrol.component.html',
-  styleUrls: ['./app-petrol.component.css']
+  selector: 'fuel-petrol',
+  templateUrl: './fuel-petrol.component.html',
+  styleUrls: ['./fuel-petrol.component.css']
 })
 
-export class AppPetrolComponent implements OnInit {
+export class FuelPetrolComponent implements OnInit {
 
   petrolForm: FormGroup;
 
@@ -78,19 +78,7 @@ export class AppPetrolComponent implements OnInit {
 
   prepareSavePetrol(): Petrol {
     const formModel = this.petrolForm.value;
-
-    const savePetrol: Petrol = {
-      country: formModel.country,
-      reportingYear: formModel.reportingYear,
-      period: formModel.period,
-      parentFuelGrade: formModel.parentFuelGrade,
-      nationalFuelGrade: formModel.nationalFuelGrade,
-      summerPeriodNorA: formModel.summerPeriodNorA,
-      maximumBioethanolContent: formModel.maximumBioethanolContent,
-      researchOctaneNumber: formModel.researchOctaneNumber
-    }
-
-    return savePetrol;
+    return formModel;
   }
 
   onRowSelect(event) {
@@ -101,7 +89,7 @@ export class AppPetrolComponent implements OnInit {
   }
 
   clonePetrol(p: Petrol): Petrol {
-    let petrol = {};
+    let petrol = new Petrol();
     for (let prop in p) {
       petrol[prop] = p[prop];
     }
@@ -145,22 +133,28 @@ export class AppPetrolComponent implements OnInit {
       nationalFuelGrade: '',
       summerPeriodNorA: '',
       maximumBioethanolContent: '',
-      researchOctaneNumber: this.fb.group({
-        unit: "",
-        numOfSamples: null,
-        min: null,
-        max: null,
-        median: null,
-        standardDeviation: null,
-        toleranceLimit: null,
-        sampleValue: null,
-        nationalMin: null,
-        nationalMax: null,
-        directiveMin: null,
-        directiveMax: null,
-        method: "",
-        date: ""
-      })
+      researchOctaneNumber: this.fb.group(
+        this.getReportResultGroup()
+      )
     })
+  }
+
+  getReportResultGroup(){
+    return {
+      unit: "",
+      numOfSamples: null,
+      min: null,
+      max: null,
+      median: null,
+      standardDeviation: null,
+      toleranceLimit: null,
+      sampleValue: null,
+      nationalMin: null,
+      nationalMax: null,
+      directiveMin: null,
+      directiveMax: null,
+      method: "",
+      date: ""
+    };
   }
 }

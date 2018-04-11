@@ -17,7 +17,7 @@ import { DialogModule } from 'primeng/primeng';
 import {AppComponent} from './app.component';
 import {NgFormInputComponent} from './helpers/ng-form-input/ng-form-input.component';
 import {FuelContactsComponent} from './fuel-contacts/fuel-contacts.component';
-import { AppPetrolComponent } from './app-petrol/app-petrol.component';
+import { FuelPetrolComponent } from './fuel-petrol/fuel-petrol.component';
 
 
 @NgModule({
@@ -25,7 +25,7 @@ import { AppPetrolComponent } from './app-petrol/app-petrol.component';
         AppComponent,
         NgFormInputComponent,
         FuelContactsComponent,
-        AppPetrolComponent
+        FuelPetrolComponent
     ],
     imports: [
         BrowserModule,
