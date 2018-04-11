@@ -1,3 +1,5 @@
+import {NestedFormData} from '../fuel-data';
+
 export class Contacts {
     country: string;
     dateReportCompleted: Date;
@@ -6,6 +8,8 @@ export class Contacts {
     personResponsibleForReport: string;
     personInfo: PersonInfo;
     generalSummary: string;
+    nestedFormGroup: NestedFormData;
+
 }
 
 export class Address {

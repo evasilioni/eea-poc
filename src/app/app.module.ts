@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';  // <-- #1 import module
+import {ReactiveFormsModule} from '@angular/forms'; // <-- #1 import module
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -21,6 +21,9 @@ import { FuelPetrolComponent } from './fuel-petrol/fuel-petrol.component';
 import {PetrolService} from './services/fuel-petrol-service/petrol.service';
 import {ConfigService} from './services/config.service';
 import { SampleFrequencyComponent } from './fuel-petrol/sample-frequency/sample-frequency.component';
+import {DynamicFormsModule} from './dynamic-forms/dynamic-forms.module';
+import {FuelContactsService} from './fuel-contacts/fuel-conacts.service';
+import {MessagesModule} from 'primeng/primeng';
 
 
 @NgModule({
@@ -42,11 +45,12 @@ import { SampleFrequencyComponent } from './fuel-petrol/sample-frequency/sample-
         AutoCompleteModule,
         TabViewModule,
         CalendarModule,
+        DynamicFormsModule,
+        MessagesModule,
         TableModule,
         DialogModule
     ],
-    providers: [PetrolService,
-        ConfigService],
+    providers: [FuelContactsService, PetrolService, ConfigService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

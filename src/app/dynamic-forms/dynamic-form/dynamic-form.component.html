@@ -1,0 +1,31 @@
+<error-messages *ngIf="showErrors" [relatedForm]="form" [showNestedErrors]="showNestedFormGroupErrors"></error-messages>
+<div [formGroup]="form">
+
+    <ng-content select="[form-header]"></ng-content>
+
+    <div *ngFor="let control of controls" class="ui-g">
+
+        <!-- NESTED FORM GROUP-->
+        <dynamic-form *ngIf="control.controlType === ControlType.GROUP" [formName]="control.key"
+                      [parentForm]="form"
+                      [controls]="control['groupControls']"
+                      [groupValidators]="control['groupValidators']">
+        </dynamic-form>
+
+        <dynamic-form-control *ngIf="control.controlType !== ControlType.GROUP"
+                              [control]="control" [form]="form"
+                              [controlErrors]="formErrors[control.key]">
+
+        </dynamic-form-control>
+    </div>
+
+    <ng-content></ng-content>
+
+    <!--<div style="width:65px">-->
+    <!--<button pButton type="button" (click)="onSubmit()" label="Save" class="ui-button-success"></button>-->
+    <!--</div>-->
+    <div *ngIf="form.errors" class="alert alert-danger">
+        {{form.errors | json}}
+    </div>
+</div>
+

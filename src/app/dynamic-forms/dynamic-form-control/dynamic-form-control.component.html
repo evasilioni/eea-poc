@@ -1,0 +1,29 @@
+<div *ngIf="control.controlType !== ControlType.GROUP" [formGroup]="form">
+
+    <div [ngClass]="control.labelCssClasses">
+        <label [attr.for]="control.key">{{control.label}}:</label>
+    </div>
+
+    <div [ngSwitch]="control.controlType" [ngClass]="control.controlCssClasses">
+
+        <!-- PRIME NG INPUT TEXT-->
+        <input *ngSwitchCase="ControlType.TEXT" pInputText type="text" [id]="control.key"
+               [formControlName]="control.key" [attr.disabled]="control.disabled()?'':null">
+
+        <!-- PRIME NG AUTO COMPLETE-->
+        <p-autoComplete *ngSwitchCase="ControlType.AUTOCOMPLETE" [id]="control.key"
+                        [suggestions]="control['suggestions']"
+                        (completeMethod)="filter($event)" [field]="control['suggestionField']"
+                        [dropdown]="true" [formControlName]="control.key" [forceSelection]="true"
+                        [attr.disabled]="control.disabled()?'':null">
+        </p-autoComplete>
+
+        <div *ngIf="controlErrors" class="alert alert-danger">
+            {{controlErrors}}
+        </div>
+    </div>
+
+</div>
+
+<!--<div class="errorMessage" *ngIf="!isValid">{{control.label}} is required</div>-->
+

@@ -3,17 +3,24 @@
     <div id="header">
         <h1>EEA POC</h1>
     </div>
-
-    <div>
-            <p-tabView>
-                    <p-tabPanel header="Contacts & Annual Summary">
-                        <fuel-contacts [contacts]="fuelData?.contacts"></fuel-contacts>
-                    </p-tabPanel>
-                    <p-tabPanel header="Petrol"  [selected]="true">
-                        <fuel-petrol></fuel-petrol>
-                    </p-tabPanel>
-                </p-tabView>
-    </div>
 </div>
+<!--<error-messages [relatedForm]="parentForm"></error-messages>-->
+
+<dynamic-form formName="parentForm" [controls]="parentControls" [showErrors]="true" [showNestedFormGroupErrors]="true"
+              (formCreated)="retrieveFormGroup($event)" [groupValidators]="topValidators">
+
+    <p-tabView>
+        <p-tabPanel header="Contacts & Annual Summary">
+            <fuel-contacts [parentForm]="parentForm" [contacts]="fuelData?.fuelContacts"></fuel-contacts>
+        </p-tabPanel>
+        <p-tabPanel header="Petrol">
+            <fuel-petrol></fuel-petrol>
+        </p-tabPanel>
+    </p-tabView>
+
+</dynamic-form>
+<pre>{{parentForm.value | json}}</pre>
+
+<!-- <pre>{{fuelData | json}}</pre> -->
 
 

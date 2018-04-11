@@ -1,6 +1,14 @@
 import {Contacts} from './fuel-contacts/fuel-contacts';
 
+
+export class NestedFormData {
+    testField1: string;
+    testField2: string;
+}
+
+
 export class FuelData {
-    contacts: Contacts = new Contacts();
+    fuelContacts: Contacts = new Contacts();
     petrol: any;
+    nestedFormValidation: NestedFormData = new NestedFormData();
 }

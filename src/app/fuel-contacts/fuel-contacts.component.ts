@@ -1,99 +1,77 @@
-import { Component, Input } from '@angular/core';
-import { Contacts, Address } from './fuel-contacts';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { Country } from './country';
-import { AbstractControl, FormBuilder, FormGroup, Validators, FormControl, ValidatorFn } from '@angular/forms';
+import {AfterContentInit, Component, Input, OnInit} from '@angular/core';
+import {Contacts} from './fuel-contacts';
+import {HttpClient} from '@angular/common/http';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {FuelContactsService} from './fuel-conacts.service';
+import {BaseControl} from '../dynamic-forms/controls/base-control';
+import {TextboxControl} from '../dynamic-forms/controls/textbox-control';
 
 @Component({
     selector: 'fuel-contacts',
     templateUrl: './fuel-contacts.component.html',
     styleUrls: ['./fuel-contacts.component.css']
 })
-export class FuelContactsComponent {
-    fuelContactForm: FormGroup;
+export class FuelContactsComponent implements OnInit, AfterContentInit {
+
 
     @Input()
     contacts: Contacts;
 
-    countries: Country[];
-    filteredCountries: Country[];
+    @Input() parentForm: FormGroup;
 
-    constructor(private http: HttpClient, private fb: FormBuilder) {
-        this.getCountries()
-            .subscribe((data: Country[]) => {
-                this.countries = data;
-            });
+    dynamicForm: FormGroup;
+
+    controls: BaseControl<any>[];
+
+    customControls: BaseControl<any>[] = [];
+
+    generalSummary: BaseControl<string>;
+
+    constructor(private http: HttpClient, private fb: FormBuilder, private fuelContactsService: FuelContactsService) {
+        this.createCustomControls();
     }
+
 
     ngOnInit() {
-        this.fuelContactForm = this.fb.group({ // <-- the parent FormGroup
-            country: ['', Validators.required],
-            dateReportCompleted: null,
-            organisationResponsibleForReport: ['',
-                [Validators.required,
-                forbiddenNameValidator(/EEA/i)]
-            ],
-            organisationAddress: this.fb.group({
-                street: ['', Validators.required],
-                city: ['', Validators.required],
-                postcode: ['', Validators.minLength(5)]
-            }),
-            personResponsibleForReport: '',
-            personInfo: this.fb.group({
-                phoneNumber: '',
-                email: ''
-            }),
-            generalSummary: ''
-        })
+
+        this.controls = this.fuelContactsService.getControls();
+
     }
 
-    getCountries(): Observable<Country[]> {
-        return this.http.get<Country[]>('./assets/countries.json');
+    ngAfterContentInit(): void {
+        // this.dynamicForm.addControl('generalSummary', this.fb.control({}));
     }
 
-    searchCountries(event) {
-        console.log(this.countries);
-        this.filteredCountries = this.countries
-            .filter((country: Country) => country.name.toLowerCase().includes(event.query.toLowerCase()));
-    }
-
-    onSubmit() {
-        if (this.fuelContactForm.valid) {
-            this.contacts = this.prepareSaveFuelContact();
-            console.log(this.contacts);
+    onSubmit($event: FormGroup) {
+        if ($event.valid) {
+            this.contacts = this.prepareSaveFuelContact($event);
         } else {
             alert('Validations!!!');
         }
 
     }
 
-    prepareSaveFuelContact(): Contacts {
-        const formModel = this.fuelContactForm.value;
-
-        const saveFuelContact: Contacts = {
-            country: formModel.country,
-            dateReportCompleted: formModel.dateReportCompleted,
-            organisationResponsibleForReport: formModel.organisationResponsibleForReport,
-            organisationAddress: formModel.organisationAddress,
-            personResponsibleForReport: formModel.personResponsibleForReport,
-            personInfo: formModel.personInfo,
-            generalSummary: formModel.generalSummary
-        }
-
-        return saveFuelContact;
+    prepareSaveFuelContact(form: FormGroup): Contacts {
+        return form.value;
     }
 
+    /**
+     * Gets a reference to the dynamic form group (for example to manually add extra non-dynamic controls).
+     */
+    retrieveFormGroup(formGroup: FormGroup) {
+        this.dynamicForm = formGroup;
+    }
 
+    // create a custom control, which means this will not be rendered automatically, it must be set in the template
+    private createCustomControls() {
 
-    get country() { return this.fuelContactForm.get('country'); }
-    get organisationResponsibleForReport() { return this.fuelContactForm.get('organisationResponsibleForReport'); }
-    get postcode() { return this.fuelContactForm.get('organisationAddress').get('postcode'); }
+        this.generalSummary = new TextboxControl({
+            key: 'generalSummary',
+            label: 'General Summary'
+        });
+
+        this.customControls.push(this.generalSummary);
+    }
 }
 
-export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } => {
-        const forbidden = nameRe.test(control.value);
-        return forbidden ? { 'forbiddenName': { value: control.value } } : null;
-    };
-}
+
