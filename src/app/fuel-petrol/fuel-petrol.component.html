@@ -1,4 +1,4 @@
-<p-table [columns]="cols" [value]="petrols" selectionMode="single" [(selection)]="selectedPetrol" (onRowSelect)="onRowSelect($event)"
+<p-table [columns]="cols" [value]="petrols" selectionMode="single" (onRowSelect)="onRowSelect($event)"
   [paginator]="true" [rows]="15">
   <ng-template pTemplate="header" let-columns>
     <tr>
@@ -7,8 +7,8 @@
       </th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-rowData let-columns="columns">
-    <tr [pSelectableRow]="rowData">
+  <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+    <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="i">
       <td *ngFor="let col of columns">
         {{rowData[col.field]}}
       </td>
@@ -24,12 +24,16 @@
 
 </p-table>
 
-<p-dialog header="Petrol 1" [formGroup]="petrolForm" [(visible)]="displayDialog" showEffect="fade" [responsive]="true" [modal]="true">
+<p-dialog [formGroup]="petrolForm" [(visible)]="displayDialog" showEffect="fade" [responsive]="true" [modal]="true" 
 
+styleClass="ui-fluid ui-dialog-width">
+  <p-header>
+    {{ petrolForm.get('id').value }}
+  </p-header>
   <div>
-    <span style="font-size: 0.85em;font-weight: bold;">Basic Info</span>
+    <span style="font-size: 0.85em;font-weight: bold;">Basic Info {{petrolForm.id}}</span>
   </div>
-  <div class="ui-g ui-fluid" style="font-size: 0.75em;font-weight: bold;">
+  <div class="ui-g" style="font-size: 0.75em;font-weight: bold;">
     <div class="ui-g-2">
       <label for="country">Country:</label>
       <input type="text" pInputText formControlName="country">
@@ -53,13 +57,13 @@
       <label for="nationalFuelGrade">National Fuel Grade:</label>
       <input type="text" pInputText formControlName="nationalFuelGrade">
     </div>
+  </div>
+
+  <div class="ui-g" style="font-size: 0.75em;font-weight: bold;">
     <div class="ui-g-2">
       <label for="summerPeriodNorA">Summer Period:</label>
       <input type="text" pInputText formControlName="summerPeriodNorA">
     </div>
-  </div>
-
-  <div class="ui-g ui-fluid" style="font-size: 0.75em;font-weight: bold;">
     <div class="ui-g-2">
       <label for="maximumBioethanolContent">Max Bioethanol Content:</label>
       <input type="text" pInputText formControlName="maximumBioethanolContent">
@@ -67,78 +71,78 @@
   </div>
 
   <p-tabView>
-    <p-tabPanel header="Reporting Results" style="font-size: 0.75em;font-weight: bold;">
-        <p-tabView orientation="left">
-            <p-tabPanel *ngFor="let tab of reportResultTypes;let i = index;" [header]="tab.header">
-                <div [formGroupName]="tab.field">
-                    <div class="ui-g ui-fluid">
-                      <div class="ui-g-2 ui-sm-6">
-                        <label for="unit">Unit:</label>
-                        <input type="text" pInputText formControlName="unit" />
-                      </div>
-                      <div class="ui-g-2 ui-sm-6">
-                        <label for="numOfSamples">Number of Samples:</label>
-                        <input type="text" pInputText formControlName="numOfSamples" />
-                      </div>
-                      <div class="ui-g-2 ui-sm-6">
-                        <label for="method">Method</label>
-                        <input type="text" pInputText formControlName="method" />
-                      </div>
-                      <div class="ui-g-2 ui-sm-6">
-                        <label for="date">Date</label>
-                        <p-calendar id="date" dateFormat="dd/mm/y" [showIcon]="true" formControlName="date"></p-calendar>
-                      </div>
-                    </div>       
-                    <div class="ui-g ui-fluid">
-                      <div class="ui-g-2 ui-sm-6">
-                        <label for="min">Min:</label>
-                        <input type="text" pInputText formControlName="min" />
-                      </div>
-                      <div class="ui-g-2 ui-sm-6">
-                        <label for="max">Max:</label>
-                        <input type="text" pInputText formControlName="max" />
-                      </div>
-                      <div class="ui-g-2 ui-sm-6">
-                        <label for="median">Median:</label>
-                        <input type="text" pInputText formControlName="median" />
-                      </div>
-                    </div>
-                    <div class="ui-g ui-fluid">
-                      <div class="ui-g-2 ui-sm-6">
-                        <label for="standardDeviation">Standard Deviation:</label>
-                        <input type="text" pInputText formControlName="standardDeviation" />
-                      </div>
-                      <div class="ui-g-2 ui-sm-6">
-                        <label for="toleranceLimit">Tolerance Limit:</label>
-                        <input type="text" pInputText formControlName="toleranceLimit" />
-                      </div>
-        
-                      <div class="ui-g-2 ui-sm-6">
-                        <label for="sampleValue">Sample Value</label>
-                        <input type="text" pInputText formControlName="sampleValue" />
-                      </div>
-                    </div>      
-                    <div class="ui-g ui-fluid">
-                      <div class="ui-g-2 ui-sm-6">
-                        <label for="nationalMin">National Min:</label>
-                        <input type="text" pInputText formControlName="nationalMin" />
-                      </div>
-                      <div class="ui-g-2 ui-sm-6">
-                        <label for="nationalMax">National Max:</label>
-                        <input type="text" pInputText formControlName="nationalMax" />
-                      </div>
-                      <div class="ui-g-2 ui-sm-6">
-                        <label for="directiveMin">Directive Min:</label>
-                        <input type="text" pInputText formControlName="directiveMin" />
-                      </div>
-                      <div class="ui-g-2 ui-sm-6">
-                        <label for="directiveMax">Directive Max:</label>
-                        <input type="text" pInputText formControlName="directiveMax" />
-                      </div>
-                    </div>
-                  </div>
-            </p-tabPanel>
-          </p-tabView>
+    <p-tabPanel header="Reporting Results" style="font-size: 0.75em;font-weight: bold;" >
+      <p-tabView orientation="left">
+        <p-tabPanel *ngFor="let tab of reportResultTypes;let i = index;" [header]="tab.header" [selected]="i==0">
+          <div [formGroupName]="tab.field">
+            <div class="ui-g">
+              <div class="ui-g-1 ui-sm-6">
+                <label for="unit">Unit:</label>
+                <input type="text" pInputText formControlName="unit" style="border:1px solid #dddddd;"/>
+              </div>
+              <div class="ui-g-2 ui-sm-6">
+                  <label for="numOfSamples">Number of Samples:</label>
+                  <input type="text" pInputText formControlName="numOfSamples" />
+              </div>
+              <div class="ui-g-2 ui-sm-6">
+                <label for="method">Method</label>
+                <input type="text" pInputText formControlName="method" />
+              </div>
+              <div class="ui-g-2 ui-sm-6">
+                <label for="date">Date</label>
+                <p-calendar id="date" dateFormat="dd/mm/y" [showIcon]="true" formControlName="date"></p-calendar>
+              </div>
+            </div>
+            <div class="ui-g">
+              <div class="ui-g-2 ui-sm-6">
+                <label for="min">Min:</label>
+                <input type="text" pInputText formControlName="min" />
+              </div>
+              <div class="ui-g-2 ui-sm-6">
+                <label for="max">Max:</label>
+                <input type="text" pInputText formControlName="max" />
+              </div>
+              <div class="ui-g-2 ui-sm-6">
+                <label for="median">Median:</label>
+                <input type="text" pInputText formControlName="median" />
+              </div>
+            </div>
+            <div class="ui-g">
+              <div class="ui-g-2 ui-sm-6">
+                <label for="standardDeviation">Standard Deviation:</label>
+                <input type="text" pInputText formControlName="standardDeviation" />
+              </div>
+              <div class="ui-g-2 ui-sm-6">
+                <label for="toleranceLimit">Tolerance Limit:</label>
+                <input type="text" pInputText formControlName="toleranceLimit" />
+              </div>
+
+              <div class="ui-g-2 ui-sm-6">
+                <label for="sampleValue">Sample Value</label>
+                <input type="text" pInputText formControlName="sampleValue" />
+              </div>
+            </div>
+            <div class="ui-g">
+              <div class="ui-g-2 ui-sm-6">
+                <label for="nationalMin">National Min:</label>
+                <input type="text" pInputText formControlName="nationalMin" />
+              </div>
+              <div class="ui-g-2 ui-sm-6">
+                <label for="nationalMax">National Max:</label>
+                <input type="text" pInputText formControlName="nationalMax" />
+              </div>
+              <div class="ui-g-2 ui-sm-6">
+                <label for="directiveMin">Directive Min:</label>
+                <input type="text" pInputText formControlName="directiveMin" />
+              </div>
+              <div class="ui-g-2 ui-sm-6">
+                <label for="directiveMax">Directive Max:</label>
+                <input type="text" pInputText formControlName="directiveMax" />
+              </div>
+            </div>
+          </div>
+        </p-tabPanel>
+      </p-tabView>
     </p-tabPanel>
     <p-tabPanel header="Sampling Frequency">
       Content 2

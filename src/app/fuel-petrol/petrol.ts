@@ -1,4 +1,5 @@
 export class Petrol {
+    id: string;
     country: string;
     reportingYear: number;
     period: string;

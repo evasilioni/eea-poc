@@ -1,5 +1,6 @@
 [
     {
+      "id": "1",
       "country": "Germany",
       "reportingYear": 2016,
       "period": "Summer",
@@ -8,7 +9,7 @@
       "maximumBioethanolContent": "458",
       "nationalFuelGrade": "23",
       "researchOctaneNumber": {
-            "unit": "45",
+            "unit": "--",
             "numOfSamples": 1268,
             "min": 0,
             "max": 90,
@@ -29,6 +30,7 @@
       "distillationEvaporated150":{}
     },
     {
+      "id": "2",
       "country": "Spain",
       "reportingYear": 2014,
       "period": "Winter",
@@ -37,7 +39,7 @@
       "maximumBioethanolContent": "458",
       "nationalFuelGrade": "23",
       "researchOctaneNumber": {
-            "unit": "45",
+            "unit": "--",
             "numOfSamples": 1268,
             "min": 0,
             "max": 90,
@@ -58,6 +60,7 @@
       "distillationEvaporated150":{}
     },
     {
+      "id": "3",
       "country": "Italy",
       "reportingYear": 2017,
       "period": "Summer",
@@ -66,7 +69,7 @@
       "maximumBioethanolContent": "458",
       "nationalFuelGrade": "23",
       "researchOctaneNumber": {
-            "unit": "45",
+            "unit": "--",
             "numOfSamples": 1268,
             "min": 0,
             "max": 90,

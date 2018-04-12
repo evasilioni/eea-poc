@@ -1,0 +1,16 @@
+:host /deep/  .ui-tabview-left>.ui-tabview-nav {
+    width: 10%;
+}
+
+:host /deep/ .ui-tabview-left>.ui-tabview-panels {
+    float: left;
+    width: 90%;
+}
+
+:host /deep/ .ui-state-disabled, .ui-widget:disabled {
+    opacity: 0.95;
+}
+
+/deep/ .ui-dialog-width {
+    width:65%;
+}

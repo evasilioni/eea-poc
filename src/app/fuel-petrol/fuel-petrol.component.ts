@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, FormControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
 import { Petrol, ReportResult } from './petrol';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
@@ -20,7 +20,7 @@ export class FuelPetrolComponent implements OnInit {
   petrol: Petrol;
 
   displayDialog: boolean;
-  selectedPetrol: Petrol;
+  selectedPetrolIndex: number;
 
   newPetrol: boolean;
   petrols: Petrol[];
@@ -34,15 +34,20 @@ export class FuelPetrolComponent implements OnInit {
     this.getPetrolsSample()
       .subscribe((data: Petrol[]) => {
         this.petrols = data;
+
+        this.petrols.forEach(p=>{
+          p.id = "Petrol " + p.id;
+        })
       });
 
     this.cols = [
+      { field: 'id', header: '#' },
       { field: 'country', header: 'Country' },
       { field: 'reportingYear', header: 'Reporting Year' },
       { field: 'period', header: 'Period(Summer or Winter)' },
       { field: 'parentFuelGrade', header: 'Parent Fuel Grade' },
       { field: 'nationalFuelGrade', header: 'National Fuel Grade' },
-      { field: 'summerPeriodNorA', header: 'Summer Period (N or A)' },
+      { field: 'sumui-g-2merPeriodNorA', header: 'Summer Period (N or A)' },
       { field: 'maximumBioethanolContent', header: 'The maximum bioethanol content (% v/v)' }
     ];
 
@@ -67,21 +72,22 @@ export class FuelPetrolComponent implements OnInit {
   }
 
   save() {
-    let petrols = [...this.petrols];
-    this.petrol = this.prepareSavePetrol();
-    if (this.newPetrol) {
-      petrols.push(this.petrol);
+    if(this.petrolForm.valid){
+      let petrols = [...this.petrols];
+      this.petrol = this.prepareSavePetrol();
+      if (this.newPetrol) {
+        petrols.push(this.prepareSavePetrol());
+      }
+      else
+        petrols[this.selectedPetrolIndex] = this.petrol;
+      this.petrols = petrols;
+      this.petrol = null;
+      this.displayDialog = false;
     }
-    else
-      petrols[this.petrols.indexOf(this.selectedPetrol)] = this.petrol;
-    this.petrols = petrols;
-    this.petrol = null;
-    this.displayDialog = false;
   }
 
   delete() {
-    let index = this.petrols.indexOf(this.selectedPetrol);
-    this.petrols = this.petrols.filter((val, i) => i != index);
+    this.petrols = this.petrols.filter((val, i) => i != this.selectedPetrolIndex);
     this.petrol = null;
     this.displayDialog = false;
   }
@@ -92,6 +98,7 @@ export class FuelPetrolComponent implements OnInit {
   }
 
   onRowSelect(event) {
+    this.selectedPetrolIndex = event.index;
     this.newPetrol = false;
     this.petrol = this.clonePetrol(event.data);
     this.displayDialog = true;
@@ -108,6 +115,7 @@ export class FuelPetrolComponent implements OnInit {
 
   bindDataToForm(p: Petrol) {
     this.petrolForm = this.fb.group({ // <-- the parent FormGroup
+      id: p.id,
       country: p.country,
       reportingYear: p.reportingYear,
       period: p.period,
@@ -147,35 +155,37 @@ export class FuelPetrolComponent implements OnInit {
     }
   }
   createPetrolForm() {
+    let counter = this.petrols != undefined ? this.petrols.length + 1 : 0;
     this.petrolForm = this.fb.group({ // <-- the parent FormGroup
-      country: '',
-      reportingYear: null,
+      id: "Petrol " + counter,
+      country: ['', Validators.required],
+      reportingYear: [null, Validators.required],
       period: '',
       parentFuelGrade: '',
       nationalFuelGrade: '',
       summerPeriodNorA: '',
       maximumBioethanolContent: '',
       researchOctaneNumber: this.fb.group(
-        this.getReportResultGroup()
+        this.getReportResultGroup("--")
       ),
       motorOctanenumber: this.fb.group(
-        this.getReportResultGroup()
+        this.getReportResultGroup("--")
       ),
       vapourPressure: this.fb.group(
-        this.getReportResultGroup()
+        this.getReportResultGroup("kPa")
       ),
       distillationEvaporated100: this.fb.group(
-        this.getReportResultGroup()
+        this.getReportResultGroup("% V/V")
       ),
       distillationEvaporated150: this.fb.group(
-        this.getReportResultGroup()
+        this.getReportResultGroup("% V/V")
       )
     })
   }
 
-  getReportResultGroup() {
+  getReportResultGroup(u: string) {
     return {
-      unit: "",
+      unit: new FormControl({value: u, disabled: true}, Validators.required),
       numOfSamples: null,
       min: null,
       max: null,
