@@ -86,7 +86,7 @@
                 <label for="numOfSamples">Number of Samples:</label>
                 <p *ngIf="petrolForm.controls[tab.field].controls.numOfSamples.errors?.required" style="color:red;display:contents">*</p>
                 <input type="text" pInputText formControlName="numOfSamples" />
-                <p *ngIf="petrolForm.errors?.invalidNumberofSample" style="color:red;">NumOfSamples outside of the range!</p>
+                <p *ngIf="petrolForm.errors && petrolForm.errors[tab.field]?.invalidNumberofSample" style="color:red;">NumOfSamples outside of the range!</p>
               </div>
               <div class="ui-g-2 ui-sm-6">
                 <label for="method">Method</label>
@@ -101,6 +101,7 @@
               <div class="ui-g-2 ui-sm-6">
                 <label for="min">Min:</label>
                 <input type="text" pInputText formControlName="min" />
+                <p *ngIf="petrolForm.controls[tab.field].controls.errors?.invalidNumberMin" style="color:red;">Min cannot be bigger than Max!</p>
               </div>
               <div class="ui-g-2 ui-sm-6">
                 <label for="max">Max:</label>

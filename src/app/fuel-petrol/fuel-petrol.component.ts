@@ -5,6 +5,7 @@ import { identifierModuleUrl } from '@angular/compiler';
 import { PetrolService } from '../services/fuel-petrol-service/petrol.service';
 import { ConfigService } from '../services/config.service';
 import { isNull, isNullOrUndefined, isUndefined } from 'util';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'fuel-petrol',
@@ -15,6 +16,7 @@ import { isNull, isNullOrUndefined, isUndefined } from 'util';
 export class FuelPetrolComponent implements OnInit {
 
   petrolForm: FormGroup;
+  petrolFormValidator: PetrolFormValidators = new PetrolFormValidators(this.configService);
 
   cols: any[];
   reportResultTypes: any[];
@@ -46,10 +48,10 @@ export class FuelPetrolComponent implements OnInit {
   }
 
   getReportResultTypes(): void {
-    this.configService.getPetrolSettings().subscribe((data: any[]) => {
-      this.reportResultTypes = data["reportResultTypes"];
-    }
-    );
+    this.configService.getPetrolSettings()
+      .subscribe((data: any[]) => {
+        this.reportResultTypes = data["reportResultTypes"]
+      })
   }
 
   createPetrolForm() {
@@ -65,7 +67,10 @@ export class FuelPetrolComponent implements OnInit {
       summerPeriodNorA: '',
       maximumBioethanolContent: 0,
       researchOctaneNumber: this.fb.group(
-        this.getReportResultGroup("--")
+        this.getReportResultGroup("--"),
+        {
+          validator: PetrolFormValidators.minMaxValidation()
+        }
       ),
       motorOctanenumber: this.fb.group(
         this.getReportResultGroup("--")
@@ -84,7 +89,7 @@ export class FuelPetrolComponent implements OnInit {
       })
     },
       {
-        validator: PetrolFormValidators.formGroupValidationFunction()
+        validator: this.petrolFormValidator.formGroupValidationFunction()
       })
   }
 
@@ -217,18 +222,61 @@ export class FuelPetrolComponent implements OnInit {
   }
 }
 
+
 export class PetrolFormValidators {
 
-  static formGroupValidationFunction() {
+  reportResultTypes: any[];
+
+  constructor(private configService: ConfigService) {
+    this.getReportResultTypes();
+  }
+
+  getReportResultTypes(): void {
+    this.configService.getPetrolSettings()
+      .subscribe((data: any[]) => {
+        this.reportResultTypes = data["reportResultTypes"]
+      })
+  }
+
+  static minMaxValidation() {
     return (control: AbstractControl): { [key: string]: any } => {
-      let fieldTotal = control.get('sampleFrequency').get('value');
-      let fieldNumOfSamples = control.get('researchOctaneNumber').get('numOfSamples');
+      let minValue = control.get('min');
+      let maxValue = control.get('max');
 
-      let forbidden = (parseInt(fieldNumOfSamples.value) > parseInt(fieldTotal.value)) &&
-        (fieldTotal.value != undefined) && (fieldNumOfSamples.value != undefined);
-      return forbidden ? { 'invalidNumberofSample': true} : null;
+      return minValue.value > maxValue.value ? { 'invalidNumberMin': true } : null;
     };
+  }
 
+  formGroupValidationFunction() {
+    return (control: AbstractControl): {} => {
+      let forbidden = false;
+      let fieldTotal = control.get('sampleFrequency').get('value');
+
+      var errors = {};
+
+      if (this.reportResultTypes !== undefined) {
+        this.reportResultTypes.forEach(r => {
+
+          let invalidNumber = false;
+          let fieldNumOfSamples = control.get(r.field).get('numOfSamples');
+          invalidNumber = (parseInt(fieldNumOfSamples.value) > parseInt(fieldTotal.value)) &&
+            (fieldTotal.value !== undefined) && (fieldNumOfSamples.value !== undefined);
+
+          if (invalidNumber) {
+            forbidden = true;
+            console.log(control);
+            Object.assign(errors, {
+              [r.field]: {
+                'invalidNumberofSample': true
+              }
+            });
+          }
+        });
+      }
+
+
+      return errors ? errors : null;
+    }
   }
 }
 
