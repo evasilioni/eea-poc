@@ -9,8 +9,24 @@
 
 :host /deep/ .ui-state-disabled, .ui-widget:disabled {
     opacity: 0.95;
+    border:1px solid #e2d9d9;
+    background-color: rgb(181, 195, 209);
 }
 
 /deep/ .ui-dialog-width {
     width:65%;
+}
+
+.font-style-85em {
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.font-style-75em {
+    font-size: 0.75em;
+    font-weight: bold;
+}
+
+:host /deep/ .ui-fluid .ui-button-text-icon-left .ui-button-text, .ui-fluid .ui-button-text-icon-right .ui-button-text {
+    padding-left: 2em;
 }

@@ -1,5 +1,5 @@
-<p-table [columns]="cols" [value]="petrols" selectionMode="single" (onRowSelect)="onRowSelect($event)"
-  [paginator]="true" [rows]="15">
+<p-table [columns]="cols" [value]="petrols" selectionMode="single" (onRowSelect)="onRowSelect($event)" [paginator]="true"
+  [rows]="15">
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th *ngFor="let col of columns">
@@ -24,28 +24,30 @@
 
 </p-table>
 
-<p-dialog [formGroup]="petrolForm" [(visible)]="displayDialog" showEffect="fade" [responsive]="true" [modal]="true" 
-
-styleClass="ui-fluid ui-dialog-width">
+<p-dialog [formGroup]="petrolForm" [(visible)]="displayDialog" showEffect="fade" [responsive]="true" 
+[dismissableMask] = "false" [modal]="true" styleClass="ui-fluid ui-dialog-width">
   <p-header>
     {{ petrolForm.get('id').value }}
   </p-header>
   <div>
-    <span style="font-size: 0.85em;font-weight: bold;">Basic Info {{petrolForm.id}}</span>
+    <span class="font-style-85em">Basic Info {{petrolForm.id}}</span>
   </div>
-  <div class="ui-g" style="font-size: 0.75em;font-weight: bold;">
+  <div class="ui-g font-style-75em">
     <div class="ui-g-2">
       <label for="country">Country:</label>
+      <p *ngIf="petrolForm.controls.country.errors?.required" style="color:red;display:contents">*</p>
       <input type="text" pInputText formControlName="country">
     </div>
 
     <div class="ui-g-2">
       <label for="reportingYear">Reporting Year:</label>
+      <p *ngIf="petrolForm.controls.reportingYear.errors?.required" style="color:red;display:contents">*</p>
       <input type="text" pInputText formControlName="reportingYear">
     </div>
 
     <div class="ui-g-2">
       <label for="period">Period:</label>
+      <p *ngIf="petrolForm.controls.period.errors?.required" style="color:red;display:contents">*</p>
       <input type="text" pInputText formControlName="period">
     </div>
 
@@ -59,7 +61,7 @@ styleClass="ui-fluid ui-dialog-width">
     </div>
   </div>
 
-  <div class="ui-g" style="font-size: 0.75em;font-weight: bold;">
+  <div class="ui-g font-style-75em">
     <div class="ui-g-2">
       <label for="summerPeriodNorA">Summer Period:</label>
       <input type="text" pInputText formControlName="summerPeriodNorA">
@@ -71,18 +73,20 @@ styleClass="ui-fluid ui-dialog-width">
   </div>
 
   <p-tabView>
-    <p-tabPanel header="Reporting Results" style="font-size: 0.75em;font-weight: bold;" >
+    <p-tabPanel header="Reporting Results" class="font-style-75em">
       <p-tabView orientation="left">
         <p-tabPanel *ngFor="let tab of reportResultTypes;let i = index;" [header]="tab.header" [selected]="i==0">
           <div [formGroupName]="tab.field">
             <div class="ui-g">
               <div class="ui-g-1 ui-sm-6">
                 <label for="unit">Unit:</label>
-                <input type="text" pInputText formControlName="unit" style="border:1px solid #dddddd;"/>
+                <input type="text" pInputText formControlName="unit" />
               </div>
               <div class="ui-g-2 ui-sm-6">
-                  <label for="numOfSamples">Number of Samples:</label>
-                  <input type="text" pInputText formControlName="numOfSamples" />
+                <label for="numOfSamples">Number of Samples:</label>
+                <p *ngIf="petrolForm.controls[tab.field].controls.numOfSamples.errors?.required" style="color:red;display:contents">*</p>
+                <input type="text" pInputText formControlName="numOfSamples" />
+                <p *ngIf="petrolForm.errors?.invalidNumberofSample" style="color:red;">NumOfSamples outside of the range!</p>
               </div>
               <div class="ui-g-2 ui-sm-6">
                 <label for="method">Method</label>
@@ -145,7 +149,7 @@ styleClass="ui-fluid ui-dialog-width">
       </p-tabView>
     </p-tabPanel>
     <p-tabPanel header="Sampling Frequency">
-      Content 2
+      <sample-frequency [group]="petrolForm.controls.sampleFrequency"></sample-frequency>
     </p-tabPanel>
     <p-tabPanel header="Test Method and Analysis">
       Content 3
@@ -154,9 +158,11 @@ styleClass="ui-fluid ui-dialog-width">
 
   <p-footer>
     <div class="ui-dialog-buttonpane ui-helper-clearfix">
-      <button type="button" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
-      <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+      <button type="button" pButton style="font-size:12px;background-color:grey;padding-left: -1em !important;" (click)="close()" label="Close"></button>
+      <button type="button" pButton icon="fa fa-remove" style="font-size:12px;background-color:red" (click)="delete()" label="Delete"></button>
+      <button type="button" pButton icon="fa-check" (click)="save()" style="font-size:12px;background-color:green" label="Save"></button>
     </div>
   </p-footer>
-
 </p-dialog>
+
+<pre>{{petrols | json}}</pre>

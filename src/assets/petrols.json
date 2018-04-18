@@ -27,7 +27,10 @@
       "motorOctanenumber":{},
       "vapourPressure":{},
       "distillationEvaporated100":{},
-      "distillationEvaporated150":{}
+      "distillationEvaporated150":{},
+      "sampleFrequency":{
+        "value":25004
+      }
     },
     {
       "id": "2",

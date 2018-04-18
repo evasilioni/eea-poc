@@ -12,6 +12,7 @@ export class Petrol {
     vapourPressure: ReportResult;
     distillationEvaporated100: ReportResult;
     distillationEvaporated150: ReportResult;
+    sampleFrequency:MonthSample
 }
 
 export class ReportResult {
@@ -30,3 +31,23 @@ export class ReportResult {
     method: string;
     date: string;
 }
+
+export class MonthSample {
+    // month: MonthEnum;
+    value: number;
+}
+
+// export enum MonthEnum {
+//     January = 1,
+//     February,
+//     March,
+//     April,
+//     May,
+//     June,
+//     July,
+//     August,
+//     September,
+//     Octomber,
+//     November,
+//     December
+// }

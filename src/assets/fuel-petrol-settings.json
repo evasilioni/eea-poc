@@ -1,0 +1,63 @@
+{
+    "cols": [
+        {
+            "field": "id",
+            "header": "#"
+        },
+        {
+            "field": "country",
+            "header": "Country"
+        },
+        {
+            "field": "reportingYear",
+            "header": "Reporting Year"
+        },
+        {
+            "field": "period",
+            "header": "Period(Summer or Winter)"
+        },
+        {
+            "field": "parentFuelGrade",
+            "header": "Parent Fuel Grade"
+        },
+        {
+            "field": "nationalFuelGrade",
+            "header": "National Fuel Grade"
+        },
+        {
+            "field": "sumui-g-2merPeriodNorA",
+            "header": "Summer Period (N or A)"
+        },
+        {
+            "field": "maximumBioethanolContent",
+            "header": "The maximum bioethanol content (% v/v)"
+        }
+    ],
+    "reportResultTypes": [
+        {
+            "id": 1,
+            "field": "researchOctaneNumber",
+            "header": "Research Octane Number"
+        },
+        {
+            "id": 2,
+            "field": "motorOctanenumber",
+            "header": "Motor Octane Number"
+        },
+        {
+            "id": 3,
+            "field": "vapourPressure",
+            "header": "Vapour Pressure"
+        },
+        {
+            "id": 4,
+            "field": "distillationEvaporated100",
+            "header": "Distillation Evaporated 100"
+        },
+        {
+            "id": 5,
+            "field": "distillationEvaporated150",
+            "header": "Distillation Evaporated 150"
+        }
+    ]
+}

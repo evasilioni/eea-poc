@@ -12,12 +12,15 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
 import {TabViewModule} from 'primeng/tabview';
 import {CalendarModule} from 'primeng/calendar';
 import {TableModule} from 'primeng/table';
-import { DialogModule } from 'primeng/primeng';
+import {DialogModule } from 'primeng/primeng';
 
 import {AppComponent} from './app.component';
 import {NgFormInputComponent} from './helpers/ng-form-input/ng-form-input.component';
 import {FuelContactsComponent} from './fuel-contacts/fuel-contacts.component';
 import { FuelPetrolComponent } from './fuel-petrol/fuel-petrol.component';
+import {PetrolService} from './services/fuel-petrol-service/petrol.service';
+import {ConfigService} from './services/config.service';
+import { SampleFrequencyComponent } from './fuel-petrol/sample-frequency/sample-frequency.component';
 
 
 @NgModule({
@@ -25,7 +28,8 @@ import { FuelPetrolComponent } from './fuel-petrol/fuel-petrol.component';
         AppComponent,
         NgFormInputComponent,
         FuelContactsComponent,
-        FuelPetrolComponent
+        FuelPetrolComponent,
+        SampleFrequencyComponent
     ],
     imports: [
         BrowserModule,
@@ -41,7 +45,8 @@ import { FuelPetrolComponent } from './fuel-petrol/fuel-petrol.component';
         TableModule,
         DialogModule
     ],
-    providers: [],
+    providers: [PetrolService,
+        ConfigService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

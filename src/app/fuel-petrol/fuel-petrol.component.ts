@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
 import { Petrol, ReportResult } from './petrol';
-import { Observable } from 'rxjs/Observable';
-import { HttpClient } from '@angular/common/http';
 import { identifierModuleUrl } from '@angular/compiler';
+import { PetrolService } from '../services/fuel-petrol-service/petrol.service';
+import { ConfigService } from '../services/config.service';
+import { isNull, isNullOrUndefined, isUndefined } from 'util';
 
 @Component({
   selector: 'fuel-petrol',
@@ -25,54 +26,108 @@ export class FuelPetrolComponent implements OnInit {
   newPetrol: boolean;
   petrols: Petrol[];
 
-  constructor(private http: HttpClient,
+  constructor(private petrolService: PetrolService,
+    private configService: ConfigService,
     private fb: FormBuilder) { }
 
   ngOnInit() {
     this.createPetrolForm();
 
-    this.getPetrolsSample()
-      .subscribe((data: Petrol[]) => {
-        this.petrols = data;
-
-        this.petrols.forEach(p=>{
-          p.id = "Petrol " + p.id;
-        })
-      });
-
-    this.cols = [
-      { field: 'id', header: '#' },
-      { field: 'country', header: 'Country' },
-      { field: 'reportingYear', header: 'Reporting Year' },
-      { field: 'period', header: 'Period(Summer or Winter)' },
-      { field: 'parentFuelGrade', header: 'Parent Fuel Grade' },
-      { field: 'nationalFuelGrade', header: 'National Fuel Grade' },
-      { field: 'sumui-g-2merPeriodNorA', header: 'Summer Period (N or A)' },
-      { field: 'maximumBioethanolContent', header: 'The maximum bioethanol content (% v/v)' }
-    ];
-
-    this.reportResultTypes = [
-      {id:1, field:'researchOctaneNumber', header: 'Research Octane Number' },
-      {id:2, field:'motorOctanenumber', header: 'Motor Octane Number' },
-      {id:3, field:'vapourPressure', header: 'Vapour Pressure' },
-      {id:4, field:'distillationEvaporated100', header: 'Distillation Evaporated 100' },
-      {id:5, field:'distillationEvaporated150', header: 'Distillation Evaporated 150' },
-    ];
+    this.getPetrols();
+    this.getColumns();
+    this.getReportResultTypes();
   }
 
-  getPetrolsSample(): Observable<Petrol[]> {
-    return this.http.get<Petrol[]>('./assets/petrols.json');
+  getColumns(): void {
+    this.configService.getPetrolSettings().subscribe((data: any[]) => {
+      this.cols = data["cols"];
+    }
+    );
+  }
+
+  getReportResultTypes(): void {
+    this.configService.getPetrolSettings().subscribe((data: any[]) => {
+      this.reportResultTypes = data["reportResultTypes"];
+    }
+    );
+  }
+
+  createPetrolForm() {
+    let counter = this.petrols != undefined ? this.petrols.length + 1 : 0;
+
+    this.petrolForm = this.fb.group({ // <-- the parent FormGroup
+      id: "Petrol " + counter,
+      country: ['', Validators.required],
+      reportingYear: ['', Validators.required],
+      period: ['', Validators.required],
+      parentFuelGrade: ['', Validators.required],
+      nationalFuelGrade: '',
+      summerPeriodNorA: '',
+      maximumBioethanolContent: 0,
+      researchOctaneNumber: this.fb.group(
+        this.getReportResultGroup("--")
+      ),
+      motorOctanenumber: this.fb.group(
+        this.getReportResultGroup("--")
+      ),
+      vapourPressure: this.fb.group(
+        this.getReportResultGroup("kPa")
+      ),
+      distillationEvaporated100: this.fb.group(
+        this.getReportResultGroup("% V/V")
+      ),
+      distillationEvaporated150: this.fb.group(
+        this.getReportResultGroup("% V/V")
+      ),
+      sampleFrequency: this.fb.group({
+        value: [0, Validators.required]
+      })
+    },
+      {
+        validator: PetrolFormValidators.formGroupValidationFunction()
+      })
+  }
+
+  getReportResultGroup(u: string) {
+    return {
+      unit: new FormControl({ value: u, disabled: true }),
+      numOfSamples: [null, Validators.required],
+      min: null,
+      max: null,
+      median: null,
+      standardDeviation: null,
+      toleranceLimit: null,
+      sampleValue: null,
+      nationalMin: null,
+      nationalMax: null,
+      directiveMin: null,
+      directiveMax: null,
+      method: "",
+      date: ""
+    };
+  }
+
+  getPetrols(): void {
+    this.petrolService.getPetrols()
+      .subscribe((p: Petrol[]) => {
+        p.forEach(pp => {
+          pp.id = "Petrol " + pp.id;
+        })
+        this.petrols = p;
+      }
+      );
   }
 
   showDialogToAdd() {
     this.newPetrol = true;
     this.petrol = new Petrol();
     this.displayDialog = true;
+    this.selectedPetrolIndex = undefined;
     this.createPetrolForm();
   }
 
   save() {
-    if(this.petrolForm.valid){
+    if (this.petrolForm.valid) {
       let petrols = [...this.petrols];
       this.petrol = this.prepareSavePetrol();
       if (this.newPetrol) {
@@ -89,6 +144,10 @@ export class FuelPetrolComponent implements OnInit {
   delete() {
     this.petrols = this.petrols.filter((val, i) => i != this.selectedPetrolIndex);
     this.petrol = null;
+    this.displayDialog = false;
+  }
+
+  close() {
     this.displayDialog = false;
   }
 
@@ -114,92 +173,64 @@ export class FuelPetrolComponent implements OnInit {
   }
 
   bindDataToForm(p: Petrol) {
-    this.petrolForm = this.fb.group({ // <-- the parent FormGroup
-      id: p.id,
-      country: p.country,
-      reportingYear: p.reportingYear,
-      period: p.period,
-      parentFuelGrade: p.parentFuelGrade,
-      nationalFuelGrade: p.nationalFuelGrade,
-      summerPeriodNorA: p.summerPeriodNorA,
-      maximumBioethanolContent: p.maximumBioethanolContent,
-      researchOctaneNumber: this.fb.group(
-        this.bindReportResultGroup(p, 'researchOctaneNumber')),
-      motorOctanenumber: this.fb.group(
-        this.bindReportResultGroup(p, 'motorOctanenumber')),
-      vapourPressure: this.fb.group(
-        this.bindReportResultGroup(p, 'vapourPressure')),
-      distillationEvaporated100: this.fb.group(
-        this.bindReportResultGroup(p, 'distillationEvaporated100')),
-      distillationEvaporated150: this.fb.group(
-        this.bindReportResultGroup(p, 'distillationEvaporated150')),
-    });
+    this.bindHeaderDataToForm(p, 'id');
+    this.bindHeaderDataToForm(p, 'country');
+    this.bindHeaderDataToForm(p, 'reportingYear');
+    this.bindHeaderDataToForm(p, 'period');
+    this.bindHeaderDataToForm(p, 'parentFuelGrade');
+    this.bindHeaderDataToForm(p, 'nationalFuelGrade');
+    this.bindHeaderDataToForm(p, 'summerPeriodNorA');
+    this.bindHeaderDataToForm(p, 'maximumBioethanolContent');
+    this.bindReportResultGroup(this.petrolForm.get('researchOctaneNumber'), p, 'researchOctaneNumber');
+    this.bindReportResultGroup(this.petrolForm.get('motorOctanenumber'), p, 'motorOctanenumber');
+    this.bindReportResultGroup(this.petrolForm.get('vapourPressure'), p, 'vapourPressure');
+    this.bindReportResultGroup(this.petrolForm.get('distillationEvaporated100'), p, 'distillationEvaporated100');
+    this.bindReportResultGroup(this.petrolForm.get('distillationEvaporated150'), p, 'distillationEvaporated150');
+    this.bindSampleFrequency(this.petrolForm.get('sampleFrequency'), p, 'sampleFrequency');
   }
 
-  bindReportResultGroup(p: Petrol, type: string){
-    return {
-      unit: p[type].unit,
-      numOfSamples: p[type].numOfSamples,
-      min: p[type].min,
-      max: p[type].max,
-      median: p[type].median,
-      standardDeviation: p[type].standardDeviation,
-      toleranceLimit: p[type].toleranceLimit,
-      sampleValue: p[type].sampleValue,
-      nationalMin: p[type].nationalMin,
-      nationalMax: p[type].nationalMax,
-      directiveMin: p[type].directiveMin,
-      directiveMax: p[type].directiveMax,
-      method: p[type].method,
-      date: p[type].date
+  bindHeaderDataToForm(p: Petrol, field: string) {
+    this.petrolForm.get(field).setValue(p[field]);
+  }
+
+  bindReportResultGroup(control: AbstractControl, p: Petrol, type: string) {
+    control.get('unit').setValue(p[type].unit);
+    control.get('numOfSamples').setValue(p[type].numOfSamples);
+    control.get('min').setValue(p[type].min);
+    control.get('max').setValue(p[type].max);
+    control.get('median').setValue(p[type].median);
+    control.get('standardDeviation').setValue(p[type].standardDeviation);
+    control.get('toleranceLimit').setValue(p[type].toleranceLimit);
+    control.get('sampleValue').setValue(p[type].sampleValue);
+    control.get('nationalMin').setValue(p[type].nationalMin);
+    control.get('nationalMax').setValue(p[type].nationalMax);
+    control.get('directiveMin').setValue(p[type].directiveMin);
+    control.get('directiveMax').setValue(p[type].directiveMax);
+    control.get('method').setValue(p[type].method);
+    control.get('date').setValue(p[type].date);
+  }
+
+  bindSampleFrequency(control: AbstractControl, p: Petrol, type: string) {
+    if (!isNullOrUndefined(control) && !isNullOrUndefined(p[type])) {
+      control.get('value').setValue(p[type].value);
     }
   }
-  createPetrolForm() {
-    let counter = this.petrols != undefined ? this.petrols.length + 1 : 0;
-    this.petrolForm = this.fb.group({ // <-- the parent FormGroup
-      id: "Petrol " + counter,
-      country: ['', Validators.required],
-      reportingYear: [null, Validators.required],
-      period: '',
-      parentFuelGrade: '',
-      nationalFuelGrade: '',
-      summerPeriodNorA: '',
-      maximumBioethanolContent: '',
-      researchOctaneNumber: this.fb.group(
-        this.getReportResultGroup("--")
-      ),
-      motorOctanenumber: this.fb.group(
-        this.getReportResultGroup("--")
-      ),
-      vapourPressure: this.fb.group(
-        this.getReportResultGroup("kPa")
-      ),
-      distillationEvaporated100: this.fb.group(
-        this.getReportResultGroup("% V/V")
-      ),
-      distillationEvaporated150: this.fb.group(
-        this.getReportResultGroup("% V/V")
-      )
-    })
-  }
-
-  getReportResultGroup(u: string) {
-    return {
-      unit: new FormControl({value: u, disabled: true}, Validators.required),
-      numOfSamples: null,
-      min: null,
-      max: null,
-      median: null,
-      standardDeviation: null,
-      toleranceLimit: null,
-      sampleValue: null,
-      nationalMin: null,
-      nationalMax: null,
-      directiveMin: null,
-      directiveMax: null,
-      method: "",
-      date: ""
-    };
-  }
-
 }
+
+export class PetrolFormValidators {
+
+  static formGroupValidationFunction() {
+    return (control: AbstractControl): { [key: string]: any } => {
+      let fieldTotal = control.get('sampleFrequency').get('value');
+      let fieldNumOfSamples = control.get('researchOctaneNumber').get('numOfSamples');
+
+      let forbidden = (parseInt(fieldNumOfSamples.value) > parseInt(fieldTotal.value)) &&
+        (fieldTotal.value != undefined) && (fieldNumOfSamples.value != undefined);
+      return forbidden ? { 'invalidNumberofSample': true} : null;
+    };
+
+  }
+}
+
+
+
