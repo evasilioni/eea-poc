@@ -69,7 +69,7 @@ export class FuelPetrolComponent implements OnInit {
       researchOctaneNumber: this.fb.group(
         this.getReportResultGroup("--"),
         {
-          validator: PetrolFormValidators.minMaxValidation()
+          validator: this.petrolFormValidator.minMaxValidation()
         }
       ),
       motorOctanenumber: this.fb.group(
@@ -238,20 +238,18 @@ export class PetrolFormValidators {
       })
   }
 
-  static minMaxValidation() {
+  minMaxValidation() {
     return (control: AbstractControl): { [key: string]: any } => {
       let minValue = control.get('min');
       let maxValue = control.get('max');
 
-      return minValue.value > maxValue.value ? { 'invalidNumberMin': true } : null;
+      return parseInt(minValue.value) > parseInt(maxValue.value) ? { 'invalidNumberMin': true } : null;
     };
   }
 
   formGroupValidationFunction() {
     return (control: AbstractControl): {} => {
-      let forbidden = false;
       let fieldTotal = control.get('sampleFrequency').get('value');
-
       var errors = {};
 
       if (this.reportResultTypes !== undefined) {
@@ -263,8 +261,6 @@ export class PetrolFormValidators {
             (fieldTotal.value !== undefined) && (fieldNumOfSamples.value !== undefined);
 
           if (invalidNumber) {
-            forbidden = true;
-            console.log(control);
             Object.assign(errors, {
               [r.field]: {
                 'invalidNumberofSample': true
@@ -273,7 +269,6 @@ export class PetrolFormValidators {
           }
         });
       }
-
 
       return errors ? errors : null;
     }

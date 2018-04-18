@@ -101,7 +101,7 @@
               <div class="ui-g-2 ui-sm-6">
                 <label for="min">Min:</label>
                 <input type="text" pInputText formControlName="min" />
-                <p *ngIf="petrolForm.controls[tab.field].controls.errors?.invalidNumberMin" style="color:red;">Min cannot be bigger than Max!</p>
+                <p *ngIf="petrolForm.controls[tab.field].errors?.invalidNumberMin" style="color:red;">Min cannot be bigger than Max!</p>
               </div>
               <div class="ui-g-2 ui-sm-6">
                 <label for="max">Max:</label>
