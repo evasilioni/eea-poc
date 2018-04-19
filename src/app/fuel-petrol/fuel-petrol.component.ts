@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormControl, Validators, ValidatorFn, FormArray } from '@angular/forms';
 import { Petrol, ReportResult } from './petrol';
 import { identifierModuleUrl } from '@angular/compiler';
 import { PetrolService } from '../services/fuel-petrol-service/petrol.service';
 import { ConfigService } from '../services/config.service';
 import { isNull, isNullOrUndefined, isUndefined } from 'util';
 import { Observable } from 'rxjs/Observable';
+import { PetrolFormValidators } from '../validators/petrol-form-validators';
 
 @Component({
   selector: 'fuel-petrol',
@@ -15,6 +16,7 @@ import { Observable } from 'rxjs/Observable';
 
 export class FuelPetrolComponent implements OnInit {
 
+  parentForm: FormArray;
   petrolForm: FormGroup;
   petrolFormValidator: PetrolFormValidators = new PetrolFormValidators(this.configService);
 
@@ -57,6 +59,10 @@ export class FuelPetrolComponent implements OnInit {
   createPetrolForm() {
     let counter = this.petrols != undefined ? this.petrols.length + 1 : 0;
 
+    this.parentForm = this.fb.array([
+      this.petrolForm
+    ]);
+
     this.petrolForm = this.fb.group({ // <-- the parent FormGroup
       id: "Petrol " + counter,
       country: ['', Validators.required],
@@ -89,7 +95,7 @@ export class FuelPetrolComponent implements OnInit {
       })
     },
       {
-        validator: this.petrolFormValidator.formGroupValidationFunction()
+        validators: [this.petrolFormValidator.formGroupValidationFunction()]
       })
   }
 
@@ -178,101 +184,11 @@ export class FuelPetrolComponent implements OnInit {
   }
 
   bindDataToForm(p: Petrol) {
-    this.bindHeaderDataToForm(p, 'id');
-    this.bindHeaderDataToForm(p, 'country');
-    this.bindHeaderDataToForm(p, 'reportingYear');
-    this.bindHeaderDataToForm(p, 'period');
-    this.bindHeaderDataToForm(p, 'parentFuelGrade');
-    this.bindHeaderDataToForm(p, 'nationalFuelGrade');
-    this.bindHeaderDataToForm(p, 'summerPeriodNorA');
-    this.bindHeaderDataToForm(p, 'maximumBioethanolContent');
-    this.bindReportResultGroup(this.petrolForm.get('researchOctaneNumber'), p, 'researchOctaneNumber');
-    this.bindReportResultGroup(this.petrolForm.get('motorOctanenumber'), p, 'motorOctanenumber');
-    this.bindReportResultGroup(this.petrolForm.get('vapourPressure'), p, 'vapourPressure');
-    this.bindReportResultGroup(this.petrolForm.get('distillationEvaporated100'), p, 'distillationEvaporated100');
-    this.bindReportResultGroup(this.petrolForm.get('distillationEvaporated150'), p, 'distillationEvaporated150');
-    this.bindSampleFrequency(this.petrolForm.get('sampleFrequency'), p, 'sampleFrequency');
+    this.petrolForm.patchValue(p);
   }
 
-  bindHeaderDataToForm(p: Petrol, field: string) {
-    this.petrolForm.get(field).setValue(p[field]);
-  }
-
-  bindReportResultGroup(control: AbstractControl, p: Petrol, type: string) {
-    control.get('unit').setValue(p[type].unit);
-    control.get('numOfSamples').setValue(p[type].numOfSamples);
-    control.get('min').setValue(p[type].min);
-    control.get('max').setValue(p[type].max);
-    control.get('median').setValue(p[type].median);
-    control.get('standardDeviation').setValue(p[type].standardDeviation);
-    control.get('toleranceLimit').setValue(p[type].toleranceLimit);
-    control.get('sampleValue').setValue(p[type].sampleValue);
-    control.get('nationalMin').setValue(p[type].nationalMin);
-    control.get('nationalMax').setValue(p[type].nationalMax);
-    control.get('directiveMin').setValue(p[type].directiveMin);
-    control.get('directiveMax').setValue(p[type].directiveMax);
-    control.get('method').setValue(p[type].method);
-    control.get('date').setValue(p[type].date);
-  }
-
-  bindSampleFrequency(control: AbstractControl, p: Petrol, type: string) {
-    if (!isNullOrUndefined(control) && !isNullOrUndefined(p[type])) {
-      control.get('value').setValue(p[type].value);
-    }
-  }
-}
 
 
-export class PetrolFormValidators {
-
-  reportResultTypes: any[];
-
-  constructor(private configService: ConfigService) {
-    this.getReportResultTypes();
-  }
-
-  getReportResultTypes(): void {
-    this.configService.getPetrolSettings()
-      .subscribe((data: any[]) => {
-        this.reportResultTypes = data["reportResultTypes"]
-      })
-  }
-
-  minMaxValidation() {
-    return (control: AbstractControl): { [key: string]: any } => {
-      let minValue = control.get('min');
-      let maxValue = control.get('max');
-
-      return parseInt(minValue.value) > parseInt(maxValue.value) ? { 'invalidNumberMin': true } : null;
-    };
-  }
-
-  formGroupValidationFunction() {
-    return (control: AbstractControl): {} => {
-      let fieldTotal = control.get('sampleFrequency').get('value');
-      var errors = {};
-
-      if (this.reportResultTypes !== undefined) {
-        this.reportResultTypes.forEach(r => {
-
-          let invalidNumber = false;
-          let fieldNumOfSamples = control.get(r.field).get('numOfSamples');
-          invalidNumber = (parseInt(fieldNumOfSamples.value) > parseInt(fieldTotal.value)) &&
-            (fieldTotal.value !== undefined) && (fieldNumOfSamples.value !== undefined);
-
-          if (invalidNumber) {
-            Object.assign(errors, {
-              [r.field]: {
-                'invalidNumberofSample': true
-              }
-            });
-          }
-        });
-      }
-
-      return errors ? errors : null;
-    }
-  }
 }
 
 
