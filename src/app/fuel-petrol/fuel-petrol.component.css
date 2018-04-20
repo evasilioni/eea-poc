@@ -31,15 +31,25 @@
     padding-left: 2em;
 }
 
-.error-background { background-color:rgb(230, 166, 166);
-  height: 15%;
-  border: 0.85px solid rgb(240, 163, 163);
-  border-radius: 2px;
+.error-background { 
+    background-color: #ffd8cc;
+    height: 15%;
+    border: 0.35px solid rgb(240, 163, 163);
+    border-radius: 2px;
 }
 
-.error-text-class {
-    color:red;text-align: center;
-      vertical-align: middle;
-      line-height: 39px;
-      padding-left:40%
-    }
+.error-text-class-padding-40 {
+    color:#801f00;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 39px;
+    padding-left:40%
+}
+
+.error-text-class-padding-30 {
+    color:#801f00;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 39px;
+    padding-left:30%
+}

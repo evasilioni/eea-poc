@@ -62,8 +62,9 @@ export class PetrolFormValidators {
 
           let invalidNumber = false;
           let fieldNumOfSamples = control.get(r.field).get('numOfSamples');
-          invalidNumber = (parseInt(fieldNumOfSamples.value) > parseInt(fieldTotal.value)) &&
-            (fieldTotal.value !== undefined) && (fieldNumOfSamples.value !== undefined);
+          invalidNumber = (fieldTotal.value !== undefined) && (fieldNumOfSamples.value !== undefined) && 
+          (fieldTotal.value !== null) && (fieldNumOfSamples.value !== null) &&
+          (parseInt(fieldNumOfSamples.value) > parseInt(fieldTotal.value));
 
           if (invalidNumber) {
             Object.assign(errors, {

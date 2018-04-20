@@ -31,6 +31,8 @@ export class FuelPetrolComponent implements OnInit {
   newPetrol: boolean;
   petrols: Petrol[];
 
+  petrolFormErrors: {};
+
   constructor(private petrolService: PetrolService,
     private configService: ConfigService,
     private fb: FormBuilder) { }
@@ -52,8 +54,7 @@ export class FuelPetrolComponent implements OnInit {
   getColumns(): void {
     this.configService.getPetrolSettings().subscribe((data: any[]) => {
       this.cols = data["cols"];
-    }
-    );
+    });
   }
 
   getReportResultTypes(): void {
@@ -98,7 +99,13 @@ export class FuelPetrolComponent implements OnInit {
       {
         validator: Validators.compose([this.petrolFormValidator.formGroupValidationFunction(),
         this.petrolFormValidator.uniqueCountry()])
-      })
+      }
+    );
+
+    this.petrolForm.valueChanges.subscribe((form)=>{
+      this.onChanges(form);
+    });
+
 
     let array = this.parentForm.get('petrols') as FormArray;
     array.push(this.petrolForm);
@@ -134,9 +141,7 @@ export class FuelPetrolComponent implements OnInit {
           this.bindDataToForm(pp);
         })
         this.petrols = p;
-
-      }
-      );
+      });
   }
 
   showDialogToAdd() {
@@ -193,7 +198,7 @@ export class FuelPetrolComponent implements OnInit {
     this.newPetrol = false;
     this.petrol = this.clonePetrol(event.data);
     this.displayDialog = true;
-    // this.bindDataToForm(this.petrol);
+    this.bindDataToForm(this.petrol);
   }
 
   clonePetrol(p: Petrol): Petrol {
@@ -207,6 +212,45 @@ export class FuelPetrolComponent implements OnInit {
   bindDataToForm(p: Petrol) {
     let array = this.parentForm.get('petrols') as FormArray;
     array.controls[this.selectedPetrolIndex].patchValue(p);
+  }
+
+
+  onChanges(form: AbstractControl) {
+    let selectedPetrolForm = (this.parentForm.get('petrols') as FormArray).controls[this.selectedPetrolIndex];
+
+    if (selectedPetrolForm && selectedPetrolForm.errors) {
+      this.petrolFormErrors = selectedPetrolForm.errors;
+
+      Object.keys((selectedPetrolForm as FormArray).controls).forEach(key =>{
+        Object.apply(this.petrolFormErrors, selectedPetrolForm.get(key).errors);
+      })
+      
+      if (this.reportResultTypes) {
+        this.reportResultTypes.forEach(r => {
+          if (selectedPetrolForm.errors[r.field]) {
+            this.petrolFormErrors['invalidNumberofSample'] = selectedPetrolForm.errors[r.field].invalidNumberofSample;
+            this.petrolFormErrors['tabField'] = r.header;
+          }
+        })
+      }
+    } else {
+
+      let hasErrors = false;
+      Object.keys((selectedPetrolForm as FormArray).controls).forEach(key =>{
+        if(selectedPetrolForm.get(key).errors){
+          hasErrors = true;
+          Object.assign(this.petrolFormErrors, {
+            [key] : selectedPetrolForm.get(key).errors});
+        }
+
+      })
+
+      if (!hasErrors) {this.petrolFormErrors={};};
+    }
+
+    console.log(this.petrolFormErrors);
+
+    return null;
   }
 
 }
