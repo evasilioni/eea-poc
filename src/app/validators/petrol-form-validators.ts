@@ -1,19 +1,46 @@
-import { AbstractControl, Validators, ValidatorFn } from '@angular/forms';
+import { AbstractControl, Validators, ValidatorFn, FormGroup, FormArray } from '@angular/forms';
 import { ConfigService } from '../services/config.service';
 
 export class PetrolFormValidators {
-    
-  reportResultTypes: any[];
+
+  private reportResultTypes: any[];
 
   constructor(private configService: ConfigService) {
     this.getReportResultTypes();
   }
 
-  getReportResultTypes(): void {
+  private getReportResultTypes(): void {
     this.configService.getPetrolSettings()
       .subscribe((data: any[]) => {
         this.reportResultTypes = data["reportResultTypes"]
       })
+  }
+
+  uniqueCountry() {
+    return (control: AbstractControl): {} => {
+      var errors = {};
+
+      if (control.parent) {
+        let parentFromArray = control.parent as FormArray;
+
+        let persistedPetrol = parentFromArray.controls.find(c => c.get('id').value === control.get('id').value);
+        let transientCountry = persistedPetrol.get('country').value;
+
+        parentFromArray.controls
+          .filter(c => c.get('id').value !== persistedPetrol.get('id').value)
+          .forEach(c => {
+
+            if (c.get('country').value.toLowerCase() === transientCountry.toLowerCase()) {
+              Object.assign(errors,  {
+                  'invalidCountry': true
+              });
+            }
+          });
+      }
+
+
+      return errors ? errors : null;
+    }
   }
 
   minMaxValidation() {

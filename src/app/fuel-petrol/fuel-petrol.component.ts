@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, FormControl, Validators, ValidatorFn, FormArray } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormControl, Validators, ValidatorFn, FormArray, Validator } from '@angular/forms';
 import { Petrol, ReportResult } from './petrol';
 import { identifierModuleUrl } from '@angular/compiler';
 import { PetrolService } from '../services/fuel-petrol-service/petrol.service';
@@ -16,9 +16,10 @@ import { PetrolFormValidators } from '../validators/petrol-form-validators';
 
 export class FuelPetrolComponent implements OnInit {
 
-  parentForm: FormArray;
+  parentForm: FormGroup;
   petrolForm: FormGroup;
-  petrolFormValidator: PetrolFormValidators = new PetrolFormValidators(this.configService);
+
+  petrolFormValidator: PetrolFormValidators;
 
   cols: any[];
   reportResultTypes: any[];
@@ -35,7 +36,13 @@ export class FuelPetrolComponent implements OnInit {
     private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.createPetrolForm();
+    this.petrolFormValidator = new PetrolFormValidators(this.configService);
+
+    this.parentForm = this.fb.group({
+      'petrols': this.fb.array([])
+    }, {
+        validators: []
+      });
 
     this.getPetrols();
     this.getColumns();
@@ -57,14 +64,8 @@ export class FuelPetrolComponent implements OnInit {
   }
 
   createPetrolForm() {
-    let counter = this.petrols != undefined ? this.petrols.length + 1 : 0;
-
-    this.parentForm = this.fb.array([
-      this.petrolForm
-    ]);
-
     this.petrolForm = this.fb.group({ // <-- the parent FormGroup
-      id: "Petrol " + counter,
+      id: "Petrol",
       country: ['', Validators.required],
       reportingYear: ['', Validators.required],
       period: ['', Validators.required],
@@ -95,8 +96,13 @@ export class FuelPetrolComponent implements OnInit {
       })
     },
       {
-        validators: [this.petrolFormValidator.formGroupValidationFunction()]
+        validator: Validators.compose([this.petrolFormValidator.formGroupValidationFunction(),
+        this.petrolFormValidator.uniqueCountry()])
       })
+
+    let array = this.parentForm.get('petrols') as FormArray;
+    array.push(this.petrolForm);
+    this.selectedPetrolIndex = array.length - 1;
   }
 
   getReportResultGroup(u: string) {
@@ -119,12 +125,16 @@ export class FuelPetrolComponent implements OnInit {
   }
 
   getPetrols(): void {
+    let array = this.parentForm.get('petrols') as FormArray;
     this.petrolService.getPetrols()
       .subscribe((p: Petrol[]) => {
         p.forEach(pp => {
           pp.id = "Petrol " + pp.id;
+          this.createPetrolForm();
+          this.bindDataToForm(pp);
         })
         this.petrols = p;
+
       }
       );
   }
@@ -138,14 +148,19 @@ export class FuelPetrolComponent implements OnInit {
   }
 
   save() {
-    if (this.petrolForm.valid) {
+    let petrolF = (this.parentForm.get('petrols') as FormArray).controls[this.selectedPetrolIndex];
+    if (petrolF.valid) {
       let petrols = [...this.petrols];
-      this.petrol = this.prepareSavePetrol();
+      let counter = petrols != undefined ? petrols.length + 1 : 0;
+      petrolF.get('id').setValue("Petrol " + counter);
+      this.petrol = this.prepareSavePetrol(petrolF);
+
       if (this.newPetrol) {
-        petrols.push(this.prepareSavePetrol());
+        petrols.push(this.petrol);
       }
-      else
+      else {
         petrols[this.selectedPetrolIndex] = this.petrol;
+      }
       this.petrols = petrols;
       this.petrol = null;
       this.displayDialog = false;
@@ -156,14 +171,20 @@ export class FuelPetrolComponent implements OnInit {
     this.petrols = this.petrols.filter((val, i) => i != this.selectedPetrolIndex);
     this.petrol = null;
     this.displayDialog = false;
+    let array = this.parentForm.get('petrols') as FormArray;
+    array.removeAt(this.selectedPetrolIndex);
   }
 
   close() {
     this.displayDialog = false;
+    let array = this.parentForm.get('petrols') as FormArray;
+    if (this.newPetrol) {
+      array.removeAt(this.selectedPetrolIndex);
+    }
   }
 
-  prepareSavePetrol(): Petrol {
-    const formModel = this.petrolForm.value;
+  prepareSavePetrol(petrolF: AbstractControl): Petrol {
+    const formModel = petrolF.value;
     return formModel;
   }
 
@@ -172,7 +193,7 @@ export class FuelPetrolComponent implements OnInit {
     this.newPetrol = false;
     this.petrol = this.clonePetrol(event.data);
     this.displayDialog = true;
-    this.bindDataToForm(this.petrol);
+    // this.bindDataToForm(this.petrol);
   }
 
   clonePetrol(p: Petrol): Petrol {
@@ -184,10 +205,9 @@ export class FuelPetrolComponent implements OnInit {
   }
 
   bindDataToForm(p: Petrol) {
-    this.petrolForm.patchValue(p);
+    let array = this.parentForm.get('petrols') as FormArray;
+    array.controls[this.selectedPetrolIndex].patchValue(p);
   }
-
-
 
 }
 
