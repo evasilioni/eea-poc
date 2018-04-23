@@ -4,13 +4,18 @@ import {FormControl, FormGroup, ValidatorFn} from '@angular/forms';
 import {BaseControl, ControlType} from '../controls/base-control';
 import {ValidatorConfig} from '../validation/validator-config';
 
+interface DynamicFormServiceOptions {
+    toFormGroup(controls: BaseControl<any>[], customControls: BaseControl<any>[], validators: ValidatorFn[], nameInParent?: string, parentFormGroup?: FormGroup): FormGroup;
+}
+
 @Injectable()
-export class DynamicFormService {
+export class DynamicFormService implements DynamicFormServiceOptions {
 
     constructor() {
     }
 
-    toFormGroup(controls: BaseControl<any>[], customControls: BaseControl<any>[], validators: ValidatorFn[], nameInParent?: string, parentFormGroup?: FormGroup) {
+    toFormGroup(controls: BaseControl<any>[], customControls: BaseControl<any>[],
+                validators: ValidatorFn[], nameInParent?: string, parentFormGroup?: FormGroup) {
         const group: any = {};
 
         controls.concat(customControls)

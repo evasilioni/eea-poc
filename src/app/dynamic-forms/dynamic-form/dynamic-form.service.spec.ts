@@ -2,7 +2,8 @@ import {TestBed} from '@angular/core/testing';
 
 import {DynamicFormService} from './dynamic-form.service';
 import {TextboxControl} from '../controls/textbox-control';
-import {FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {GroupControl} from '../controls/group-controll';
 
 let service: DynamicFormService;
 
@@ -58,7 +59,57 @@ fdescribe('DynamicFormService', () => {
                     );
                 }
             ).toThrow();
+        });
 
+        it('should validate form group with one text box and a required validator', function () {
+            const parentFormGroup = new FormGroup({});
+            service.toFormGroup([
+                    new TextboxControl({
+                        key: 'testTextBox',
+                        label: 'testLabel',
+                        validators: [
+                            {
+                                formError: 'required',
+                                validator: Validators.required
+                            }
+                        ]
+                    })
+                ],
+                [],
+                [],
+                'testGroup',
+                parentFormGroup
+            );
+            const formControl = parentFormGroup.get('testGroup').get('testTextBox') as FormControl;
+            // for some reason a form starts in invalid state
+            expect(formControl.valid).toBeFalsy();
+            expect(formControl.dirty).toBeFalsy();
+            formControl.setValue('test');
+            expect(formControl.valid).toBeTruthy();
+        });
+
+        it('should skip creation of nested form group (creation is done recursively)', function () {
+            const parentFormGroup = new FormGroup({});
+            service.toFormGroup([
+                    new GroupControl({
+                        key: 'nestedFormGroup',
+                        groupControls: [
+                            new TextboxControl({
+                                key: 'testTextBox',
+                                label: 'testLabel'
+                            })
+                        ]
+                    })
+                ],
+                [],
+                [],
+                'testGroup',
+                parentFormGroup
+            );
+
+            const topFormGroup = parentFormGroup.get('testGroup') as FormGroup;
+            const nestedFormGroup = topFormGroup.get('nestedFormGroup') as FormGroup;
+            expect(nestedFormGroup).toBeNull();
         });
     });
 });
