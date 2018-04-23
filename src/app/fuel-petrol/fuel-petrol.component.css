@@ -1,20 +1,20 @@
-:host /deep/  .ui-tabview-left>.ui-tabview-nav {
+:host /deep/ .ui-tabview-left > .ui-tabview-nav {
     width: 10%;
 }
 
-:host /deep/ .ui-tabview-left>.ui-tabview-panels {
+:host /deep/ .ui-tabview-left > .ui-tabview-panels {
     float: left;
     width: 90%;
 }
 
 :host /deep/ .ui-state-disabled, .ui-widget:disabled {
     opacity: 0.95;
-    border:1px solid #e2d9d9;
+    border: 1px solid #e2d9d9;
     background-color: rgb(181, 195, 209);
 }
 
 /deep/ .ui-dialog-width {
-    width:65%;
+    width: 65%;
 }
 
 .font-style-85em {
@@ -31,7 +31,7 @@
     padding-left: 2em;
 }
 
-.error-background { 
+.error-background {
     background-color: #ffd8cc;
     height: 7%;
     border: 0.35px solid rgb(240, 163, 163);
@@ -39,17 +39,17 @@
 }
 
 .error-text-class-padding-40 {
-    color:#801f00;
+    color: #801f00;
     text-align: center;
     vertical-align: middle;
     line-height: 30px;
-    padding-left:40%
+    padding-left: 40%
 }
 
 .error-text-class-padding-30 {
-    color:#801f00;
+    color: #801f00;
     text-align: center;
     vertical-align: middle;
     line-height: 30px;
-    padding-left:30%
+    padding-left: 30%
 }

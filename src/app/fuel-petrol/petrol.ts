@@ -12,7 +12,7 @@ export class Petrol {
     vapourPressure: ReportResult;
     distillationEvaporated100: ReportResult;
     distillationEvaporated150: ReportResult;
-    sampleFrequency:MonthSample
+    sampleFrequency: MonthSample;
 }
 
 export class ReportResult {
