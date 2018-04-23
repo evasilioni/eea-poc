@@ -1,0 +1,74 @@
+<div [formGroup]="group">
+    <div [formGroupName]="groupName">
+        <div class="ui-g">
+            <div class="ui-g-1 ui-sm-6">
+                <label for="unit">Unit:</label>
+                <input type="text" pInputText formControlName="unit"/>
+            </div>
+            <div class="ui-g-2 ui-sm-6">
+                <label for="numOfSamples">Number of Samples:</label>
+                <p *ngIf="controls.controls.numOfSamples.errors?.required"
+                   style="color:red;display:contents">*</p>
+                <input type="text" pInputText formControlName="numOfSamples"/>
+            </div>
+            <div class="ui-g-2 ui-sm-6">
+                <label for="method">Method</label>
+                <input type="text" pInputText formControlName="method"/>
+            </div>
+            <div class="ui-g-2 ui-sm-6">
+                <label for="date">Date</label>
+                <p-calendar id="date" dateFormat="dd/mm/y" [showIcon]="true"
+                            formControlName="date"></p-calendar>
+            </div>
+        </div>
+        <div class="ui-g">
+            <div class="ui-g-2 ui-sm-6">
+                <label for="min">Min:</label>
+                <input type="text" pInputText formControlName="min"/>
+                <p *ngIf="controls.errors?.invalidNumberMin"
+                   style="color:red;">Min cannot be bigger than Max!</p>
+            </div>
+            <div class="ui-g-2 ui-sm-6">
+                <label for="max">Max:</label>
+                <input type="text" pInputText formControlName="max"/>
+            </div>
+            <div class="ui-g-2 ui-sm-6">
+                <label for="median">Median:</label>
+                <input type="text" pInputText formControlName="median"/>
+            </div>
+        </div>
+        <div class="ui-g">
+            <div class="ui-g-2 ui-sm-6">
+                <label for="standardDeviation">Standard Deviation:</label>
+                <input type="text" pInputText formControlName="standardDeviation"/>
+            </div>
+            <div class="ui-g-2 ui-sm-6">
+                <label for="toleranceLimit">Tolerance Limit:</label>
+                <input type="text" pInputText formControlName="toleranceLimit"/>
+            </div>
+
+            <div class="ui-g-2 ui-sm-6">
+                <label for="sampleValue">Sample Value</label>
+                <input type="text" pInputText formControlName="sampleValue"/>
+            </div>
+        </div>
+        <div class="ui-g">
+            <div class="ui-g-2 ui-sm-6">
+                <label for="nationalMin">National Min:</label>
+                <input type="text" pInputText formControlName="nationalMin"/>
+            </div>
+            <div class="ui-g-2 ui-sm-6">
+                <label for="nationalMax">National Max:</label>
+                <input type="text" pInputText formControlName="nationalMax"/>
+            </div>
+            <div class="ui-g-2 ui-sm-6">
+                <label for="directiveMin">Directive Min:</label>
+                <input type="text" pInputText formControlName="directiveMin"/>
+            </div>
+            <div class="ui-g-2 ui-sm-6">
+                <label for="directiveMax">Directive Max:</label>
+                <input type="text" pInputText formControlName="directiveMax"/>
+            </div>
+        </div>
+    </div>
+</div>

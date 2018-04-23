@@ -87,88 +87,20 @@
 
         <p-tabView>
             <p-tabPanel header="Reporting Results" class="font-style-75em">
-                <p-tabView orientation="left">
-                    <p-tabPanel *ngFor="let tab of reportResultTypes;let i = index;" [header]="tab.header"
-                                [selected]="i==0">
-                        <div [formGroupName]="tab.field">
-                            <div class="ui-g">
-                                <div class="ui-g-1 ui-sm-6">
-                                    <label for="unit">Unit:</label>
-                                    <input type="text" pInputText formControlName="unit"/>
-                                </div>
-                                <div class="ui-g-2 ui-sm-6">
-                                    <label for="numOfSamples">Number of Samples:</label>
-                                    <p *ngIf="parentForm.controls.petrols.controls[selectedPetrolIndex].controls[tab.field].controls.numOfSamples.errors?.required"
-                                       style="color:red;display:contents">*</p>
-                                    <input type="text" pInputText formControlName="numOfSamples"/>
-                                </div>
-                                <div class="ui-g-2 ui-sm-6">
-                                    <label for="method">Method</label>
-                                    <input type="text" pInputText formControlName="method"/>
-                                </div>
-                                <div class="ui-g-2 ui-sm-6">
-                                    <label for="date">Date</label>
-                                    <p-calendar id="date" dateFormat="dd/mm/y" [showIcon]="true"
-                                                formControlName="date"></p-calendar>
-                                </div>
-                            </div>
-                            <div class="ui-g">
-                                <div class="ui-g-2 ui-sm-6">
-                                    <label for="min">Min:</label>
-                                    <input type="text" pInputText formControlName="min"/>
-                                    <p *ngIf="parentForm.controls.petrols.controls[selectedPetrolIndex].controls[tab.field].errors?.invalidNumberMin"
-                                       style="color:red;">Min cannot be bigger than Max!</p>
-                                </div>
-                                <div class="ui-g-2 ui-sm-6">
-                                    <label for="max">Max:</label>
-                                    <input type="text" pInputText formControlName="max"/>
-                                </div>
-                                <div class="ui-g-2 ui-sm-6">
-                                    <label for="median">Median:</label>
-                                    <input type="text" pInputText formControlName="median"/>
-                                </div>
-                            </div>
-                            <div class="ui-g">
-                                <div class="ui-g-2 ui-sm-6">
-                                    <label for="standardDeviation">Standard Deviation:</label>
-                                    <input type="text" pInputText formControlName="standardDeviation"/>
-                                </div>
-                                <div class="ui-g-2 ui-sm-6">
-                                    <label for="toleranceLimit">Tolerance Limit:</label>
-                                    <input type="text" pInputText formControlName="toleranceLimit"/>
-                                </div>
 
-                                <div class="ui-g-2 ui-sm-6">
-                                    <label for="sampleValue">Sample Value</label>
-                                    <input type="text" pInputText formControlName="sampleValue"/>
-                                </div>
-                            </div>
-                            <div class="ui-g">
-                                <div class="ui-g-2 ui-sm-6">
-                                    <label for="nationalMin">National Min:</label>
-                                    <input type="text" pInputText formControlName="nationalMin"/>
-                                </div>
-                                <div class="ui-g-2 ui-sm-6">
-                                    <label for="nationalMax">National Max:</label>
-                                    <input type="text" pInputText formControlName="nationalMax"/>
-                                </div>
-                                <div class="ui-g-2 ui-sm-6">
-                                    <label for="directiveMin">Directive Min:</label>
-                                    <input type="text" pInputText formControlName="directiveMin"/>
-                                </div>
-                                <div class="ui-g-2 ui-sm-6">
-                                    <label for="directiveMax">Directive Max:</label>
-                                    <input type="text" pInputText formControlName="directiveMax"/>
-                                </div>
-                            </div>
-                        </div>
-                    </p-tabPanel>
-                </p-tabView>
+                <reporting-results [reportResultTypes]="reportResultTypes"
+                                   [controls]="parentForm.controls['petrols'].controls[selectedPetrolIndex]" class="" [group]="parentForm">
+                </reporting-results>
+
             </p-tabPanel>
+
             <p-tabPanel header="Sampling Frequency">
+
                 <sample-frequency
-                    [group]="parentForm.controls.petrols.controls[selectedPetrolIndex].controls.sampleFrequency"></sample-frequency>
+                    [group]="parentForm.controls['petrols'].controls[selectedPetrolIndex].controls.sampleFrequency"></sample-frequency>
+
             </p-tabPanel>
+
             <p-tabPanel header="Test Method and Analysis">
                 Content 3
             </p-tabPanel>

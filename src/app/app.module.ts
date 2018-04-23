@@ -24,6 +24,8 @@ import { SampleFrequencyComponent } from './fuel-petrol/sample-frequency/sample-
 import {DynamicFormsModule} from './dynamic-forms/dynamic-forms.module';
 import {FuelContactsService} from './fuel-contacts/fuel-conacts.service';
 import {MessagesModule} from 'primeng/primeng';
+import { ReportingResultsComponent } from './fuel-petrol/reporting-results/reporting-results.component';
+import { ReportingResultComponent } from './fuel-petrol/reporting-results/reporting-result/reporting-result.component';
 
 
 @NgModule({
@@ -32,7 +34,9 @@ import {MessagesModule} from 'primeng/primeng';
         NgFormInputComponent,
         FuelContactsComponent,
         FuelPetrolComponent,
-        SampleFrequencyComponent
+        SampleFrequencyComponent,
+        ReportingResultsComponent,
+        ReportingResultComponent
     ],
     imports: [
         BrowserModule,
