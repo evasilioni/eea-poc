@@ -150,6 +150,7 @@ export class FuelPetrolComponent implements OnInit {
     this.displayDialog = true;
     this.selectedPetrolIndex = undefined;
     this.createPetrolForm();
+    this.petrolFormErrors = {};
   }
 
   save() {
