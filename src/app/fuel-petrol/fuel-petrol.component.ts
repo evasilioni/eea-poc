@@ -102,7 +102,7 @@ export class FuelPetrolComponent implements OnInit {
       }
     );
 
-    this.petrolForm.valueChanges.subscribe((form)=>{
+    this.petrolForm.valueChanges.subscribe((form) => {
       this.onChanges(form);
     });
 
@@ -216,37 +216,35 @@ export class FuelPetrolComponent implements OnInit {
 
 
   onChanges(form: AbstractControl) {
+    let hasErrors = false;
     let selectedPetrolForm = (this.parentForm.get('petrols') as FormArray).controls[this.selectedPetrolIndex];
 
-    if (selectedPetrolForm && selectedPetrolForm.errors) {
-      this.petrolFormErrors = selectedPetrolForm.errors;
+    if (selectedPetrolForm) {
+      if (selectedPetrolForm.errors) {
+        hasErrors = true;
+        this.petrolFormErrors = selectedPetrolForm.errors;
+      }
 
-      Object.keys((selectedPetrolForm as FormArray).controls).forEach(key =>{
-        Object.apply(this.petrolFormErrors, selectedPetrolForm.get(key).errors);
-      })
-      
       if (this.reportResultTypes) {
         this.reportResultTypes.forEach(r => {
-          if (selectedPetrolForm.errors[r.field]) {
+          if (selectedPetrolForm.errors && selectedPetrolForm.errors[r.field]) {
+            hasErrors = true;
             this.petrolFormErrors['invalidNumberofSample'] = selectedPetrolForm.errors[r.field].invalidNumberofSample;
             this.petrolFormErrors['tabField'] = r.header;
           }
         })
       }
-    } else {
 
-      let hasErrors = false;
-      Object.keys((selectedPetrolForm as FormArray).controls).forEach(key =>{
-        if(selectedPetrolForm.get(key).errors){
+      Object.keys((selectedPetrolForm as FormArray).controls).forEach(key => {
+        if (selectedPetrolForm.get(key).errors) {
           hasErrors = true;
-          Object.assign(this.petrolFormErrors, {
-            [key] : selectedPetrolForm.get(key).errors});
+          this.petrolFormErrors[key] = selectedPetrolForm.get(key).errors;
         }
+      });
 
-      })
-
-      if (!hasErrors) {this.petrolFormErrors={};};
     }
+
+    if (!hasErrors) { this.petrolFormErrors = {}; };
 
     console.log(this.petrolFormErrors);
 

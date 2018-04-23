@@ -44,25 +44,25 @@
   <div class="ui-g font-style-75em">
     <div class="ui-g-2">
       <label for="country">Country:</label>
-      <p *ngIf="petrolFormErrors.country?.required" style="color:red;display:contents">*</p>
+      <p *ngIf="petrolFormErrors?.country?.required" style="color:red;display:contents">*</p>
       <input type="text" pInputText formControlName="country">
     </div>
 
     <div class="ui-g-2">
       <label for="reportingYear">Reporting Year:</label>
-      <p *ngIf="petrolFormErrors.reportingYear?.required" style="color:red;display:contents">*</p>
+      <p *ngIf="petrolFormErrors?.reportingYear?.required" style="color:red;display:contents">*</p>
       <input type="text" pInputText formControlName="reportingYear">
     </div>
 
     <div class="ui-g-2">
       <label for="period">Period:</label>
-      <p *ngIf="petrolFormErrors.period?.required" style="color:red;display:contents">*</p>
+      <p *ngIf="petrolFormErrors?.period?.required" style="color:red;display:contents">*</p>
       <input type="text" pInputText formControlName="period">
     </div>
 
     <div class="ui-g-2">
       <label for="parentFuelGrade">Parent Fuel Grade:</label>
-      <p *ngIf="petrolFormErrors.parentFuelGrade?.required" style="color:red;display:contents">*</p>
+      <p *ngIf="petrolFormErrors?.parentFuelGrade?.required" style="color:red;display:contents">*</p>
       <input type="text" pInputText formControlName="parentFuelGrade">
     </div>
     <div class="ui-g-2">
@@ -97,10 +97,6 @@
                 <p *ngIf="parentForm.controls.petrols.controls[selectedPetrolIndex].controls[tab.field].controls.numOfSamples.errors?.required" 
                 style="color:red;display:contents">*</p>
                 <input type="text" pInputText formControlName="numOfSamples" />
-                  <!-- <p *ngIf="parentForm.controls.petrols.controls[selectedPetrolIndex].errors 
-                && parentForm.controls.petrols.controls[selectedPetrolIndex].errors[tab.field]?.invalidNumberofSample" 
-                style="color:red;">NumOfSamples outside of the range!</p>
-                 -->
               </div>
               <div class="ui-g-2 ui-sm-6">
                 <label for="method">Method</label>
