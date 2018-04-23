@@ -89,7 +89,8 @@
             <p-tabPanel header="Reporting Results" class="font-style-75em">
 
                 <reporting-results [reportResultTypes]="reportResultTypes"
-                                   [controls]="parentForm.controls['petrols'].controls[selectedPetrolIndex]" class="" [group]="parentForm">
+                                   [controls]="parentForm.controls['petrols'].controls[selectedPetrolIndex]"
+                                   [group]="parentForm.controls.petrols.controls[selectedPetrolIndex]">
                 </reporting-results>
 
             </p-tabPanel>

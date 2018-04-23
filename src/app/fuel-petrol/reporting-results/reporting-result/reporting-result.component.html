@@ -7,7 +7,7 @@
             </div>
             <div class="ui-g-2 ui-sm-6">
                 <label for="numOfSamples">Number of Samples:</label>
-                <p *ngIf="controls.controls.numOfSamples.errors?.required"
+                <p *ngIf="controls?.controls.numOfSamples.errors?.required"
                    style="color:red;display:contents">*</p>
                 <input type="text" pInputText formControlName="numOfSamples"/>
             </div>
@@ -25,7 +25,7 @@
             <div class="ui-g-2 ui-sm-6">
                 <label for="min">Min:</label>
                 <input type="text" pInputText formControlName="min"/>
-                <p *ngIf="controls.errors?.invalidNumberMin"
+                <p *ngIf="controls?.errors?.invalidNumberMin"
                    style="color:red;">Min cannot be bigger than Max!</p>
             </div>
             <div class="ui-g-2 ui-sm-6">
