@@ -18,6 +18,11 @@
                         [attr.disabled]="control.disabled()?'':null">
         </p-autoComplete>
 
+        <!-- PRIME NG CALENDAR-->
+        <p-calendar *ngSwitchCase="ControlType.CALENDAR" [id]="control.key" 
+         [formControlName]="control.key" [dateFormat]="control['dateFormat']" [showIcon]="control['dateFormat']">
+        </p-calendar>
+
         <div *ngIf="controlErrors" class="alert alert-danger">
             {{controlErrors}}
         </div>

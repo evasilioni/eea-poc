@@ -4,6 +4,7 @@ import {Contacts} from './fuel-contacts/fuel-contacts';
 export class NestedFormData {
     testField1: string;
     testField2: string;
+    calendarField1: string;
 }
 
 
