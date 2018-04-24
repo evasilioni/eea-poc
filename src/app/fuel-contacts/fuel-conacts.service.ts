@@ -9,6 +9,7 @@ import {TextboxControl} from '../dynamic-forms/controls/textbox-control';
 import {BaseControl} from '../dynamic-forms/controls/base-control';
 import {NestedFormData} from '../fuel-data';
 import {GroupControl} from '../dynamic-forms/controls/group-controll';
+import { CalendarControl } from '../dynamic-forms/controls/calendar-control';
 
 @Injectable()
 export class FuelContactsService {
@@ -39,10 +40,18 @@ export class FuelContactsService {
 
             }),
 
+            new CalendarControl({
+                key: 'dateReportCompleted',
+                label: 'Date Report Completed',
+                order: 2,
+                dateFormat:'dd/mm/y',
+                showIcon:true
+            }),
+
             new TextboxControl({
                 key: 'organisationResponsibleForReport',
                 label: 'Organisation',
-                order: 2,
+                order: 3,
                 validators: [
                     {
                         formError: 'required',
@@ -58,7 +67,7 @@ export class FuelContactsService {
 
             new GroupControl({
                 key: 'organisationAddress',
-                order: 3,
+                order: 4,
                 groupControls: [
                     new TextboxControl({
                         key: 'address',
@@ -88,12 +97,12 @@ export class FuelContactsService {
             new TextboxControl({
                 key: 'personResponsibleForReport',
                 label: 'Person Responsible for Report',
-                order: 4
+                order: 5
             }),
 
             new GroupControl({
                 key: 'personInfo',
-                order: 5,
+                order: 6,
                 groupControls: [
                     new TextboxControl({
                         key: 'telephoneNumber',

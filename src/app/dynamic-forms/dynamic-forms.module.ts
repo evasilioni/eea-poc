@@ -10,6 +10,7 @@ import {AutoCompleteModule, InputTextModule, MessagesModule} from 'primeng/prime
 import {ErrorMessagesComponent} from './error-messages/error-messages.component';
 import {ValidationService} from './validation/validation.service';
 import {RelationService} from './relation/relation.service';
+import {CalendarModule} from 'primeng/calendar';
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import {RelationService} from './relation/relation.service';
         ButtonModule,
         AutoCompleteModule,
         InputTextModule,
-        MessagesModule
+        MessagesModule,
+        CalendarModule
     ],
     declarations: [DynamicFormControlComponent, DynamicFormComponent, ErrorMessagesComponent],
     providers: [DynamicFormService, ValidationService, RelationService],
