@@ -2,8 +2,9 @@ import {TestBed} from '@angular/core/testing';
 
 import {DynamicFormService} from './dynamic-form.service';
 import {TextboxControl} from '../controls/textbox-control';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators, ValidatorFn, AbstractControl, FormArray} from '@angular/forms';
 import {GroupControl} from '../controls/group-controll';
+import { ArrayControl } from '../controls/array-control';
 
 let service: DynamicFormService;
 
@@ -111,5 +112,53 @@ fdescribe('DynamicFormService', () => {
             const nestedFormGroup = topFormGroup.get('nestedFormGroup') as FormGroup;
             expect(nestedFormGroup).toBeNull();
         });
+
+        fit('should create FormArray with validators from ArrayControl', function () {
+            
+            const arrayControl = new ArrayControl({
+                key: 'petrols',
+                arrayControls: [
+                    new GroupControl({
+                        key: 'petrol1',
+                        groupControls: [
+                            new TextboxControl({
+                                key: 'testTextBox1',
+                                label: 'testLabel1'
+                            })
+                        ],
+                        groupValidators: [
+                            forbiddenNameValidator(/EEE/i)
+                        ]
+                    }),
+                    new GroupControl({
+                        key: 'petrol2',
+                        groupControls: [
+                            new TextboxControl({
+                                key: 'testTextBox2',
+                                label: 'testLabel2'
+                            })
+                        ]
+                    })
+                ],
+                arrayValidators: [
+                    forbiddenNameValidator(/EEA/i)
+                ]
+            });
+            const formGroup = service.toFormGroup([arrayControl], [], []);
+            
+            expect(formGroup.get('petrols') instanceof FormArray).toBeTruthy();
+            const fomrArray = formGroup.get('petrols') as FormArray;
+            expect(fomrArray.controls.length).toEqual(2);
+            expect(fomrArray.validator).not.toBeNull();
+            expect(fomrArray.controls[0].validator).not.toBeNull();
+            expect(fomrArray.controls[1].validator).toBeNull();
+        });
     });
 });
+
+export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } => {
+        const forbidden = nameRe.test(control.value);
+        return forbidden ? {'forbiddenName': {value: control.value}} : null;
+    };
+}

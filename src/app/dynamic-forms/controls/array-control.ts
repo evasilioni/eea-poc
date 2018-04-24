@@ -10,6 +10,7 @@ export class ArrayControl extends BaseControl<string> {
         super(options);
         this.arrayValidators = options.arrayValidators;
         this.arrayControls = options.arrayControls;
+        // TODO check if BaseControl validators is set instead of array validators and retrieve validators from it
     }
 }
 
