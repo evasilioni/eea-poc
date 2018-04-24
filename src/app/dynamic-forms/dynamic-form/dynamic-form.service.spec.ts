@@ -2,13 +2,13 @@ import {TestBed} from '@angular/core/testing';
 
 import {DynamicFormService} from './dynamic-form.service';
 import {TextboxControl} from '../controls/textbox-control';
-import {FormControl, FormGroup, Validators, ValidatorFn, AbstractControl, FormArray} from '@angular/forms';
+import {AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {GroupControl} from '../controls/group-controll';
-import { ArrayControl } from '../controls/array-control';
+import {ArrayControl} from '../controls/array-control';
 
 let service: DynamicFormService;
 
-fdescribe('DynamicFormService', () => {
+describe('DynamicFormService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [DynamicFormService]
@@ -113,8 +113,8 @@ fdescribe('DynamicFormService', () => {
             expect(nestedFormGroup).toBeNull();
         });
 
-        fit('should create FormArray with validators from ArrayControl', function () {
-            
+        it('should create FormArray with validators from ArrayControl', function () {
+
             const arrayControl = new ArrayControl({
                 key: 'petrols',
                 arrayControls: [
@@ -127,7 +127,7 @@ fdescribe('DynamicFormService', () => {
                             })
                         ],
                         groupValidators: [
-                            forbiddenNameValidator(/EEE/i)
+                            mockValidator(/EEE/i)
                         ]
                     }),
                     new GroupControl({
@@ -138,25 +138,31 @@ fdescribe('DynamicFormService', () => {
                                 label: 'testLabel2'
                             })
                         ]
+                    }),
+                    new TextboxControl({
+                        key: 'testArrayTextBox1',
+                        label: 'testArrayLabel1'
                     })
                 ],
                 arrayValidators: [
-                    forbiddenNameValidator(/EEA/i)
+                    mockValidator(/EEA/i)
                 ]
             });
             const formGroup = service.toFormGroup([arrayControl], [], []);
-            
+
             expect(formGroup.get('petrols') instanceof FormArray).toBeTruthy();
-            const fomrArray = formGroup.get('petrols') as FormArray;
-            expect(fomrArray.controls.length).toEqual(2);
-            expect(fomrArray.validator).not.toBeNull();
-            expect(fomrArray.controls[0].validator).not.toBeNull();
-            expect(fomrArray.controls[1].validator).toBeNull();
+            const formArray = formGroup.get('petrols') as FormArray;
+            expect(formArray.controls.length).toEqual(3);
+            expect(formArray.validator).not.toBeNull();
+            expect(formArray.controls[0].validator).not.toBeNull();
+            expect(formArray.controls[1].validator).toBeNull();
+
+            expect(formArray.controls[2] instanceof FormControl).toBeTruthy();
         });
     });
 });
 
-export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
+export function mockValidator(nameRe: RegExp): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
         const forbidden = nameRe.test(control.value);
         return forbidden ? {'forbiddenName': {value: control.value}} : null;

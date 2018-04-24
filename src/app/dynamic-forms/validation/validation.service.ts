@@ -16,7 +16,7 @@ export class ValidationService {
     /**
      * Generates object of the form:
      *
-     *  controlKey: {
+     *  {
      *      errorKey1: '',
      *      errorKey2: ''
      *  }
@@ -32,18 +32,26 @@ export class ValidationService {
     /**
      * Generates object of the form:
      *
-     * controlKey: {
+     * {
      *      errorKey1: validationMessage1,
      *      errorKey2: validationMessage2
      * }
      *
-     * This object is used to select which validation messages will be shown
+     * This object is used to select which validation messages will be shown for a specific control
      */
     generateValidationMessages(control: BaseControl<any>) {
         return control.validators
             .reduce((o, key) => ({...o, [key.formError]: this.getValidationMessages(key)}), {});
     }
 
+    /**
+     * TODO this method maybe incomplete
+     *
+     * @param {FormGroup} form
+     * @param {any[]} formErrors
+     * @param validationMessages
+     * @returns {any[]}
+     */
     updateFormErrors(form: FormGroup, formErrors: any[], validationMessages: any): any[] {
         Object.keys(formErrors).map(field => {
             // clear previous error message (if any)
@@ -66,7 +74,7 @@ export class ValidationService {
         return formErrors;
     }
 
-// if a validation message is not passed in the control, a default one is selected
+    // if a validation message is not passed in the control, a default one is selected
     private getValidationMessages(key) {
         return !!key.validationMessage ? key.validationMessage : defaultValidationMessages[key.formError];
     }
