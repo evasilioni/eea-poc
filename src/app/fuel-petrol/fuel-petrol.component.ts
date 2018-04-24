@@ -142,14 +142,14 @@ export class FuelPetrolComponent implements OnInit {
             });
     }
 
-  showDialogToAdd() {
-    this.newPetrol = true;
-    this.petrol = new Petrol();
-    this.displayDialog = true;
-    this.selectedPetrolIndex = undefined;
-    this.createPetrolForm();
-    this.petrolFormErrors = {};
-  }
+    showDialogToAdd() {
+        this.newPetrol = true;
+        this.petrol = new Petrol();
+        this.displayDialog = true;
+        this.selectedPetrolIndex = undefined;
+        this.createPetrolForm();
+        this.petrolFormErrors = {};
+    }
 
     save() {
         const petrolF = (this.parentForm.get('petrols') as FormArray).controls[this.selectedPetrolIndex];
@@ -191,22 +191,14 @@ export class FuelPetrolComponent implements OnInit {
         return formModel;
     }
 
-    onRowSelect(event) {
+    openFuelDialog(event) {
         this.selectedPetrolIndex = event.index;
         this.newPetrol = false;
-        this.petrol = this.clonePetrol(event.data);
+        this.petrol = event.data;
         this.displayDialog = true;
         this.bindDataToForm(this.petrol);
     }
 
-    clonePetrol(p: Petrol): Petrol {
-        const petrol = new Petrol();
-        Object.keys(p).forEach(key => petrol[key] = p[key]);
-        for (const prop in p) {
-            petrol[prop] = p[prop];
-        }
-        return petrol;
-    }
 
     bindDataToForm(p: Petrol) {
         const array = this.parentForm.get('petrols') as FormArray;
@@ -248,7 +240,7 @@ export class FuelPetrolComponent implements OnInit {
         }
 
 
-        console.log(this.petrolFormErrors);
+        // console.log(this.petrolFormErrors);
 
         return null;
     }

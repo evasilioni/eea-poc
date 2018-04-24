@@ -24,11 +24,9 @@ export class ValidationService {
      * This is the object were the error messages will be stored, per control and per error type (key) when validation is performed
      */
     generateFormErrorStructure(control: BaseControl<any>) {
-        var reduce = control.validators
+        return control.validators
             .map(validator => validator.formError)
             .reduce((o, key) => ({...o, [key]: ''}), {});
-        console.log(control.key, reduce);
-        return reduce;
     }
 
     /**

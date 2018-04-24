@@ -15,6 +15,7 @@ export class ReportingResultsComponent implements OnInit {
     @Input() group: any;
 
     constructor() {
+
     }
 
     ngOnInit() {

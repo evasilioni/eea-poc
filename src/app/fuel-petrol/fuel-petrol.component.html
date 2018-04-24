@@ -1,5 +1,5 @@
 <div [formGroup]="parentForm">
-    <p-table [columns]="cols" [value]="petrols" selectionMode="single" (onRowSelect)="onRowSelect($event)"
+    <p-table [columns]="cols" [value]="petrols" selectionMode="single" (onRowSelect)="openFuelDialog($event)"
              [paginator]="true"
              [rows]="15">
         <ng-template pTemplate="header" let-columns>
@@ -89,8 +89,8 @@
             <p-tabPanel header="Reporting Results" class="font-style-75em">
 
                 <reporting-results [reportResultTypes]="reportResultTypes"
-                                   [controls]="parentForm.controls['petrols'].controls[selectedPetrolIndex]"
-                                   [group]="parentForm.controls.petrols.controls[selectedPetrolIndex]">
+                                   [controls]="parentForm.controls['petrols'].controls[selectedPetrolIndex].controls"
+                                   [group]="parentForm.controls['petrols'].controls[selectedPetrolIndex]">
                 </reporting-results>
 
             </p-tabPanel>
