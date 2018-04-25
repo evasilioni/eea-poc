@@ -52,16 +52,18 @@ export class DynamicFormComponent implements OnInit {
      */
     @Input() showNestedFormGroupErrors: boolean;
 
-
     /**
      * If false the validation errors of this form group will not be shown
      */
     @Input() showErrors: boolean;
 
+    @Input() value: any;
+
     /**
      * How many controls should be grouped per grid row
      */
     @Input() controlsPerRow: number;
+
     /**
      * TODO: not yet used
      * @type {EventEmitter<FormGroup>}
@@ -74,7 +76,7 @@ export class DynamicFormComponent implements OnInit {
      */
     @Output() formCreated = new EventEmitter<FormGroup>();
 
-    form: FormGroup;
+    @Input() form: FormGroup;
 
     formErrors: FormError[] = [];
 
@@ -95,16 +97,23 @@ export class DynamicFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.groupedControls = this.dynamicFormService.groupControls(this.controls, this.controlsPerRow);
+        if (!this.form) {
+            this.groupedControls = this.dynamicFormService.groupControls(this.controls, this.controlsPerRow);
 
-        this.form = this.dynamicFormService.toFormGroup(this.controls, this.customControls,
-            this.groupValidators, this.formName, this.parentForm);
-        this.formCreated.emit(this.form);
+            this.form = this.dynamicFormService.toFormGroup(this.controls, this.customControls,
+                this.groupValidators, this.formName, this.parentForm);
+            this.formCreated.emit(this.form);
+        }
 
         this.initValidation();
         this.form.valueChanges
             .pipe(debounceTime(300))
             .subscribe(data => this.onValueChanged(data));
+
+        if (this.value) {
+            this.bindDataToForm(this.value);
+        }
+
         this.onValueChanged(); // (re)set validation messages
     }
 
@@ -140,4 +149,9 @@ export class DynamicFormComponent implements OnInit {
         return this.formErrors.find(error => error.controlKey === key);
     }
 
+
+    bindDataToForm(value: any) {
+        this.form.patchValue(value);
+        console.log(this.form.value);
+    }
 }

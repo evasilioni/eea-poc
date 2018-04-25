@@ -26,6 +26,7 @@ import {FuelContactsService} from './fuel-contacts/fuel-conacts.service';
 import {MessagesModule} from 'primeng/primeng';
 import { ReportingResultsComponent } from './fuel-petrol/reporting-results/reporting-results.component';
 import { ReportingResultComponent } from './fuel-petrol/reporting-results/reporting-result/reporting-result.component';
+import { FuelPetrolService } from './fuel-petrol/fuel-petrol.service';
 
 
 @NgModule({
@@ -54,7 +55,7 @@ import { ReportingResultComponent } from './fuel-petrol/reporting-results/report
         TableModule,
         DialogModule
     ],
-    providers: [FuelContactsService, PetrolService, ConfigService],
+    providers: [FuelContactsService, PetrolService, ConfigService, FuelPetrolService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

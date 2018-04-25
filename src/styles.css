@@ -1,1 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+.ui-state-disabled, .ui-widget:disabled {
+    opacity: 0.95;
+    border: 1px solid #e2d9d9;
+    background-color: rgb(181, 195, 209);
+}

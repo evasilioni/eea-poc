@@ -1,17 +1,18 @@
-import {AfterViewInit, ChangeDetectorRef, Component} from '@angular/core';
-import {FuelData} from './fuel-data';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {FuelData, FuelPetrol} from './fuel-data';
 import {parse} from 'js2xmlparser';
 import {AbstractControl, FormGroup, ValidatorFn} from '@angular/forms';
 import {TextboxControl} from './dynamic-forms/controls/textbox-control';
 import {BaseControl} from './dynamic-forms/controls/base-control';
 import {GroupControl} from './dynamic-forms/controls/group-controll';
+import { PetrolService } from './services/fuel-petrol-service/petrol.service';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit {
     title = 'app';
 
     fuelData: FuelData = new FuelData();
@@ -32,7 +33,8 @@ export class AppComponent implements AfterViewInit {
         }
     }
 
-    constructor(private cd: ChangeDetectorRef) {
+    constructor(private cd: ChangeDetectorRef, private petrolService: PetrolService) {
+        
         // this.parentForm = new FormGroup({}, [testCrossFormGroupValidator()]);
         this.parentControls = [
             new GroupControl({
@@ -60,6 +62,13 @@ export class AppComponent implements AfterViewInit {
         // this.parentForm.valueChanges.subscribe(value => {
         //     this.errorMessages = this.getErrorMessages();
         // });
+    }
+
+    ngOnInit() {
+        this.petrolService.getFuelPetrol()
+        .subscribe((fuelPetrol: FuelPetrol) => {
+            this.fuelData.petrol = fuelPetrol;
+        });
     }
 
     //

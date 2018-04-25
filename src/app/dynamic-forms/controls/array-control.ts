@@ -1,5 +1,5 @@
-import {BaseControl, BaseControlOptions, ControlType} from './base-control';
-import {ValidatorFn} from '@angular/forms';
+import { BaseControl, BaseControlOptions, ControlType } from './base-control';
+import { ValidatorFn } from '@angular/forms';
 
 export class ArrayControl extends BaseControl<string> {
     controlType = ControlType.ARRAY;
@@ -12,7 +12,12 @@ export class ArrayControl extends BaseControl<string> {
         this.arrayControls = options.arrayControls;
         // TODO check if BaseControl validators is set instead of array validators and retrieve validators from it
     }
+
+    push(control: BaseControl<string>) {
+        this.arrayControls.push(control);
+    }
 }
+
 
 export interface ArrayControlOptions<T> extends BaseControlOptions<string> {
     arrayValidators?: ValidatorFn[];

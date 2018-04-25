@@ -1,38 +1,46 @@
 <div [formGroup]="parentForm">
-    <p-table [columns]="cols" [value]="petrols" selectionMode="single" (onRowSelect)="openFuelDialog($event)"
-             [paginator]="true"
-             [rows]="15">
-        <ng-template pTemplate="header" let-columns>
-            <tr>
-                <th *ngFor="let col of columns">
-                    {{col.header}}
-                </th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
-            <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="i">
-                <td *ngFor="let col of columns">
-                    {{rowData[col.field]}}
-                </td>
-            </tr>
-        </ng-template>
+    <dynamic-form [parentForm]="parentForm" [formName]="'petrol'" (formCreated)="retrievePetrolFormGroup($event)" [controls]="controls" [value]="fuelPetrol">
 
-        <ng-template pTemplate="summary" let-rowData>
-            <div style="text-align:left">
-                <button type="button" pButton icon="fa-plus" (click)="showDialogToAdd()" label="Add">
-                </button>
-            </div>
-        </ng-template>
 
-    </p-table>
+        <p-table [columns]="cols" [value]="petrols" selectionMode="single" (onRowSelect)="openFuelDialog($event)" [paginator]="true"
+            [rows]="15">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="i">
+                    <td *ngFor="let col of columns">
+                        {{rowData[col.field]}}
+                    </td>
+                </tr>
+            </ng-template>
 
-    <p-dialog *ngIf="displayDialog" [formGroup]="parentForm.controls.petrols.controls[selectedPetrolIndex]"
-              [(visible)]="displayDialog" showEffect="fade" [responsive]="true"
-              [dismissableMask]="false" [modal]="true" styleClass="ui-fluid ui-dialog-width">
-        <p-header>
-            {{ parentForm.controls.petrols.controls[selectedPetrolIndex].get('id').value }}
-        </p-header>
-        <div class="error-background" *ngIf="petrolFormErrors?.invalidCountry">
+            <ng-template pTemplate="summary" let-rowData>
+                <div style="text-align:left">
+                    <button type="button" pButton icon="fa-plus" (click)="showDialogToAdd()" label="Add">
+                    </button>
+                </div>
+            </ng-template>
+
+        </p-table>
+
+        <p-dialog *ngIf="displayDialog" [(visible)]="displayDialog" [formGroup]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex]"
+            showEffect="fade" [responsive]="true" [dismissableMask]="false" [modal]="true" styleClass="ui-fluid ui-dialog-width">
+
+            <dynamic-form [form]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex]" 
+                [controls]="controls[0].arrayControls[selectedPetrolIndex].groupControls"
+                (formSubmit)="onSubmit($event)" (formCreated)="retrieveFormGroup($event)" [showNestedFormGroupErrors]="true"
+                [showErrors]="true">
+
+                <!-- <p-header>
+                {{ parentForm.controls.petrols.controls[selectedPetrolIndex].get('id').value }}
+            </p-header> -->
+            </dynamic-form>
+            <!-- <div class="error-background" *ngIf="petrolFormErrors?.invalidCountry">
             <span class="error-text-class-padding-40">Country should be unique!</span>
         </div>
         <div class="error-background"
@@ -117,6 +125,7 @@
                 <button type="button" pButton icon="fa-check" (click)="save()"
                         style="font-size:12px;background-color:green" label="Save"></button>
             </div>
-        </p-footer>
-    </p-dialog>
+        </p-footer> -->
+        </p-dialog>
+    </dynamic-form>
 </div>
