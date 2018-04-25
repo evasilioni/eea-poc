@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AbstractControl, FormGroup} from '@angular/forms';
 import {BaseControl} from '../controls/base-control';
+import {ErrorTuple, FormError, ValidationErrorMessage} from './form-error';
 
 export const defaultValidationMessages = {
     'required': 'This field is required',
@@ -23,10 +24,16 @@ export class ValidationService {
      *
      * This is the object were the error messages will be stored, per control and per error type (key) when validation is performed
      */
-    generateFormErrorStructure(control: BaseControl<any>) {
-        return control.validators
-            .map(validator => validator.formError)
-            .reduce((o, key) => ({...o, [key]: ''}), {});
+    generateFormErrorStructure(control: BaseControl<any>): ErrorTuple[] {
+        return control.validators.map(validator => {
+            return {
+                errorName: validator.formError,
+                errorMessage: ''
+            };
+        });
+        // return control.validators
+        //     .map(validator => validator.formError)
+        //     .reduce((o, key) => ({...o, [key]: ''}), {});
     }
 
     /**
@@ -39,9 +46,15 @@ export class ValidationService {
      *
      * This object is used to select which validation messages will be shown for a specific control
      */
-    generateValidationMessages(control: BaseControl<any>) {
-        return control.validators
-            .reduce((o, key) => ({...o, [key.formError]: this.getValidationMessages(key)}), {});
+    generateValidationMessages(control: BaseControl<any>): ErrorTuple[] {
+        return control.validators.map(validator => {
+            return {
+                errorName: validator.formError,
+                errorMessage: this.getValidationMessages(validator)
+            };
+        });
+        // return control.validators
+        //     .reduce((o, key) => ({...o, [key.formError]: this.getValidationMessages(key)}), {});
     }
 
     /**
@@ -52,18 +65,20 @@ export class ValidationService {
      * @param validationMessages
      * @returns {any[]}
      */
-    updateFormErrors(form: FormGroup, formErrors: any[], validationMessages: any): any[] {
-        Object.keys(formErrors).map(field => {
-            // clear previous error message (if any)
-            formErrors[field] = '';
-            const control = form.get(field);
-            if (!(control instanceof FormGroup) && this.isControlInvalid(control)) {
-                const messages = validationMessages[field];
-                Object.keys(control.errors).map(key => {
-                    formErrors[field] += messages[key] + ' ';
-                });
-            }
-        });
+    updateFormErrors(form: FormGroup, formErrors: FormError[], validationMessages: ValidationErrorMessage[]): FormError[] {
+        formErrors.map(formError => formError.controlKey)
+            .map(field => {
+                // clear previous error message (if any)
+                const fieldFormErrors = formErrors.find(error => error.controlKey === field);
+                fieldFormErrors.errors = [];
+                const fieldMessages = validationMessages.find(v => v.controlKey === field).validationTuple;
+                const control = form.get(field);
+                if (!(control instanceof FormGroup) && this.isControlInvalid(control)) {
+                    Object.keys(control.errors).map(errorName => {
+                        fieldFormErrors.errors.push(fieldMessages.find(m => m.errorName === errorName));
+                    });
+                }
+            });
         // TODO form (not field) errors
         // if (form && form.dirty && !form.valid && form.errors) {
         //     Object.keys(form.errors).map(key => {
@@ -75,7 +90,7 @@ export class ValidationService {
     }
 
     // if a validation message is not passed in the control, a default one is selected
-    private getValidationMessages(key) {
+    private getValidationMessages(key): string {
         return !!key.validationMessage ? key.validationMessage : defaultValidationMessages[key.formError];
     }
 

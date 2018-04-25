@@ -3,7 +3,6 @@ import {TestBed} from '@angular/core/testing';
 import {ValidationService} from './validation.service';
 import {TextboxControl} from '../controls/textbox-control';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {GroupControl} from '../controls/group-controll';
 
 
 describe('ValidationService', () => {
@@ -32,9 +31,10 @@ describe('ValidationService', () => {
         });
         const formErrorStructure = service.generateFormErrorStructure(control);
 
-        const expected = {
-            required: ''
-        }
+        const expected = [{
+            errorName: 'required',
+            errorMessage: ''
+        }];
         expect(formErrorStructure).toEqual(expected);
     });
 
@@ -54,10 +54,15 @@ describe('ValidationService', () => {
         });
         const formErrorStructure = service.generateFormErrorStructure(control);
 
-        const expected = {
-            required: '',
-            minlength: ''
-        }
+        const expected = [{
+            errorName: 'required',
+            errorMessage: ''
+        },
+            {
+                errorName: 'minlength',
+                errorMessage: ''
+            }];
+
         expect(formErrorStructure).toEqual(expected);
     });
 
@@ -79,46 +84,71 @@ describe('ValidationService', () => {
 
         const validationMessages = service.generateValidationMessages(control);
 
-        const expected = {
-            required: 'This field is required',
-            minlength: 'The minimum length is 5'
-        };
+        const expected = [
+            {
+                errorName: 'required',
+                errorMessage: 'This field is required'
+            },
+            {
+                errorName: 'minlength',
+                errorMessage: 'The minimum length is 5'
+            }
+        ];
+
         expect(validationMessages).toEqual(expected);
     });
 
     it('should update form errors correctly for a simple form group with one text box', () => {
-        const groupControl = new GroupControl({
-            key: 'testFormGroup1',
-            groupControls: [
-                new TextboxControl({
-                    key: 'testTextBox1',
-                    validators: [
-                        {
-                            formError: 'required',
-                            validator: Validators.required
-                        },
-                        {
-                            formError: 'minlength',
-                            validator: Validators.minLength(5),
-                            validationMessage: 'The minimum length is 5'
-                        }
-                    ]
-                })
+        const textboxControl = new TextboxControl({
+            key: 'testTextBox1',
+            validators: [
+                {
+                    formError: 'email',
+                    validator: Validators.email,
+                    validationMessage: 'Incorrect email format'
+                },
+                {
+                    formError: 'minlength',
+                    validator: Validators.minLength(5),
+                    validationMessage: 'The minimum length is 5'
+                }
             ]
         });
 
-        const formControl = new FormControl('', [Validators.required, Validators.minLength(5)]);
-
+        const formControl = new FormControl('', [Validators.email, Validators.minLength(5)]);
         const formGroup = new FormGroup(
             {
                 'testTextBox1': formControl
             });
-        const formErrorStructure = service.generateFormErrorStructure(groupControl);
-        const validationMessages = service.generateValidationMessages(groupControl);
+        formGroup.patchValue({'testTextBox1': 'a'});
+        formGroup.get('testTextBox1').markAsDirty();
 
-        service.updateFormErrors(formGroup, [formErrorStructure], validationMessages);
+        const formErrorStructure = service.generateFormErrorStructure(textboxControl);
+        const validationMessages = service.generateValidationMessages(textboxControl);
 
-        // TODO
-    });
+        const formErrors = service.updateFormErrors(
+            formGroup,
+            [{
+                controlKey: 'testTextBox1',
+                errors: formErrorStructure
+            }],
+            [{
+                controlKey: 'testTextBox1',
+                validationTuple: validationMessages
+            }]);
 
-});
+        expect(formErrors).toEqual([{
+            controlKey: 'testTextBox1',
+            errors: [{
+                errorName: 'email',
+                errorMessage: 'Incorrect email format'
+            }, {
+                errorName: 'minlength',
+                errorMessage: 'The minimum length is 5'
+            }]
+        }]);
+    })
+    ;
+
+})
+;

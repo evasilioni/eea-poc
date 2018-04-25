@@ -14,7 +14,7 @@
 
         <dynamic-form-control *ngIf="control.controlType !== ControlType.GROUP"
                               [control]="control" [form]="form"
-                              [controlErrors]="formErrors[control.key]">
+                              [controlErrors]="getControlErrors(control.key)">
 
         </dynamic-form-control>
     </div>

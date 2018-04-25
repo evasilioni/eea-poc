@@ -5,6 +5,7 @@ import {BaseControl, ControlType} from '../controls/base-control';
 import {debounceTime} from 'rxjs/operators/debounceTime';
 import {ValidationService} from '../validation/validation.service';
 import {RelationService} from '../relation/relation.service';
+import {FormError, ValidationErrorMessage} from '../validation/form-error';
 
 @Component({
     selector: 'dynamic-form',
@@ -71,9 +72,9 @@ export class DynamicFormComponent implements OnInit {
 
     form: FormGroup;
 
-    formErrors: any = {};
+    formErrors: FormError[] = [];
 
-    validationMessages = {};
+    validationMessages: ValidationErrorMessage[] = [];
 
     disabledControls: AbstractControl[] = [];
 
@@ -98,8 +99,14 @@ export class DynamicFormComponent implements OnInit {
     private initValidation() {
         this.controls
             .forEach((control) => {
-                this.formErrors[control.key] = this.validationService.generateFormErrorStructure(control);
-                this.validationMessages[control.key] = this.validationService.generateValidationMessages(control);
+                this.formErrors.push({
+                    controlKey: control.key,
+                    errors: this.validationService.generateFormErrorStructure(control)
+                });
+                this.validationMessages.push({
+                    controlKey: control.key,
+                    validationTuple: this.validationService.generateValidationMessages(control)
+                });
             });
     }
 
@@ -112,7 +119,12 @@ export class DynamicFormComponent implements OnInit {
             return;
         }
         this.formErrors = this.validationService.updateFormErrors(this.form, this.formErrors, this.validationMessages);
-
+        console.log(this.formName, this.formErrors);
         this.disabledControls = this.relationService.handleRelations(this.form, this.controls, this.disabledControls);
     }
+
+    getControlErrors(key: string) {
+        return this.formErrors.find(error => error.controlKey === key);
+    }
+
 }

@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {BaseControl, ControlType} from '../controls/base-control';
+import {FormError} from '../validation/form-error';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class DynamicFormControlComponent {
 
     @Input() form: FormGroup;
 
-    @Input() controlErrors: any;
+    @Input() controlErrors: FormError;
 
     @Input() labelCssClasses: string[];
 
@@ -36,6 +37,14 @@ export class DynamicFormControlComponent {
 
     get isValid(): boolean {
         return this.form.controls[this.control.key].valid;
+    }
+
+    hasErrors() {
+        return this.controlErrors.errors.find(error => error.errorName !== '');
+    }
+
+    getErrorMessages() {
+        return this.controlErrors.errors.map(error => error.errorMessage).join('<br>');
     }
 }
 
