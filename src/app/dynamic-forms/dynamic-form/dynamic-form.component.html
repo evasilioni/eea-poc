@@ -9,7 +9,7 @@
         <ng-container *ngFor="let control of group">
             <!-- NESTED FORM GROUP-->
             <dynamic-form *ngIf="control.controlType === ControlType.GROUP" [formName]="control.key"
-                          [parentForm]="form"
+                          [parent]="form"
                           [controls]="control['groupControls']"
                           [groupValidators]="control['groupValidators']" [controlsPerRow]="control['controlsPerRow']">
             </dynamic-form>

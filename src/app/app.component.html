@@ -14,13 +14,10 @@
             <fuel-contacts [parentForm]="parentForm" [contacts]="fuelData?.fuelContacts"></fuel-contacts>
         </p-tabPanel>
         <p-tabPanel header="Petrol">
-            <fuel-petrol *ngIf="fuelData.petrol.petrols?.length > 0" [parentForm]="parentForm" [fuelPetrol]="fuelData?.petrol"></fuel-petrol>
+            <fuel-petrol *ngIf="fuelData?.petrol.petrols.length > 0" [parentForm]="parentForm" [fuelPetrol]="fuelData?.petrol"></fuel-petrol>
         </p-tabPanel>
     </p-tabView>
 
 </dynamic-form>
-<pre>{{parentForm.value | json}}</pre>
-
-<!-- <pre>{{fuelData | json}}</pre> -->
 
 

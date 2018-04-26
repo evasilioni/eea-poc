@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 
-import {FormArray, FormControl, FormGroup, ValidatorFn} from '@angular/forms';
+import {AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn} from '@angular/forms';
 import {BaseControl, ControlType} from '../controls/base-control';
 import {ValidatorConfig} from '../validation/validator-config';
 import {ArrayControl} from '../controls/array-control';
@@ -28,7 +28,7 @@ export class DynamicFormService {
      * @returns {FormGroup}
      */
     toFormGroup(controls: BaseControl<any>[], customControls: BaseControl<any>[],
-                validators: ValidatorFn[], nameInParent?: string, parentFormGroup?: FormGroup) {
+                validators: ValidatorFn[], nameInParent?: string, parent?: FormGroup) {
         const group: any = {};
 
         controls.concat(customControls)
@@ -36,8 +36,8 @@ export class DynamicFormService {
             .forEach(control => this.createControl(group, control));
 
         const formGroup = new FormGroup(group, validators);
-        if (parentFormGroup) {
-            this.addToParent(parentFormGroup, nameInParent, formGroup);
+        if (parent) {
+            this.addToParent(parent, nameInParent, formGroup);
         }
         return formGroup;
     }
@@ -98,7 +98,7 @@ export class DynamicFormService {
 
             if (control.controlType === ControlType.GROUP) {
                 const groupControl = control as GroupControl;
-                const group = this.toFormGroup((control as GroupControl).groupControls, [], groupControl.groupValidators);
+                const group = this.toFormGroup(groupControl.groupControls, [], groupControl.groupValidators);
                 formArray.push(group);
             } else if (control.controlType !== ControlType.ARRAY) {
                 formArray.push(this.createFormControl(control));
@@ -125,8 +125,12 @@ export class DynamicFormService {
             : new FormControl(control.value || '');
     }
 
-    private addToParent(parentFormGroup: FormGroup, name: string, formGroup: FormGroup) {
-        parentFormGroup.addControl(name, formGroup);
+    private addToParent(parent: AbstractControl, name: string, formGroup: FormGroup) {
+        if (parent instanceof FormGroup) {
+            parent.addControl(name, formGroup);
+        } else if (parent instanceof FormArray) {
+            parent.push(formGroup);
+        }
     }
 
     private getValidators(validators: ValidatorConfig[]): ValidatorFn[] {

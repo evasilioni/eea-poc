@@ -1,11 +1,12 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {FuelData, FuelPetrol} from './fuel-data';
-import {parse} from 'js2xmlparser';
-import {AbstractControl, FormGroup, ValidatorFn} from '@angular/forms';
-import {TextboxControl} from './dynamic-forms/controls/textbox-control';
-import {BaseControl} from './dynamic-forms/controls/base-control';
-import {GroupControl} from './dynamic-forms/controls/group-controll';
-import { PetrolService } from './services/fuel-petrol-service/petrol.service';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FuelData, FuelPetrol } from './fuel-data';
+import { parse } from 'js2xmlparser';
+import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { TextboxControl } from './dynamic-forms/controls/textbox-control';
+import { BaseControl } from './dynamic-forms/controls/base-control';
+import { GroupControl } from './dynamic-forms/controls/group-controll';
+import { FuelDataService } from './services/fuel-data-service/fuel-data.service';
+
 
 @Component({
     selector: 'app-root',
@@ -15,7 +16,7 @@ import { PetrolService } from './services/fuel-petrol-service/petrol.service';
 export class AppComponent implements OnInit, AfterViewInit {
     title = 'app';
 
-    fuelData: FuelData = new FuelData();
+    fuelData: FuelData;// = new FuelData();
 
     parentForm: FormGroup;
 
@@ -29,12 +30,12 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     fuelDataXml() {
         if (this.fuelData !== undefined) {
-            return parse('fuel-data', this.fuelData, {format: {pretty: true}});
+            return parse('fuel-data', this.fuelData, { format: { pretty: true } });
         }
     }
 
-    constructor(private cd: ChangeDetectorRef, private petrolService: PetrolService) {
-        
+    constructor(private cd: ChangeDetectorRef, private petrolService: FuelDataService) {
+
         // this.parentForm = new FormGroup({}, [testCrossFormGroupValidator()]);
         this.parentControls = [
             new GroupControl({
@@ -65,10 +66,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-        this.petrolService.getFuelPetrol()
-        .subscribe((fuelPetrol: FuelPetrol) => {
-            this.fuelData.petrol = fuelPetrol;
-        });
+        this.petrolService.getFuelData()
+            .subscribe((fuelData: FuelData) => {
+                this.fuelData = fuelData;
+            });
     }
 
     //
@@ -109,7 +110,7 @@ export function testCrossFormGroupValidator(): ValidatorFn {
         if (fuelData.nestedFormValidation && fuelData.fuelContacts) {
             return fuelData.nestedFormValidation.testField1 === fuelData.fuelContacts.organisationResponsibleForReport
                 ? null
-                : {'crossFormGroupError1': 'Test Error'};
+                : { 'crossFormGroupError1': 'Test Error' };
         }
         return null;
     };

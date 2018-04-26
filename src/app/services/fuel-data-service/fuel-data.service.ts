@@ -2,17 +2,17 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Petrol} from '../../fuel-petrol/petrol';
 import {HttpClient} from '@angular/common/http';
-import { FuelPetrol } from '../../fuel-data';
+import { FuelPetrol, FuelData } from '../../fuel-data';
 
 @Injectable()
-export class PetrolService {
+export class FuelDataService {
 
     constructor(private http: HttpClient) {
     }
 
-    getFuelPetrol(): Observable<FuelPetrol> {
+    getFuelData(): Observable<FuelData> {
         console.log('Petrol service called');
-        return this.http.get<FuelPetrol>('../../assets/petrols.json');
+        return this.http.get<FuelData>('../../assets/fuelData.json');
     }
 
 }

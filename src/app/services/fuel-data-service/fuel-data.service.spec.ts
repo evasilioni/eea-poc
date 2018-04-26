@@ -1,15 +1,15 @@
 import {inject, TestBed} from '@angular/core/testing';
+import { FuelDataService } from './fuel-data.service';
 
-import {PetrolService} from './petrol.service';
 
 xdescribe('PetrolService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [PetrolService]
+            providers: [FuelDataService]
         });
     });
 
-    it('should be created', inject([PetrolService], (service: PetrolService) => {
+    it('should be created', inject([FuelDataService], (service: FuelDataService) => {
         expect(service).toBeTruthy();
     }));
 });

@@ -16,6 +16,11 @@ export class ArrayControl extends BaseControl<string> {
     push(control: BaseControl<string>) {
         this.arrayControls.push(control);
     }
+
+    /** Remove the control at the given `index` in the array. */
+    removeAt(index: number) {
+        this.arrayControls.splice(index, 1);
+    }
 }
 
 

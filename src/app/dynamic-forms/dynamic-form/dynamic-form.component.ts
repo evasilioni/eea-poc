@@ -38,12 +38,12 @@ export class DynamicFormComponent implements OnInit {
     @Input() groupValidators: ValidatorFn[] = [];
 
     /**
-     * FormGroup that this nested FormGroup should be added on
+     * FormControl that this nested FormGroup should be added on
      */
-    @Input() parentForm: FormGroup;
+    @Input() parent: AbstractControl;
 
     /**
-     * Name used as the control name when adding the form to its parentForm
+     * Name used as the control name when adding the form to its parent
      */
     @Input() formName: string;
 
@@ -101,7 +101,7 @@ export class DynamicFormComponent implements OnInit {
             this.groupedControls = this.dynamicFormService.groupControls(this.controls, this.controlsPerRow);
 
             this.form = this.dynamicFormService.toFormGroup(this.controls, this.customControls,
-                this.groupValidators, this.formName, this.parentForm);
+                this.groupValidators, this.formName, this.parent);
             this.formCreated.emit(this.form);
         }
 

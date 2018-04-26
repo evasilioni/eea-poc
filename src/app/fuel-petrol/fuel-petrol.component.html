@@ -1,5 +1,6 @@
 <div [formGroup]="parentForm">
-    <dynamic-form [parentForm]="parentForm" [formName]="'petrol'" (formCreated)="retrievePetrolFormGroup($event)" [controls]="controls" [value]="fuelPetrol">
+    <dynamic-form [parent]="parentForm" [formName]="'petrol'" (formCreated)="retrievePetrolFormGroup($event)" [controls]="controls"
+        [value]="fuelPetrol">
 
 
         <p-table [columns]="cols" [value]="petrols" selectionMode="single" (onRowSelect)="openFuelDialog($event)" [paginator]="true"
@@ -28,18 +29,19 @@
 
         </p-table>
 
-        <p-dialog *ngIf="displayDialog" [(visible)]="displayDialog" [formGroup]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex]"
+        <p-dialog *ngIf="displayDialog" [(visible)]="displayDialog" [closeOnEscape]="false" [closable]="false"
             showEffect="fade" [responsive]="true" [dismissableMask]="false" [modal]="true" styleClass="ui-fluid ui-dialog-width">
+            <p-header>
+               {{this.petrol.id}}
+            </p-header>
 
-            <dynamic-form [form]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex]" 
-                [controls]="controls[0].arrayControls[selectedPetrolIndex].groupControls"
+            <dynamic-form [form]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex] ? petrolFormGroup.controls.petrols.controls[selectedPetrolIndex] : undefined" 
+            [controls]="controls[0].arrayControls[selectedPetrolIndex].groupControls" [parent]="petrolFormGroup.controls.petrols"
                 (formSubmit)="onSubmit($event)" (formCreated)="retrieveFormGroup($event)" [showNestedFormGroupErrors]="true"
                 [showErrors]="true">
-
-                <!-- <p-header>
-                {{ parentForm.controls.petrols.controls[selectedPetrolIndex].get('id').value }}
-            </p-header> -->
             </dynamic-form>
+
+            
             <!-- <div class="error-background" *ngIf="petrolFormErrors?.invalidCountry">
             <span class="error-text-class-padding-40">Country should be unique!</span>
         </div>
@@ -114,7 +116,7 @@
                 Content 3
             </p-tabPanel>
         </p-tabView>
-
+-->
         <p-footer>
             <div class="ui-dialog-buttonpane ui-helper-clearfix">
                 <button type="button" pButton
@@ -125,7 +127,7 @@
                 <button type="button" pButton icon="fa-check" (click)="save()"
                         style="font-size:12px;background-color:green" label="Save"></button>
             </div>
-        </p-footer> -->
+        </p-footer> 
         </p-dialog>
     </dynamic-form>
 </div>

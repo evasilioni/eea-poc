@@ -18,7 +18,7 @@ import {AppComponent} from './app.component';
 import {NgFormInputComponent} from './helpers/ng-form-input/ng-form-input.component';
 import {FuelContactsComponent} from './fuel-contacts/fuel-contacts.component';
 import { FuelPetrolComponent } from './fuel-petrol/fuel-petrol.component';
-import {PetrolService} from './services/fuel-petrol-service/petrol.service';
+
 import {ConfigService} from './services/config.service';
 import { SampleFrequencyComponent } from './fuel-petrol/sample-frequency/sample-frequency.component';
 import {DynamicFormsModule} from './dynamic-forms/dynamic-forms.module';
@@ -27,6 +27,7 @@ import {MessagesModule} from 'primeng/primeng';
 import { ReportingResultsComponent } from './fuel-petrol/reporting-results/reporting-results.component';
 import { ReportingResultComponent } from './fuel-petrol/reporting-results/reporting-result/reporting-result.component';
 import { FuelPetrolService } from './fuel-petrol/fuel-petrol.service';
+import { FuelDataService } from './services/fuel-data-service/fuel-data.service';
 
 
 @NgModule({
@@ -55,7 +56,7 @@ import { FuelPetrolService } from './fuel-petrol/fuel-petrol.service';
         TableModule,
         DialogModule
     ],
-    providers: [FuelContactsService, PetrolService, ConfigService, FuelPetrolService],
+    providers: [FuelContactsService, FuelDataService, ConfigService, FuelPetrolService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

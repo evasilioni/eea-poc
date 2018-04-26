@@ -44,8 +44,8 @@ export class FuelContactsService {
                 key: 'dateReportCompleted',
                 label: 'Date Report Completed',
                 order: 2,
-                dateFormat:'dd/mm/y',
-                showIcon:true
+                dateFormat: 'dd/mm/y',
+                showIcon: true
             }),
 
             new TextboxControl({
@@ -60,7 +60,7 @@ export class FuelContactsService {
                     {
                         formError: 'forbiddenName',
                         validator: forbiddenNameValidator(/EEA/i),
-                        validationMessage: 'Minimum length is 5'
+                        validationMessage: 'Organisation responsible for report cannot be EEA'
                     }
                 ]
             }),
