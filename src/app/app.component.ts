@@ -16,7 +16,7 @@ import { FuelDataService } from './services/fuel-data-service/fuel-data.service'
 export class AppComponent implements OnInit, AfterViewInit {
     title = 'app';
 
-    fuelData: FuelData;// = new FuelData();
+    fuelData: FuelData;
 
     parentForm: FormGroup;
 

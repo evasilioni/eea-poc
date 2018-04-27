@@ -152,6 +152,5 @@ export class DynamicFormComponent implements OnInit {
 
     bindDataToForm(value: any) {
         this.form.patchValue(value);
-        console.log(this.form.value);
     }
 }

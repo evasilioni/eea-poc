@@ -1,8 +1,8 @@
 <p-tabView orientation="left">
-    <p-tabPanel *ngFor="let tab of reportResultTypes;let i = index;" [header]="tab.header"
-                [selected]="i==0">
+        <p-tabPanel *ngFor="let tab of reportResultTypes;let i = index;" [header]="tab.header" [selected]="i==0">
 
-        <reporting-result [group]="group" [groupName]="tab.field" [controls]="controls[tab.field]" ></reporting-result>
+            <reporting-result [group]="group" [groupName]="tab.field" [controls]="filteredControls(tab.field)" [value]="value[tab.field]"></reporting-result>
 
-    </p-tabPanel>
+        </p-tabPanel>
+
 </p-tabView>

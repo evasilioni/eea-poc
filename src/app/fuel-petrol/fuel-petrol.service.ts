@@ -27,42 +27,42 @@ export class FuelPetrolService {
     }
 
     createPetrolGroupControl(): GroupControl {
-         return new GroupControl({
-                key: 'petrol',
-                groupControls: [
-                    new TextboxControl({
-                        key: 'country',
-                        label: 'Country'
-                    }),
-                    new TextboxControl({
-                        key: 'reportingYear',
-                        label: 'Reporting Year'
-                    }),
-                    new TextboxControl({
-                        key: 'period',
-                        label: 'Period'
-                    }),
-                    new TextboxControl({
-                        key: 'parentFuelGrade',
-                        label: 'Parent Fuel Grade'
-                    }),
-                    new TextboxControl({
-                        key: 'nationalFuelGrade',
-                        label: 'National Fuel Grade'
-                    }),
-                    new TextboxControl({
-                        key: 'nationalFuelGrade',
-                        label: 'National Fuel Grade'
-                    }),
-                    new TextboxControl({
-                        key: 'summerPeriodNorA',
-                        label: 'Summer Period'
-                    }),
-                    new TextboxControl({
-                        key: 'maximumBioethanolContent',
-                        label: 'Max Bioethanol Content'
-                    })
-                ]
-            });
+        return new GroupControl({
+            key: 'petrol',
+            groupControls: [
+                new TextboxControl({
+                    key: 'country',
+                    label: 'Country'
+                }),
+                new TextboxControl({
+                    key: 'reportingYear',
+                    label: 'Reporting Year'
+                }),
+                new TextboxControl({
+                    key: 'period',
+                    label: 'Period'
+                }),
+                new TextboxControl({
+                    key: 'parentFuelGrade',
+                    label: 'Parent Fuel Grade'
+                }),
+                new TextboxControl({
+                    key: 'nationalFuelGrade',
+                    label: 'National Fuel Grade'
+                }),
+                new TextboxControl({
+                    key: 'nationalFuelGrade',
+                    label: 'National Fuel Grade'
+                }),
+                new TextboxControl({
+                    key: 'summerPeriodNorA',
+                    label: 'Summer Period'
+                }),
+                new TextboxControl({
+                    key: 'maximumBioethanolContent',
+                    label: 'Max Bioethanol Content'
+                })
+            ]
+        });
     }
 }

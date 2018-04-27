@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
+import { BaseControl } from '../../../dynamic-forms/controls/base-control';
 
 @Component({
     selector: 'reporting-result',
@@ -10,9 +11,11 @@ export class ReportingResultComponent implements OnInit {
 
     @Input() groupName: string;
 
-    @Input() controls: FormControl[];
+    @Input() controls: BaseControl<string>[];
 
     @Input() group: any;
+
+    @Input() value: any;
 
     constructor() {
     }

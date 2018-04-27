@@ -8,7 +8,7 @@ export class Petrol {
     summerPeriodNorA: string;
     maximumBioethanolContent: string;
     researchOctaneNumber: ReportResult;
-    motorOctanenumber: ReportResult;
+    motorOctaneNumber: ReportResult;
     vapourPressure: ReportResult;
     distillationEvaporated100: ReportResult;
     distillationEvaporated150: ReportResult;

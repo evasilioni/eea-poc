@@ -1,10 +1,12 @@
 {
     "contacts": {
         "reportingYear": 2016,
-        "country": {},
-        "dateReportCompleted": ""
+        "country": {
+            "id": 1,
+            "name": "Greece"
+        },
+        "dateReportCompleted": "11/04/13"
     },
-    
     "petrol": {
         "petrols": [
             {
@@ -18,26 +20,45 @@
                 "nationalFuelGrade": "23",
                 "researchOctaneNumber": {
                     "unit": "--",
-                    "numOfSamples": 1268,
-                    "min": 0,
-                    "max": 90,
-                    "median": 45,
-                    "standardDeviation": 1.23,
-                    "toleranceLimit": 0.78,
-                    "sampleValue": 30,
-                    "nationalMin": 0,
-                    "nationalMax": 35,
-                    "directiveMin": 56,
-                    "directiveMax": 67,
-                    "method": "random",
-                    "date": "12/08/18"
+                    "numOfSamples": 106,
+                    "min": 93.7,
+                    "max": 97.4,
+                    "median": 95.2,
+                    "standardDeviation": 0.579,
+                    "toleranceLimit": 3,
+                    "sampleValue": 95,
+                    "nationalMin": "",
+                    "nationalMax": "",
+                    "directiveMin": 95,
+                    "directiveMax": "",
+                    "method": "EN-ISO 5164",
+                    "date": {
+                        "year": "2005"
+                    }
                 },
-                "motorOctanenumber": {},
+                "motorOctaneNumber": {
+                    "unit": "--",
+                    "numOfSamples": 806,
+                    "min": 56.5,
+                    "max": 86.8,
+                    "median": 85.100,
+                    "standardDeviation": 85.00,
+                    "toleranceLimit": 13,
+                    "sampleValue": 85,
+                    "nationalMin": "",
+                    "nationalMax": "",
+                    "directiveMin": 85,
+                    "directiveMax": "",
+                    "method": "EN-ISO 5163",
+                    "date": {
+                        "year": "2006"
+                    }
+                },
                 "vapourPressure": {},
                 "distillationEvaporated100": {},
                 "distillationEvaporated150": {},
                 "sampleFrequency": {
-                    "value": 25004
+                    "value": 806
                 }
             },
             {
@@ -63,9 +84,11 @@
                     "directiveMin": 56,
                     "directiveMax": 67,
                     "method": "random",
-                    "date": "12/08/14"
+                    "date": {
+                        "year": "2007"
+                    }
                 },
-                "motorOctanenumber": {},
+                "motorOctaneNumber": {},
                 "vapourPressure": {},
                 "distillationEvaporated100": {},
                 "distillationEvaporated150": {}
@@ -93,9 +116,11 @@
                     "directiveMin": 56,
                     "directiveMax": 67,
                     "method": "random",
-                    "date": "12/08/17"
+                    "date": {
+                        "year": "2008"
+                    }
                 },
-                "motorOctanenumber": {},
+                "motorOctaneNumber": {},
                 "vapourPressure": {},
                 "distillationEvaporated100": {},
                 "distillationEvaporated150": {}

@@ -3,7 +3,7 @@
         [value]="fuelPetrol">
 
 
-        <p-table [columns]="cols" [value]="petrols" selectionMode="single" (onRowSelect)="openFuelDialog($event)" [paginator]="true"
+        <p-table [columns]="cols" [value]="fuelPetrol.petrols" selectionMode="single" (onRowSelect)="openFuelDialog($event)" [paginator]="true"
             [rows]="15">
             <ng-template pTemplate="header" let-columns>
                 <tr>
@@ -39,8 +39,29 @@
             [controls]="controls[0].arrayControls[selectedPetrolIndex].groupControls" [parent]="petrolFormGroup.controls.petrols"
                 (formSubmit)="onSubmit($event)" (formCreated)="retrieveFormGroup($event)" [showNestedFormGroupErrors]="true"
                 [showErrors]="true">
-            </dynamic-form>
 
+                <p-tabView>
+                        <p-tabPanel header="Reporting Results" class="font-style-75em">
+            
+                            <reporting-results [reportResultTypes]="reportResultTypes"
+                                                [value]="fuelPetrol.petrols[selectedPetrolIndex]"
+                                               [group]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex]">
+                            </reporting-results>
+            
+                        </p-tabPanel>
+            
+                        <p-tabPanel header="Sampling Frequency">
+            
+                            <!-- <sample-frequency
+                                [group]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex].controls.sampleFrequency"></sample-frequency>
+             -->
+                        </p-tabPanel>
+            
+                        <p-tabPanel header="Test Method and Analysis">
+                            Content 3
+                        </p-tabPanel>
+                    </p-tabView>
+            </dynamic-form>
             
             <!-- <div class="error-background" *ngIf="petrolFormErrors?.invalidCountry">
             <span class="error-text-class-padding-40">Country should be unique!</span>

@@ -19,7 +19,7 @@ import { FuelDataService } from '../services/fuel-data-service/fuel-data.service
 
 export class FuelPetrolComponent implements OnInit, AfterViewInit {
 
-    petrols: Petrol[];
+    // petrols: Petrol[];
 
     @Input() parentForm: FormGroup;
 
@@ -84,7 +84,7 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
             // this.bindDataToForm(pp, index);
             index++;
         });
-        this.petrols = this.fuelPetrol.petrols;
+
     }
 
     /**
@@ -104,57 +104,11 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
         petrolArray.push(groupControl);
         this.selectedPetrolIndex = petrolArray.arrayControls.length - 1;
     }
-    // createPetrolForm() {
-    //     this.petrolForm = this.fb.group({ // <-- the parent FormGroup
-    //             id: 'Petrol',
-    //             country: ['', Validators.required],
-    //             reportingYear: ['', Validators.required],
-    //             period: ['', Validators.required],
-    //             parentFuelGrade: ['', Validators.required],
-    //             nationalFuelGrade: '',
-    //             summerPeriodNorA: '',
-    //             maximumBioethanolContent: 0,
-    //             researchOctaneNumber: this.fb.group(
-    //                 this.getReportResultGroup('--'),
-    //                 {
-    //                     validator: this.petrolFormValidator.minMaxValidation()
-    //                 }
-    //             ),
-    //             motorOctanenumber: this.fb.group(
-    //                 this.getReportResultGroup('--')
-    //             ),
-    //             vapourPressure: this.fb.group(
-    //                 this.getReportResultGroup('kPa')
-    //             ),
-    //             distillationEvaporated100: this.fb.group(
-    //                 this.getReportResultGroup('% V/V')
-    //             ),
-    //             distillationEvaporated150: this.fb.group(
-    //                 this.getReportResultGroup('% V/V')
-    //             ),
-    //             sampleFrequency: this.fb.group({
-    //                 value: [0, Validators.required]
-    //             })
-    //         },
-    //         {
-    //             validator: Validators.compose([this.petrolFormValidator.formGroupValidationFunction(),
-    //                 this.petrolFormValidator.uniqueCountry()])
-    //         }
-    //     );
-
-    //     this.petrolForm.valueChanges.subscribe((form) => {
-    //         this.onChanges(form);
-    //     });
-
-
-    //     const array = this.parentForm.get('petrols') as FormArray;
-    //     array.push(this.petrolForm);
-    //     this.selectedPetrolIndex = array.length - 1;
-    // }
 
     showDialogToAdd() {
         this.newPetrol = true;
         this.petrol = new Petrol();
+        this.petrol.id = 'Petrol';
         this.displayDialog = true;
         this.selectedPetrolIndex = undefined;
         this.createPetrolForm();
@@ -172,24 +126,26 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
     save() {
         const transientPetrolForm = (this.petrolFormGroup.controls.petrols as FormArray).controls[this.selectedPetrolIndex];
         if (transientPetrolForm.valid) {
-            const petrols = [...this.petrols];
-            const counter = petrols !== undefined ? petrols.length + 1 : 0;
+            const petrols = [...this.fuelPetrol.petrols];
             this.petrol = transientPetrolForm.value;
-            this.petrol.id = 'Petrol ' + counter;
 
             if (this.newPetrol) {
+                const counter = petrols !== undefined ? petrols.length + 1 : 0;
+                this.petrol.id = 'Petrol ' + counter;
                 petrols.push(this.petrol);
             } else {
+                const num = this.selectedPetrolIndex + 1;
+                this.petrol.id = 'Petrol ' + num;
                 petrols[this.selectedPetrolIndex] = this.petrol;
             }
-            this.petrols = petrols;
+            this.fuelPetrol.petrols = petrols;
             this.petrol = null;
             this.displayDialog = false;
         }
     }
 
     delete() {
-        this.petrols = this.petrols.filter((val, i) => i !== this.selectedPetrolIndex);
+        this.fuelPetrol.petrols = this.fuelPetrol.petrols.filter((val, i) => i !== this.selectedPetrolIndex);
         this.petrol = null;
         this.displayDialog = false;
 
@@ -199,6 +155,7 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
 
         const petrolArray = (this.controls[0] as ArrayControl);
         petrolArray.removeAt(this.selectedPetrolIndex);
+        this.selectedPetrolIndex = undefined;
     }
 
     close() {
@@ -210,6 +167,7 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
 
             const petrolArray = (this.controls[0] as ArrayControl);
             petrolArray.removeAt(this.selectedPetrolIndex);
+            this.selectedPetrolIndex = undefined;
         }
     }
 

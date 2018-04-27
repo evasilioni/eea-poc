@@ -10,8 +10,6 @@ export class CalendarControl extends BaseControl<string> {
         this.dateFormat = options.dateFormat;
         this.showIcon = options['showIcon'];
     }
-
-    //dateFormat="dd/mm/y" [showIcon]="true"
 }
 
 export interface CalendarControlOptions<T> extends BaseControlOptions<string> {

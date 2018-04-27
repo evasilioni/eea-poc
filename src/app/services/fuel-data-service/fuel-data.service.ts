@@ -11,7 +11,6 @@ export class FuelDataService {
     }
 
     getFuelData(): Observable<FuelData> {
-        console.log('Petrol service called');
         return this.http.get<FuelData>('../../assets/fuelData.json');
     }
 

@@ -35,10 +35,10 @@ export class FuelContactsComponent implements OnInit, AfterContentInit {
     ngOnInit() {
 
         this.controls = this.fuelContactsService.getControls();
-
     }
 
     ngAfterContentInit(): void {
+        console.log(this.controls);
         // this.dynamicForm.addControl('generalSummary', this.fb.control({}));
     }
 

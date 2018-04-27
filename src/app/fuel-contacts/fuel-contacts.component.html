@@ -1,6 +1,6 @@
 <p-card title="Contact & Summary" styleClass="ui-fluid" [formGroup]="parentForm">
 
-    <dynamic-form [formName]="'fuelContacts'" [parent]="parentForm" [controls]="controls"
+    <dynamic-form [formName]="'fuelContacts'" [parent]="parentForm" [controls]="controls" [value]="contacts"
                   (formSubmit)="onSubmit($event)" (formCreated)="retrieveFormGroup($event)"
                   [showNestedFormGroupErrors]="true" [showErrors]="true" [customControls]="customControls"
                   [controlsPerRow]="2">
@@ -20,7 +20,7 @@
                     <label>Reporting Year:</label>
                 </div>
                 <div class="ui-g-2 ui-sm-6">
-                    2016
+                    {{contacts?.reportingYear}}
                 </div>
             </div>
         </div>
