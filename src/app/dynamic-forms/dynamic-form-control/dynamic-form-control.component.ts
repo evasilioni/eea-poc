@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, HostBinding, Input, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {BaseControl, ControlType} from '../controls/base-control';
 import {FormError} from '../validation/form-error';
@@ -9,7 +9,7 @@ import {FormError} from '../validation/form-error';
     templateUrl: './dynamic-form-control.component.html',
     styleUrls: ['./dynamic-form-control.component.css']
 })
-export class DynamicFormControlComponent {
+export class DynamicFormControlComponent implements OnInit {
 
 
     @Input() control: BaseControl<any>;
@@ -22,9 +22,17 @@ export class DynamicFormControlComponent {
 
     @Input() elementCssClasses: string[];
 
+    @Input() controlsPerRow: number;
+
+    @HostBinding('class') hostClasses: string;
+
     // only way to use enum in angular template...
     // https://stackoverflow.com/questions/42464367/angular2-use-enum-value-in-html-value-attribute/
     ControlType = ControlType;
+
+    ngOnInit() {
+        this.hostClasses = this.calculateHostClasses();
+    }
 
     /**
      * For components that have filtering feature (like auto-complete).
@@ -45,6 +53,38 @@ export class DynamicFormControlComponent {
 
     getErrorMessages() {
         return this.controlErrors.errors.map(error => error.errorMessage).join('<br>');
+    }
+
+    private calculateHostClasses() {
+        let classes = '';
+        switch (this.controlsPerRow) {
+            case 1: {
+                classes = 'ui-g-12 ui-sm-12';
+                break;
+            }
+            case 2: {
+                classes = 'ui-g-6 ui-sm-12';
+                break;
+            }
+            case 3: {
+                classes = 'ui-g-4 ui-sm-12';
+                break;
+            }
+            case 4: {
+                classes = 'ui-g-3 ui-sm-12';
+                break;
+            }
+
+            case 6: {
+                classes = 'ui-g-2 ui-sm-12';
+                break;
+            }
+            default: {
+                classes = 'ui-g-12 ui-sm-12';
+                break;
+            }
+        }
+        return classes;
     }
 }
 

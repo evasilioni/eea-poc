@@ -3,20 +3,25 @@
 
     <ng-content select="[form-header]"></ng-content>
 
-    <div *ngFor="let control of controls" class="ui-g">
 
-        <!-- NESTED FORM GROUP-->
-        <dynamic-form *ngIf="control.controlType === ControlType.GROUP" [formName]="control.key"
-                      [parentForm]="form"
-                      [controls]="control['groupControls']"
-                      [groupValidators]="control['groupValidators']">
-        </dynamic-form>
+    <div *ngFor="let group of groupedControls" class="ui-g">
 
-        <dynamic-form-control *ngIf="control.controlType !== ControlType.GROUP"
-                              [control]="control" [form]="form"
-                              [controlErrors]="getControlErrors(control.key)">
+        <ng-container *ngFor="let control of group">
+            <!-- NESTED FORM GROUP-->
+            <dynamic-form *ngIf="control.controlType === ControlType.GROUP" [formName]="control.key"
+                          [parentForm]="form"
+                          [controls]="control['groupControls']"
+                          [groupValidators]="control['groupValidators']" [controlsPerRow]="control['controlsPerRow']">
+            </dynamic-form>
 
-        </dynamic-form-control>
+            <dynamic-form-control *ngIf="control.controlType !== ControlType.GROUP"
+                                  [control]="control" [form]="form"
+                                  [controlErrors]="getControlErrors(control.key)"
+                                  [controlsPerRow]="controlsPerRow">
+
+            </dynamic-form-control>
+        </ng-container>
+
     </div>
 
     <ng-content></ng-content>

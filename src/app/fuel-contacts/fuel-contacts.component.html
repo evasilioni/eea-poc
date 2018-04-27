@@ -2,7 +2,8 @@
 
     <dynamic-form [formName]="'fuelContacts'" [parentForm]="parentForm" [controls]="controls"
                   (formSubmit)="onSubmit($event)" (formCreated)="retrieveFormGroup($event)"
-                  [showNestedFormGroupErrors]="true" [showErrors]="true" [customControls]="customControls">
+                  [showNestedFormGroupErrors]="true" [showErrors]="true" [customControls]="customControls"
+                  [controlsPerRow]="2">
         <div form-header>
             <div
                 style="font-family:'Roboto', 'Trebuchet MS', Arial, Helvetica, sans-serif;font-size:14px;text-decoration: underline;font-weight: bold;">

@@ -43,6 +43,48 @@ export class DynamicFormService {
     }
 
     /**
+     * Groups controls in rows (for the desired number of elements per row) and also takes care to group separately
+     * in case the control is a GROUP or ARRAY
+     *
+     * @param {BaseControl<string>[]} controls
+     * @param {number} controlsPerRow
+     * @returns {BaseControl<string>[][]}
+     */
+    groupControls(controls: BaseControl<string>[], controlsPerRow: number): BaseControl<string>[][] {
+        return this.groupRecursive([], [], controls, controlsPerRow);
+    }
+
+    private groupRecursive(groupedControls: BaseControl<string>[][], currentGroup: BaseControl<string>[],
+                           controls: BaseControl<string>[], controlsPerRow: number) {
+
+        if (controls.length === 0) {
+            // last iteration, add remaining controls in a group
+            if (currentGroup.length !== 0) {
+                groupedControls.push(currentGroup);
+            }
+            return groupedControls;
+        } else if (controls[0] && controls[0].controlType === ControlType.GROUP || controls[0].controlType === ControlType.ARRAY) {
+            // case where a group is found we first create new group with previous found controls (if any)
+            // then we create a new group with only the GROUP or ARRAY
+            // then reset the temporary group array
+            if (currentGroup.length !== 0) {
+                groupedControls.push(currentGroup);
+            }
+            groupedControls.push([controls[0]]);
+            currentGroup = [];
+        } else if (currentGroup.length === controlsPerRow) {
+            // case where the temp group array has reached the desired length
+            // we created new group but also start a new temp group, in case control[0] is the last of the controls
+            groupedControls.push(currentGroup);
+            currentGroup = [controls[0]];
+        } else {
+            // in all other cases we just add to the temp array
+            currentGroup.push(controls[0]);
+        }
+        return this.groupRecursive(groupedControls, currentGroup, controls.slice(1), controlsPerRow);
+    }
+
+    /**
      * Creates a form array from an ArrayControl.
      * In case the array children control is a FormGroup it creates a new FormGroup otherwise a new FormControl.
      *

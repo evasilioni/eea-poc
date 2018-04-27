@@ -68,6 +68,7 @@ export class FuelContactsService {
             new GroupControl({
                 key: 'organisationAddress',
                 order: 4,
+                controlsPerRow: 2,
                 groupControls: [
                     new TextboxControl({
                         key: 'address',
@@ -103,6 +104,7 @@ export class FuelContactsService {
             new GroupControl({
                 key: 'personInfo',
                 order: 6,
+                controlsPerRow: 2,
                 groupControls: [
                     new TextboxControl({
                         key: 'telephoneNumber',

@@ -59,6 +59,10 @@ export class DynamicFormComponent implements OnInit {
     @Input() showErrors: boolean;
 
     /**
+     * How many controls should be grouped per grid row
+     */
+    @Input() controlsPerRow: number;
+    /**
      * TODO: not yet used
      * @type {EventEmitter<FormGroup>}
      */
@@ -78,23 +82,32 @@ export class DynamicFormComponent implements OnInit {
 
     disabledControls: AbstractControl[] = [];
 
-    constructor(private controlService: DynamicFormService,
+    groupedControls: BaseControl<string>[][];
+
+    constructor(private dynamicFormService: DynamicFormService,
                 private cdRef: ChangeDetectorRef,
                 private validationService: ValidationService,
                 private relationService: RelationService) {
 
+        if (this.controlsPerRow === undefined) {
+            this.controlsPerRow = 1;
+        }
     }
 
     ngOnInit() {
-        this.form = this.controlService.toFormGroup(this.controls, this.customControls,
+        this.groupedControls = this.dynamicFormService.groupControls(this.controls, this.controlsPerRow);
+
+        this.form = this.dynamicFormService.toFormGroup(this.controls, this.customControls,
             this.groupValidators, this.formName, this.parentForm);
         this.formCreated.emit(this.form);
+
         this.initValidation();
         this.form.valueChanges
             .pipe(debounceTime(300))
             .subscribe(data => this.onValueChanged(data));
         this.onValueChanged(); // (re)set validation messages
     }
+
 
     private initValidation() {
         this.controls
@@ -119,7 +132,7 @@ export class DynamicFormComponent implements OnInit {
             return;
         }
         this.formErrors = this.validationService.updateFormErrors(this.form, this.formErrors, this.validationMessages);
-        console.log(this.formName, this.formErrors);
+        // console.log(this.formName, this.formErrors);
         this.disabledControls = this.relationService.handleRelations(this.form, this.controls, this.disabledControls);
     }
 
