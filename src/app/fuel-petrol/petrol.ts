@@ -34,7 +34,7 @@ export class ReportResult {
 
 export class MonthSample {
     // month: MonthEnum;
-    value: number;
+    totalMonthValue: number;
 }
 
 // export enum MonthEnum {

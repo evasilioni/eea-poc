@@ -35,14 +35,14 @@
                {{this.petrol.id}}
             </p-header>
 
-            <dynamic-form [form]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex] ? petrolFormGroup.controls.petrols.controls[selectedPetrolIndex] : undefined" 
+            <dynamic-form class="font-style-85em" [form]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex] ? petrolFormGroup.controls.petrols.controls[selectedPetrolIndex] : undefined" 
             [controls]="controls[0].arrayControls[selectedPetrolIndex].groupControls" [parent]="petrolFormGroup.controls.petrols"
                 (formSubmit)="onSubmit($event)" (formCreated)="retrieveFormGroup($event)" [showNestedFormGroupErrors]="true"
                 [showErrors]="true">
 
                 <p-tabView>
-                        <p-tabPanel header="Reporting Results" class="font-style-75em">
-            
+                        <p-tabPanel header="Reporting Results" class="font-style-85em">
+          
                             <reporting-results [reportResultTypes]="reportResultTypes"
                                                 [value]="fuelPetrol.petrols[selectedPetrolIndex]"
                                                [group]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex]">
@@ -50,11 +50,12 @@
             
                         </p-tabPanel>
             
-                        <p-tabPanel header="Sampling Frequency">
+                        <p-tabPanel header="Sampling Frequency" class="font-style-85em">
             
-                            <!-- <sample-frequency
-                                [group]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex].controls.sampleFrequency"></sample-frequency>
-             -->
+                            <sample-frequency [value]="fuelPetrol.petrols[selectedPetrolIndex].sampleFrequency"
+                                [group]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex]">
+                            </sample-frequency>
+            
                         </p-tabPanel>
             
                         <p-tabPanel header="Test Method and Analysis">

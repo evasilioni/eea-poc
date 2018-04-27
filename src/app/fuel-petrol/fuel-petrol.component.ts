@@ -121,6 +121,7 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
         this.newPetrol = false;
         this.petrol = event.data;
         this.displayDialog = true;
+        console.log(this.petrolFormGroup.controls.petrols.controls[this.selectedPetrolIndex]);
     }
 
     save() {

@@ -58,7 +58,7 @@
                 "distillationEvaporated100": {},
                 "distillationEvaporated150": {},
                 "sampleFrequency": {
-                    "value": 806
+                    "totalMonthValue": 806
                 }
             },
             {
@@ -91,7 +91,10 @@
                 "motorOctaneNumber": {},
                 "vapourPressure": {},
                 "distillationEvaporated100": {},
-                "distillationEvaporated150": {}
+                "distillationEvaporated150": {},
+                "sampleFrequency": {
+                    "totalMonthValue": 1806
+                }
             },
             {
                 "id": "3",
