@@ -5,6 +5,9 @@ import { TextboxControl } from '../../dynamic-forms/controls/textbox-control';
 import { CalendarControl } from '../../dynamic-forms/controls/calendar-control';
 import { AutoComplete } from 'primeng/primeng';
 import { AutocompleteControl } from '../../dynamic-forms/controls/autocomplete-control';
+import { Validators, ValidatorFn } from '@angular/forms';
+import { PetrolFormValidators } from '../../validators/petrol-form-validators';
+import { ConfigService } from '../../services/config.service';
 
 @Component({
     selector: 'reporting-results',
@@ -13,11 +16,13 @@ import { AutocompleteControl } from '../../dynamic-forms/controls/autocomplete-c
 })
 export class ReportingResultsComponent implements OnInit {
 
-    years: string[{}];
+    years: any[];
+    petrolFormValidator: PetrolFormValidators;
 
     @Input() reportResultTypes: any[];
 
     controls: BaseControl<string>[];
+    groupValidators: ValidatorFn[] = [];
 
     @Input() group: any;
 
@@ -25,7 +30,7 @@ export class ReportingResultsComponent implements OnInit {
 
     private filteredYears = {value: []};
 
-    constructor() {
+    constructor(private configService: ConfigService) {
         this.years = [{'year': '2005'},
         {'year': '2006'},
         {'year': '2007'},
@@ -34,6 +39,7 @@ export class ReportingResultsComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.petrolFormValidator = new PetrolFormValidators(this.configService);
         this.controls = this.getControls();
     }
 
@@ -41,11 +47,13 @@ export class ReportingResultsComponent implements OnInit {
         return [
             new GroupControl({
                 key: 'researchOctaneNumber',
-                groupControls: this.getReportResultGroup()
+                groupControls: this.getReportResultGroup(),
+                groupValidators: [this.petrolFormValidator.minMaxValidation()]
             }),
             new GroupControl({
                 key: 'motorOctaneNumber',
-                groupControls: this.getReportResultGroup()
+                groupControls: this.getReportResultGroup(),
+                groupValidators: [this.petrolFormValidator.minMaxValidation()]
             }),
             new GroupControl({
                 key: 'vapourPressure',
@@ -63,14 +71,22 @@ export class ReportingResultsComponent implements OnInit {
     }
 
     filteredControls(key) {
-        const test = this.controls.filter(control => control.key === key)[0];
+        const test = (this.controls.filter(control => control.key === key)[0] as GroupControl);
+        this.groupValidators = test.groupValidators;
         return test.groupControls;
     }
 
     getReportResultGroup(): BaseControl<string>[] {
         return [
             new TextboxControl({key: 'unit',  label: 'Unit'}),
-            new TextboxControl({key: 'numOfSamples', label: 'Number Of Samples'}),
+            new TextboxControl({key: 'numOfSamples', label: 'Number Of Samples',
+            validators: [
+                {
+                    formError: 'required',
+                    validator: Validators.required,
+                    validationMessage: 'num of samples'
+                }]
+            }),
             new TextboxControl({key: 'min', label: 'Min'}),
             new TextboxControl({key: 'max', label: 'Max'}),
             new TextboxControl({key: 'median', label: 'Median'}),
@@ -93,7 +109,7 @@ export class ReportingResultsComponent implements OnInit {
 
     searchYears = (event) => {
         return this.years
-            .filter((y: string) => y.year.includes(event.query));
+            .filter((y: any) => y.year.includes(event.query));
     }
 
 }

@@ -35,7 +35,7 @@ export class FuelContactsService {
                 searchFn: this.searchCountries,
                 suggestionField: 'name',
                 validators: [
-                    {formError: 'required', validator: Validators.required},
+                    {formError: 'required', validator: Validators.required, validationMessage: 'country'},
                 ]
 
             }),
@@ -55,7 +55,8 @@ export class FuelContactsService {
                 validators: [
                     {
                         formError: 'required',
-                        validator: Validators.required
+                        validator: Validators.required,
+                        validationMessage: 'Organisation'
                     },
                     {
                         formError: 'forbiddenName',

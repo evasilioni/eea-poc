@@ -58,7 +58,7 @@ export class ErrorMessagesComponent implements OnInit {
     private createErrorMessage(form: FormGroup, keyError): Message {
         return {
             severity: 'error',
-            summary: 'Validation: ' + keyError + ' failed',
+            summary: 'Validation for: '  + keyError + ' failed.',
             detail: 'Error Message: ' + form.errors[keyError]
         };
     }

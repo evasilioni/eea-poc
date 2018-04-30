@@ -1,5 +1,5 @@
-import {AbstractControl, FormArray} from '@angular/forms';
-import {ConfigService} from '../services/config.service';
+import { AbstractControl, FormArray } from '@angular/forms';
+import { ConfigService } from '../services/config.service';
 
 export class PetrolFormValidators {
 
@@ -10,10 +10,13 @@ export class PetrolFormValidators {
     }
 
     private getReportResultTypes(): void {
-        this.configService.getPetrolSettings()
-            .subscribe((data: any[]) => {
-                this.reportResultTypes = data['reportResultTypes'];
-            });
+        if (this.configService != null) {
+            this.configService.getPetrolSettings()
+                .subscribe((data: any[]) => {
+                    this.reportResultTypes = data['reportResultTypes'];
+                });
+        }
+
     }
 
     uniqueCountry() {
@@ -23,16 +26,13 @@ export class PetrolFormValidators {
             if (control.parent) {
                 const parentFromArray = control.parent as FormArray;
 
-                const persistedPetrol = parentFromArray.controls.find(c => c.get('id').value === control.get('id').value);
-                const transientCountry = persistedPetrol.get('country').value;
-
                 parentFromArray.controls
-                    .filter(c => c.get('id').value !== persistedPetrol.get('id').value)
+                    .filter(c => c !== control)
                     .forEach(c => {
 
-                        if (c.get('country').value.toLowerCase() === transientCountry.toLowerCase()) {
+                        if (c.get('country').value.toLowerCase() === control.get('country').value.toLowerCase()) {
                             Object.assign(errors, {
-                                'invalidCountry': true
+                                'Field \'Country\'': 'Country should be unique.'
                             });
                         }
                     });
@@ -43,38 +43,54 @@ export class PetrolFormValidators {
         };
     }
 
+    periodValidation() {
+        return (control: AbstractControl): { [key: string]: any } => {
+            const period = control.get('period');
+            const summerPeriodNorA = control.get('summerPeriodNorA');
+
+            // tslint:disable-next-line:radix
+            return period.value === 'Summer' &&  summerPeriodNorA.value === 'A' ?
+            { '\'Period\' Field': 'Period should be Winter or Summer period should be N' } : null;
+        };
+    }
+
     minMaxValidation() {
         return (control: AbstractControl): { [key: string]: any } => {
             const minValue = control.get('min');
             const maxValue = control.get('max');
 
-            return parseInt(minValue.value) > parseInt(maxValue.value) ? {'invalidNumberMin': true} : null;
+            // tslint:disable-next-line:radix
+            return parseInt(minValue.value) > parseInt(maxValue.value) ? { '\'Min\' Field': 'Min cannot be greater than max' } : null;
         };
     }
 
-    formGroupValidationFunction() {
+    numOfSampleFrequencyValidation() {
         return (control: AbstractControl): {} => {
-            const fieldTotal = control.get('sampleFrequency').get('value');
             const errors = {};
 
-            if (this.reportResultTypes !== undefined) {
-                this.reportResultTypes.forEach(r => {
+            if (control.get('sampleFrequency')) {
+                const fieldTotal = control.get('sampleFrequency');
 
-                    let invalidNumber = false;
-                    const fieldNumOfSamples = control.get(r.field).get('numOfSamples');
-                    invalidNumber = (fieldTotal.value !== undefined) && (fieldNumOfSamples.value !== undefined) &&
-                        (fieldTotal.value !== null) && (fieldNumOfSamples.value !== null) &&
-                        (parseInt(fieldNumOfSamples.value) > parseInt(fieldTotal.value));
 
-                    if (invalidNumber) {
-                        Object.assign(errors, {
-                            [r.field]: {
-                                'invalidNumberofSample': true
-                            }
-                        });
-                    }
-                });
+                if (this.reportResultTypes !== undefined && fieldTotal != null) {
+                    this.reportResultTypes.forEach(r => {
+
+                        let invalidNumber = false;
+                        const fieldNumOfSamples = control.get(r.field).get('numOfSamples');
+                        invalidNumber = (fieldTotal.value !== undefined) && (fieldNumOfSamples.value !== undefined) &&
+                            (fieldTotal.value !== null) && (fieldNumOfSamples.value !== null) &&
+                            // tslint:disable-next-line:radix
+                            (parseInt(fieldNumOfSamples.value) > parseInt(fieldTotal.value.totalMonthValue));
+
+                        if (invalidNumber) {
+                            Object.assign(errors, {
+                                [r.header]: 'Field \'Number of samples\' should be less than.... '
+                            });
+                        }
+                    });
+                }
             }
+
 
             return errors ? errors : null;
         };

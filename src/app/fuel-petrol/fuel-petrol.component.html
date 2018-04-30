@@ -36,8 +36,8 @@
             </p-header>
 
             <dynamic-form class="font-style-85em" [form]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex] ? petrolFormGroup.controls.petrols.controls[selectedPetrolIndex] : undefined"
-            [controls]="controls[0].arrayControls[selectedPetrolIndex].groupControls" [parent]="petrolFormGroup.controls.petrols"
-                (formSubmit)="onSubmit($event)" (formCreated)="retrieveFormGroup($event)" [showNestedFormGroupErrors]="true"
+            [controls]="controls[0].arrayControls[selectedPetrolIndex].groupControls" [groupValidators]="controls[0].arrayControls[selectedPetrolIndex].groupValidators" [parent]="petrolFormGroup.controls.petrols"
+                (formSubmit)="onSubmit($event)" (formCreated)="retrieveFormGroup($event)" 
                 [showErrors]="true">
 
                 <p-tabView>
@@ -52,7 +52,7 @@
 
                         <p-tabPanel header="Sampling Frequency" class="font-style-85em">
 
-                            <sample-frequency [value]="fuelPetrol.petrols[selectedPetrolIndex].sampleFrequency"
+                            <sample-frequency [value]="fuelPetrol.petrols[selectedPetrolIndex]?.sampleFrequency"
                                 [group]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex]">
                             </sample-frequency>
 

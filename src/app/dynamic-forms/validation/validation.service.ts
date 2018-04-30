@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {AbstractControl, FormGroup} from '@angular/forms';
+import {AbstractControl, FormGroup, FormArray} from '@angular/forms';
 import {BaseControl} from '../controls/base-control';
 import {ErrorTuple, FormError, ValidationErrorMessage} from './form-error';
 
@@ -73,7 +73,7 @@ export class ValidationService {
                 fieldFormErrors.errors = [];
                 const fieldMessages = validationMessages.find(v => v.controlKey === field).validationTuple;
                 const control = form.get(field);
-                if (!(control instanceof FormGroup) && this.isControlInvalid(control)) {
+                if (!(control instanceof FormGroup) && !(control instanceof FormArray) && this.isControlInvalid(control)) {
                     Object.keys(control.errors).map(errorName => {
                         fieldFormErrors.errors.push(fieldMessages.find(m => m.errorName === errorName));
                     });

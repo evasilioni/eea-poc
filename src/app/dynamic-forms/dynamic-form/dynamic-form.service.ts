@@ -39,6 +39,8 @@ export class DynamicFormService {
         if (parent) {
             this.addToParent(parent, nameInParent, formGroup);
         }
+        console.log('validators',validators);
+        console.log('formGroup',formGroup);
         return formGroup;
     }
 

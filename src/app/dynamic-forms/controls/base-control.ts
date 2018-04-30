@@ -2,7 +2,7 @@ import {Relation} from '../relation/control-relation';
 import {ValidatorConfig} from '../validation/validator-config';
 
 
-const DEFAULT_LABEL_CSS_CLASSES = ['ui-g-3', 'ui-sm-6'];
+const DEFAULT_LABEL_CSS_CLASSES = ['ui-g-3', 'ui-sm-6', 'font-style-85em'];
 
 const DEFAULT_CONTROL_CSS_CLASSES = ['ui-g-6', 'ui-sm-6'];
 

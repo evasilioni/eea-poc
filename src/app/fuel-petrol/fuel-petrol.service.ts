@@ -6,11 +6,17 @@ import { ArrayControl } from '../dynamic-forms/controls/array-control';
 import { TextboxControl } from '../dynamic-forms/controls/textbox-control';
 import { GroupControl } from '../dynamic-forms/controls/group-controll';
 import { BaseControl } from '../dynamic-forms/controls/base-control';
+import { Validators } from '@angular/forms';
+import { ConfigService } from '../services/config.service';
+import { PetrolFormValidators } from '../validators/petrol-form-validators';
 
 @Injectable()
 export class FuelPetrolService {
+    petrolFormValidator: PetrolFormValidators;
 
-    constructor() { }
+    constructor(private configService: ConfigService) {
+        this.petrolFormValidator = new PetrolFormValidators(configService);
+     }
 
 
     getControls(): BaseControl<string>[] {
@@ -29,10 +35,19 @@ export class FuelPetrolService {
     createPetrolGroupControl(): GroupControl {
         return new GroupControl({
             key: 'petrol',
+            groupValidators : [this.petrolFormValidator.numOfSampleFrequencyValidation(), 
+                this.petrolFormValidator.uniqueCountry(), this.petrolFormValidator.periodValidation()],
             groupControls: [
                 new TextboxControl({
                     key: 'country',
-                    label: 'Country'
+                    label: 'Country',
+                    validators: [
+                        {
+                            formError: 'required',
+                            validator: Validators.required,
+                            validationMessage: 'Petrol Country required'
+                        }
+                    ]
                 }),
                 new TextboxControl({
                     key: 'reportingYear',
