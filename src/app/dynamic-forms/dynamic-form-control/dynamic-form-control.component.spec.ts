@@ -1,13 +1,13 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {DynamicFormControlComponent} from './dynamic-form-control.component';
-import {AutoCompleteModule, InputTextModule} from 'primeng/primeng';
+import {AutoCompleteModule, CalendarModule, InputTextModule} from 'primeng/primeng';
 import {ButtonModule} from 'primeng/button';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {TextboxControl} from '../controls/textbox-control';
 import {AutocompleteControl} from '../controls/autocomplete-control';
 
-xdescribe('DynamicFormControlComponent', () => {
+describe('DynamicFormControlComponent', () => {
     let component: DynamicFormControlComponent;
     let fixture: ComponentFixture<DynamicFormControlComponent>;
 
@@ -19,6 +19,7 @@ xdescribe('DynamicFormControlComponent', () => {
                 ButtonModule,
                 AutoCompleteModule,
                 InputTextModule,
+                CalendarModule
             ],
         })
             .compileComponents();
