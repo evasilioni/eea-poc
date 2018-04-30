@@ -28,7 +28,7 @@ export class DynamicFormService {
      * @returns {FormGroup}
      */
     toFormGroup(controls: BaseControl<any>[], customControls: BaseControl<any>[],
-                validators: ValidatorFn[], nameInParent?: string, parent?: FormGroup) {
+                validators: ValidatorFn[], nameInParent?: string, parent?: AbstractControl) {
         const group: any = {};
 
         controls.concat(customControls)

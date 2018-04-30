@@ -97,8 +97,8 @@ export class DynamicFormComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.groupedControls = this.dynamicFormService.groupControls(this.controls, this.controlsPerRow);
         if (!this.form) {
-            this.groupedControls = this.dynamicFormService.groupControls(this.controls, this.controlsPerRow);
 
             this.form = this.dynamicFormService.toFormGroup(this.controls, this.customControls,
                 this.groupValidators, this.formName, this.parent);

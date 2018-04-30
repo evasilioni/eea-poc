@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import { BaseControl } from '../../../dynamic-forms/controls/base-control';
+import {BaseControl} from '../../../dynamic-forms/controls/base-control';
 
 @Component({
     selector: 'reporting-result',

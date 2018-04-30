@@ -35,35 +35,35 @@
                {{this.petrol.id}}
             </p-header>
 
-            <dynamic-form class="font-style-85em" [form]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex] ? petrolFormGroup.controls.petrols.controls[selectedPetrolIndex] : undefined" 
+            <dynamic-form class="font-style-85em" [form]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex] ? petrolFormGroup.controls.petrols.controls[selectedPetrolIndex] : undefined"
             [controls]="controls[0].arrayControls[selectedPetrolIndex].groupControls" [parent]="petrolFormGroup.controls.petrols"
                 (formSubmit)="onSubmit($event)" (formCreated)="retrieveFormGroup($event)" [showNestedFormGroupErrors]="true"
                 [showErrors]="true">
 
                 <p-tabView>
                         <p-tabPanel header="Reporting Results" class="font-style-85em">
-          
+
                             <reporting-results [reportResultTypes]="reportResultTypes"
                                                 [value]="fuelPetrol.petrols[selectedPetrolIndex]"
                                                [group]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex]">
                             </reporting-results>
-            
+
                         </p-tabPanel>
-            
+
                         <p-tabPanel header="Sampling Frequency" class="font-style-85em">
-            
+
                             <sample-frequency [value]="fuelPetrol.petrols[selectedPetrolIndex].sampleFrequency"
                                 [group]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex]">
                             </sample-frequency>
-            
+
                         </p-tabPanel>
-            
+
                         <p-tabPanel header="Test Method and Analysis">
                             Content 3
                         </p-tabPanel>
                     </p-tabView>
             </dynamic-form>
-            
+
             <!-- <div class="error-background" *ngIf="petrolFormErrors?.invalidCountry">
             <span class="error-text-class-padding-40">Country should be unique!</span>
         </div>
@@ -149,7 +149,7 @@
                 <button type="button" pButton icon="fa-check" (click)="save()"
                         style="font-size:12px;background-color:green" label="Save"></button>
             </div>
-        </p-footer> 
+        </p-footer>
         </p-dialog>
     </dynamic-form>
 </div>
