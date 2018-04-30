@@ -1,0 +1,174 @@
+= Dynamic Forms Module
+
+This is an attempt to implement the official Angular paradigm of https://angular.io/guide/dynamic-form[dynamic forms].
+This module is also inspired from the already heavily developed and supported https://github.com/udos86/ng-dynamic-forms[ng-dynamic-forms] library.
+
+== Basic Usage
+
+=== 1. Import module
+
+To start developing with dynamic forms the module must be imported in your module:
+
+[source,angular2html]
+----
+import {DynamicFormsModule} from './dynamic-forms/dynamic-forms.module';
+// ...
+
+@NgModule({
+
+    imports: [
+        ReactiveFormsModule,
+        DynamicFormModule,
+        // ...
+    ]
+})
+
+export class AppModule {}
+----
+
+=== 2. Define the form dynamic controls
+
+At the time of writing the following type of dynamic controls are supported:
+
+* ArrayControl
+* AutocompleteControl
+* CalendarControl
+* GroupControl
+* TextboxControl
+
+These controls all extend from a BaseControl (which defines some generic configuration options, e.g. 'label')
+These classes define their control-specific options and they are all rendered using PrimeNG components.
+
+The base component of the dynamic forms module is the DynamicFormComponent which expects an array of controls so the following
+ will create a form with one text field:
+
+[source,angular2html]
+----
+let controls: BaseControl<string>[] = [
+    new TextBoxControl({
+        key: 'textBoxExample',
+        label: 'Text Box Example',
+        order: 1
+    })
+];
+----
+
+=== 3. Add a DynamicFormComponent to your template
+
+For the simple example above you just need to add the dynamic form component to your template referencing the array of controls:
+
+[source,angular2html]
+----
+<dynamic-form [controls]="controls">
+
+</dynamic-form>
+----
+
+This will create a new Angular FormGroup and render all the controls in your page.
+
+== DynamicFormComponent input properties
+
+The following properties can be passed to the dynamic form component (besides 'controls'):
+
+customControls: This is a separate array of controls which is used to add controls that will be rendered manually
+(using the dynamic-form-control component explicitly)
+
+groupValidators: This is an array of ValidatorFn (validation functions) that will be added to the FormGroup level for cross-field validation.
+
+parentForm: This is a FormGroup that we consider a parent of this form and that the newly created FormGroup will be added to.
+
+formName: This is the name that will be used as a key to the parent FormGroup (if a parentForm is provided).
+
+showErrors: If set to true the FormGroup errors will be shown on top of the form
+
+showNestedFormGroupErrors: If set to true all the errors of the FormGroup children will be shown (together with the FormGroup errors)
+
+controlsPerRow: In case we want the form to be rendered with multiple controls per row we can set a number here
+
+== DynamicFormComponent output properties
+
+formSubmit: In case we want an event to be emitted when the form is submitted
+NOTE: This is not being used at the moment, needs testing.
+
+formCreated: This event will be emitted after the dynamic form's FormGroup creation, so we can get a reference to the FormGroup
+
+
+== Form Groups
+
+One important feature of Angular reactive forms is the ability to group controls into groups.
+This is very useful for logical grouping but mostly for adding validators in the group level (cross-field validation,
+will be discussed in a separate section).
+
+The dynamic form module supports the usage of groups with the GroupControl.
+
+To use the GroupControl you add it to your list of controls:
+
+[source,angular2html]
+----
+new GroupControl({
+    key: 'groupExample',
+    groupControls: [...],
+    // ...
+})
+----
+
+When adding this control (as part of the array of controls) as input to the dynamic form component controls,
+a nested dynamic form will be rendered inside the parent dynamic form with input as controls the groupControls array.
+It will also define another @Input property called 'parentForm'. As a result, the FormGroup created from the nested dynamic form
+will be added to its parent FormGroup (which is the original dynamic form).
+
+CAUTION: If the only control in the controls array is a GroupControl the result will be a FormGroup inside another FormGroup.
+This does not seem to be a useful functionality so it was decided that an error will be thrown informing the user
+ that he might have passed wrongly the controls to the controls array.
+
+
+== Custom (rendered) controls
+TODO
+
+== Form Arrays
+
+Form arrays are useful when you don't know beforehand how many controls will be needed and when they can be added dynamically at runtime.
+
+NOTE: This part needs some re-thinking because it is not very intuitive to use at the moment.
+
+To create a form array we first need to create an ArrayControl:
+
+[source]
+----
+let array = new ArrayControl({
+    key: 'arrayExample',
+    arrayControls: [
+        new GroupControl(...),
+        // ...
+    ]
+})
+----
+
+The difference with other kind of controls is that the array controls are not rendered automatically but rather on demand.
+
+If we provide the ArrayControl directly in a dynamic form as an @Input, the controls of the array will be created and added to a new Angular FormArray.
+But the controls will *NOT* be rendered.
+
+CAUTION: There might be a bug here...
+
+===Rendering
+
+The rendering is left to the user. To render for example a FormGroup which was created inside a FormArray, we must manually create a new dynamic form
+and explicitly pass the FormGroup controls to the controls @Input parameter. We must also set the @Input property 'form' which informs
+the dynamic form component that a FormGroup already exists and *no new FormGroup* must be created.
+
+To add a new element in the array a new dynamic form component must be created passing as the 'parent' @Input property the FormArray
+(so that the new FormGroup can be added to the FormArray transparently). This means that somehow we must get a reference to the FormArray
+which was created in the previous step. This is done by passing a method reference to the @Output parameter 'formCreated'.
+This event will be fired after the FormArray (or FormGroup) is created. In this method we can get the reference of the FormArray:
+
+
+[source]
+----
+<dynamic-form [controls]="array[0].controls" [parent]="parentForm" (formCreated)="retrieveFormArray($event)">
+
+</dynamic-form>
+----
+
+
+== Validation
