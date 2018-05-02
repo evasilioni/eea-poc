@@ -47,35 +47,38 @@ export class FuelPetrolService {
                             validator: Validators.required,
                             validationMessage: 'Petrol Country required'
                         }
-                    ]
+                    ],
+                    labelCssClasses: ['ui-g-4 ui-sm-6']
                 }),
                 new TextboxControl({
                     key: 'reportingYear',
-                    label: 'Reporting Year'
+                    label: 'Reporting Year',
+                    labelCssClasses: ['ui-g-4 ui-sm-6']
                 }),
                 new TextboxControl({
                     key: 'period',
-                    label: 'Period'
+                    label: 'Period',
+                    labelCssClasses: ['ui-g-4 ui-sm-6']
                 }),
                 new TextboxControl({
                     key: 'parentFuelGrade',
-                    label: 'Parent Fuel Grade'
+                    label: 'Parent Fuel Grade',
+                    labelCssClasses: ['ui-g-4 ui-sm-6']
                 }),
                 new TextboxControl({
                     key: 'nationalFuelGrade',
-                    label: 'National Fuel Grade'
-                }),
-                new TextboxControl({
-                    key: 'nationalFuelGrade',
-                    label: 'National Fuel Grade'
+                    label: 'National Fuel Grade',
+                    labelCssClasses: ['ui-g-4 ui-sm-6']
                 }),
                 new TextboxControl({
                     key: 'summerPeriodNorA',
-                    label: 'Summer Period'
+                    label: 'Summer Period',
+                    labelCssClasses: ['ui-g-4 ui-sm-6']
                 }),
                 new TextboxControl({
                     key: 'maximumBioethanolContent',
-                    label: 'Max Bioethanol Content'
+                    label: 'Max Bioethanol Content',
+                    labelCssClasses: ['ui-g-4 ui-sm-6']
                 })
             ]
         });

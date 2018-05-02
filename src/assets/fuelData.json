@@ -13,7 +13,7 @@
                 "id": "1",
                 "country": "Germany",
                 "reportingYear": 2016,
-                "period": "Summer",
+                "period": "Winter",
                 "parentFuelGrade": "45",
                 "summerPeriodNorA": "A",
                 "maximumBioethanolContent": "458",
@@ -54,9 +54,56 @@
                         "year": "2006"
                     }
                 },
-                "vapourPressure": {},
-                "distillationEvaporated100": {},
-                "distillationEvaporated150": {},
+                "vapourPressure": {
+                    "unit": "kPa",
+                    "numOfSamples": 109,
+                    "min": 56.5,
+                    "max": 86.8,
+                    "median": 85.100,
+                    "standardDeviation": 85.00,
+                    "toleranceLimit": 13,
+                    "sampleValue": 85,
+                    "nationalMin": "",
+                    "nationalMax": "",
+                    "directiveMin": 85,
+                    "directiveMax": "",
+                    "method": "EN-ISO 5163",
+                    "date": {
+                        "year": "2006"
+                    }
+                },
+                "distillationEvaporated100": {"unit": "% V/V",
+                    "numOfSamples": 154,
+                    "min": 56.5,
+                    "max": 86.8,
+                    "median": 85.100,
+                    "standardDeviation": 85.00,
+                    "toleranceLimit": 13,
+                    "sampleValue": 85,
+                    "nationalMin": "",
+                    "nationalMax": "",
+                    "directiveMin": 85,
+                    "directiveMax": "",
+                    "method": "EN-ISO 5163",
+                    "date": {
+                        "year": "2006"
+                    }},
+                "distillationEvaporated150": {"unit": "% V/V",
+                    "numOfSamples": 224,
+                    "min": 56.5,
+                    "max": 86.8,
+                    "median": 85.100,
+                    "standardDeviation": 85.00,
+                    "toleranceLimit": 13,
+                    "sampleValue": 85,
+                    "nationalMin": "",
+                    "nationalMax": "",
+                    "directiveMin": 85,
+                    "directiveMax": "",
+                    "method": "EN-ISO 5163",
+                    "date": {
+                        "year": "2006"
+                    }},
                 "sampleFrequency": {
                     "totalMonthValue": 806
                 }

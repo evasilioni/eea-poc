@@ -20,13 +20,11 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     parentForm: FormGroup;
 
-    parentControls: BaseControl<any>[];
+    parentControls: BaseControl<any>[] = [];
 
     topValidators: ValidatorFn[];
 
     controls: BaseControl<any>[];
-
-    // errorMessages: Message[];
 
     fuelDataXml() {
         if (this.fuelData !== undefined) {
@@ -36,33 +34,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     constructor(private cd: ChangeDetectorRef, private petrolService: FuelDataService) {
 
-        // this.parentForm = new FormGroup({}, [testCrossFormGroupValidator()]);
-        this.parentControls = [
-            new GroupControl({
-                key: 'nestedFormValidation',
-                // formName: 'nestedFormValidation',
-                groupControls: [
-                    new TextboxControl({
-                        key: 'testField1',
-                        label: 'test text',
-                        order: 1,
-                    })
-                ]
-            }),
-
-        ];
-
         this.topValidators = [testCrossFormGroupValidator()];
-        // this.controls = [
-        //     new TextboxControl({
-        //         key: 'testField1',
-        //         label: 'test text',
-        //         order: 1,
-        //     })
-        // ];
-        // this.parentForm.valueChanges.subscribe(value => {
-        //     this.errorMessages = this.getErrorMessages();
-        // });
     }
 
     ngOnInit() {
@@ -71,22 +43,6 @@ export class AppComponent implements OnInit, AfterViewInit {
                 this.fuelData = fuelData;
             });
     }
-
-    //
-    // private getErrorMessages(): Message[] {
-    //     if (this.parentForm.errors != null) {
-    //         return Object.keys(this.parentForm.errors)
-    //             .map(keyError => this.createErrorMessage(keyError));
-    //     }
-    // }
-    //
-    // private createErrorMessage(keyError) {
-    //     return {
-    //         severity: 'error',
-    //         summary: 'Validation: ' + keyError + ' failed',
-    //         detail: 'Error Message: ' + this.parentForm.errors[keyError]
-    //     };
-    // }
 
     // TODO check if there is a better way to avoid error ExpressionChangedAfterItHasBeenCheckedError (comment line to see the error)
     ngAfterViewInit() {

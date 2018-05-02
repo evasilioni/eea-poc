@@ -48,11 +48,21 @@ export class DynamicFormControlComponent implements OnInit {
     }
 
     hasErrors() {
-        return this.controlErrors.errors.find(error => error.errorName !== '');
+        return this.controlErrors.errors
+        .filter(error => error.errorName !== 'required')
+        .find(error => error.errorName !== '');
+    }
+
+    hasError(errorName: string) {
+        return this.controlErrors.errors.find(error => error.errorName === errorName);
     }
 
     getErrorMessages() {
         return this.controlErrors.errors.map(error => error.errorMessage).join('<br>');
+    }
+
+    isFieldRequired() {
+        return this.control.validators.find(validator => validator.formError === 'required');
     }
 
     private calculateHostClasses() {

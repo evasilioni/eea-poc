@@ -78,7 +78,7 @@ export class ReportingResultsComponent implements OnInit {
 
     getReportResultGroup(): BaseControl<string>[] {
         return [
-            new TextboxControl({key: 'unit',  label: 'Unit'}),
+            new TextboxControl({key: 'unit',  label: 'Unit', disabled : () => true }),
             new TextboxControl({key: 'numOfSamples', label: 'Number Of Samples',
             validators: [
                 {

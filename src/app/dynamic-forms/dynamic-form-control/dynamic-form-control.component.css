@@ -14,3 +14,7 @@
 :host {
     /*width: 100%;*/
 }
+
+.is-required {
+    color:red;
+}

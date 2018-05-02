@@ -38,7 +38,7 @@
             <dynamic-form class="font-style-85em" [form]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex] ? petrolFormGroup.controls.petrols.controls[selectedPetrolIndex] : undefined"
             [controls]="controls[0].arrayControls[selectedPetrolIndex].groupControls" [groupValidators]="controls[0].arrayControls[selectedPetrolIndex].groupValidators" [parent]="petrolFormGroup.controls.petrols"
                 (formSubmit)="onSubmit($event)" (formCreated)="retrieveFormGroup($event)" 
-                [showErrors]="true">
+                [showErrors]="true" [value]="fuelPetrol.petrols[selectedPetrolIndex]" [controlsPerRow]="3">
 
                 <p-tabView>
                         <p-tabPanel header="Reporting Results" class="font-style-85em">
