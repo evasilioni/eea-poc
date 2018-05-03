@@ -1,19 +1,6 @@
-<dynamic-form [controls]="controls" [form]="group.controls[groupName]" [formName]="groupName" [value]="value">
+<dynamic-form [controls]="controls" [form]="group.controls[groupName]" [formName]="groupName" [(value)]="value" 
+[controlsPerRow]=3>
 
 </dynamic-form>
 
 
-
-<!-- <div styleClass="ui-fluid" [formGroup]="sampleFrequencyForm">
-    <h4>Number of Samples</h4>
-    <div class="ui-g-1 ui-sm-6">
-        <label for="month">January:</label>
-    </div>
-    <div class="ui-g-1 ui-sm-6">
-        <input type="text" pInputText formControlName="value"/>
-        <div *ngIf="sampleFrequencyForm.controls.value.errors?.required">
-            Total Sample is required.
-        </div>
-    </div>
-
-</div> -->
