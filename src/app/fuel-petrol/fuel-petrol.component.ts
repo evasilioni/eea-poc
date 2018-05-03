@@ -1,14 +1,16 @@
-import { Component, OnInit, Input, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Petrol } from './petrol';
+import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {Petrol} from './petrol';
 
-import { ConfigService } from '../services/config.service';
-import { PetrolFormValidators } from '../validators/petrol-form-validators';
-import { ArrayControl } from '../dynamic-forms/controls/array-control';
-import { FuelPetrolService } from '../fuel-petrol/fuel-petrol.service';
-import { BaseControl } from '../dynamic-forms/controls/base-control';
-import { FuelPetrol } from '../fuel-data';
-import { FuelDataService } from '../services/fuel-data-service/fuel-data.service';
+import {ConfigService} from '../services/config.service';
+import {PetrolFormValidators} from '../validators/petrol-form-validators';
+import {ArrayControl} from '../dynamic-forms/controls/array-control';
+import {FuelPetrolService} from '../fuel-petrol/fuel-petrol.service';
+import {BaseControl} from '../dynamic-forms/controls/base-control';
+import {FuelPetrol} from '../fuel-data';
+import {FuelDataService} from '../services/fuel-data-service/fuel-data.service';
+import {GroupControl} from '../dynamic-forms/controls/group-controll';
+import {DynamicFormService} from '../dynamic-forms/dynamic-form/dynamic-form.service';
 
 
 @Component({
@@ -42,10 +44,11 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
     petrolFormErrors: {};
 
     constructor(private petrolService: FuelDataService,
-        private configService: ConfigService,
-        private fb: FormBuilder,
-        private fuelPetrolService: FuelPetrolService,
-        private cd: ChangeDetectorRef) {
+                private configService: ConfigService,
+                private fb: FormBuilder,
+                private fuelPetrolService: FuelPetrolService,
+                private cd: ChangeDetectorRef,
+                private dynamicFormService: DynamicFormService) {
     }
 
     ngOnInit() {
@@ -88,8 +91,8 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
     }
 
     /**
- * Gets a reference to the dynamic form group (for example to manually add extra non-dynamic controls).
- */
+     * Gets a reference to the dynamic form group (for example to manually add extra non-dynamic controls).
+     */
     retrieveFormGroup(formGroup: FormGroup) {
         this.dynamicForm = formGroup;
     }
@@ -103,16 +106,29 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
         const petrolArray = (this.controls[0] as ArrayControl);
         petrolArray.push(groupControl);
         this.selectedPetrolIndex = petrolArray.arrayControls.length - 1;
+        return groupControl;
     }
 
     showDialogToAdd() {
+        const petrolGroupControl = this.createPetrolForm();
+        const petrolsArray = this.petrolFormGroup.get('petrols') as FormArray;
+
         this.newPetrol = true;
         this.petrol = new Petrol();
         this.petrol.id = 'Petrol';
         this.displayDialog = true;
-        this.selectedPetrolIndex = undefined;
-        this.createPetrolForm();
+        this.selectedPetrolIndex = (this.controls[0] as ArrayControl).arrayControls.length - 1;
         this.petrolFormErrors = {};
+
+        // TODO Manually create form group of new array element using explicitly the DynamicFormService.
+        // We pass the controls to the customControls parameter because we want all nested FormGroups to be created immediately
+        this.dynamicFormService.toFormGroup(
+            [],
+            petrolGroupControl.groupControls,
+            petrolGroupControl.groupValidators,
+            null,
+            petrolsArray
+        );
     }
 
 
@@ -121,7 +137,6 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
         this.newPetrol = false;
         this.petrol = event.data;
         this.displayDialog = true;
-        console.log((this.petrolFormGroup.controls.petrols as FormArray).controls[this.selectedPetrolIndex]);
     }
 
     save() {
@@ -172,45 +187,40 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
         }
     }
 
-    // onChanges(form: AbstractControl) {
-    //     let hasErrors = false;
-    //     const selectedPetrolForm = (this.parentForm.get('petrols') as FormArray).controls[this.selectedPetrolIndex];
+    getBasicPetrolInfoControls() {
+        const arrayControl = (this.controls[0] as ArrayControl);
+        const petrolGroupControl = arrayControl.arrayControls[this.selectedPetrolIndex] as GroupControl;
+        const basicPetrolInfoGroupControl = petrolGroupControl.groupControls
+            .find(control => control.key === 'basicPetrolInfo') as GroupControl;
+        return basicPetrolInfoGroupControl.groupControls;
+    }
 
-    //     if (selectedPetrolForm) {
-    //         if (selectedPetrolForm.errors) {
-    //             hasErrors = true;
-    //             this.petrolFormErrors = selectedPetrolForm.errors;
-    //         }
+    getBasicPetrolInfoFormGroup() {
+        const petrolsFormArray = this.petrolFormGroup.controls.petrols as FormArray;
+        const petrolFormGroup = petrolsFormArray.controls[this.selectedPetrolIndex] as FormGroup;
+        return petrolFormGroup.get('basicPetrolInfo');
+    }
 
-    //         if (this.reportResultTypes) {
-    //             this.reportResultTypes.forEach(r => {
-    //                 if (selectedPetrolForm.errors && selectedPetrolForm.errors[r.field]) {
-    //                     hasErrors = true;
-    //                     this.petrolFormErrors['invalidNumberofSample'] = selectedPetrolForm.errors[r.field].invalidNumberofSample;
-    //                     this.petrolFormErrors['tabField'] = r.header;
-    //                 }
-    //             });
-    //         }
+    getBasicPetrolInfoValue() {
+        const currentPetrol = this.fuelPetrol.petrols[this.selectedPetrolIndex];
+        if (currentPetrol) {
+            return currentPetrol.basicPetrolInfo;
+        }
+    }
 
-    //         Object.keys((selectedPetrolForm as FormArray).controls).forEach(key => {
-    //             if (selectedPetrolForm.get(key).errors) {
-    //                 hasErrors = true;
-    //                 this.petrolFormErrors[key] = selectedPetrolForm.get(key).errors;
-    //             }
-    //         });
+    getReportingResultsControls() {
+        const arrayControl = (this.controls[0] as ArrayControl);
+        const petrolGroupControl = arrayControl.arrayControls[this.selectedPetrolIndex] as GroupControl;
+        return petrolGroupControl.groupControls;
+    }
 
-    //     }
-
-    //     if (!hasErrors) {
-    //         this.petrolFormErrors = {};
-    //     }
-
-
-    //     // console.log(this.petrolFormErrors);
-
-    //     return null;
-    // }
-
+    getSamplingFrequencyControls() {
+        const arrayControl = (this.controls[0] as ArrayControl);
+        const petrolGroupControl = arrayControl.arrayControls[this.selectedPetrolIndex] as GroupControl;
+        const sampleFrequencyGroupControl = petrolGroupControl.groupControls
+            .find(control => control.key === 'sampleFrequency') as GroupControl;
+        return sampleFrequencyGroupControl.groupControls;
+    }
 }
 
 

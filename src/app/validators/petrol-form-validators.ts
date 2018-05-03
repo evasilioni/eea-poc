@@ -1,5 +1,5 @@
-import { AbstractControl, FormArray } from '@angular/forms';
-import { ConfigService } from '../services/config.service';
+import {AbstractControl, FormArray} from '@angular/forms';
+import {ConfigService} from '../services/config.service';
 
 export class PetrolFormValidators {
 
@@ -21,6 +21,7 @@ export class PetrolFormValidators {
 
     uniqueCountry() {
         return (control: AbstractControl): {} => {
+            const currentBasicPetrolInfoFormGroup = control.get('basicPetrolInfo');
             const errors = {};
 
             if (control.parent) {
@@ -29,8 +30,9 @@ export class PetrolFormValidators {
                 parentFromArray.controls
                     .filter(c => c !== control)
                     .forEach(c => {
-
-                        if (c.get('country').value.toLowerCase() === control.get('country').value.toLowerCase()) {
+                        const basicPetrolInfoFormGroup = c.get('basicPetrolInfo');
+                        if (basicPetrolInfoFormGroup.get('country').value.toLowerCase() ===
+                            currentBasicPetrolInfoFormGroup.get('country').value.toLowerCase()) {
                             Object.assign(errors, {
                                 'Field \'Country\'': 'Country should be unique.'
                             });
@@ -49,8 +51,8 @@ export class PetrolFormValidators {
             const summerPeriodNorA = control.get('summerPeriodNorA');
 
             // tslint:disable-next-line:radix
-            return period.value === 'Summer' &&  summerPeriodNorA.value === 'A' ?
-            { '\'Period\' Field': 'Period should be Winter or Summer period should be N' } : null;
+            return period.value === 'Summer' && summerPeriodNorA.value === 'A' ?
+                {'\'Period\' Field': 'Period should be Winter or Summer period should be N'} : null;
         };
     }
 
@@ -60,7 +62,7 @@ export class PetrolFormValidators {
             const maxValue = control.get('max');
 
             // tslint:disable-next-line:radix
-            return parseInt(minValue.value) > parseInt(maxValue.value) ? { '\'Min\' Field': 'Min cannot be greater than max' } : null;
+            return parseInt(minValue.value) > parseInt(maxValue.value) ? {'\'Min\' Field': 'Min cannot be greater than max'} : null;
         };
     }
 

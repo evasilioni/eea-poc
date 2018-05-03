@@ -1,12 +1,14 @@
 export class Petrol {
     id: string;
-    country: string;
-    reportingYear: number;
-    period: string;
-    parentFuelGrade: string;
-    nationalFuelGrade: string;
-    summerPeriodNorA: string;
-    maximumBioethanolContent: string;
+    basicPetrolInfo: {
+        country: string;
+        reportingYear: number;
+        period: string;
+        parentFuelGrade: string;
+        nationalFuelGrade: string;
+        summerPeriodNorA: string;
+        maximumBioethanolContent: string;
+    };
     researchOctaneNumber: ReportResult;
     motorOctaneNumber: ReportResult;
     vapourPressure: ReportResult;

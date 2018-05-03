@@ -11,13 +11,15 @@
         "petrols": [
             {
                 "id": "1",
-                "country": "Germany",
-                "reportingYear": 2016,
-                "period": "Winter",
-                "parentFuelGrade": "45",
-                "summerPeriodNorA": "A",
-                "maximumBioethanolContent": "458",
-                "nationalFuelGrade": "23",
+                "basicPetrolInfo": {
+                    "country": "Germany",
+                    "reportingYear": 2016,
+                    "period": "Winter",
+                    "parentFuelGrade": "45",
+                    "summerPeriodNorA": "A",
+                    "maximumBioethanolContent": "458",
+                    "nationalFuelGrade": "23"
+                },
                 "researchOctaneNumber": {
                     "unit": "--",
                     "numOfSamples": 106,
@@ -110,13 +112,15 @@
             },
             {
                 "id": "2",
-                "country": "Spain",
-                "reportingYear": 2014,
-                "period": "Winter",
-                "parentFuelGrade": "45",
-                "summerPeriodNorA": "A",
-                "maximumBioethanolContent": "458",
-                "nationalFuelGrade": "23",
+                "basicPetrolInfo": {
+                    "country": "Spain",
+                    "reportingYear": 2014,
+                    "period": "Winter",
+                    "parentFuelGrade": "45",
+                    "summerPeriodNorA": "A",
+                    "maximumBioethanolContent": "458",
+                    "nationalFuelGrade": "23"
+                },
                 "researchOctaneNumber": {
                     "unit": "--",
                     "numOfSamples": 1268,
@@ -145,13 +149,15 @@
             },
             {
                 "id": "3",
-                "country": "Italy",
-                "reportingYear": 2017,
-                "period": "Summer",
-                "parentFuelGrade": "45",
-                "summerPeriodNorA": "A",
-                "maximumBioethanolContent": "458",
-                "nationalFuelGrade": "23",
+                "basicPetrolInfo": {
+                    "country": "Italy",
+                    "reportingYear": 2017,
+                    "period": "Summer",
+                    "parentFuelGrade": "45",
+                    "summerPeriodNorA": "A",
+                    "maximumBioethanolContent": "458",
+                    "nationalFuelGrade": "23"
+                },
                 "researchOctaneNumber": {
                     "unit": "--",
                     "numOfSamples": 1268,

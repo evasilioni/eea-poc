@@ -31,16 +31,15 @@ export class DynamicFormService {
                 validators: ValidatorFn[], nameInParent?: string, parent?: AbstractControl) {
         const group: any = {};
 
-        controls.concat(customControls)
+        controls
             .filter(control => control.controlType !== ControlType.GROUP)
+            .concat(customControls)
             .forEach(control => this.createControl(group, control));
 
         const formGroup = new FormGroup(group, validators);
         if (parent) {
             this.addToParent(parent, nameInParent, formGroup);
         }
-        console.log('validators',validators);
-        console.log('formGroup',formGroup);
         return formGroup;
     }
 
@@ -65,7 +64,7 @@ export class DynamicFormService {
                 groupedControls.push(currentGroup);
             }
             return groupedControls;
-        } else if (controls[0] && controls[0].controlType === ControlType.GROUP || controls[0].controlType === ControlType.ARRAY) {
+        } else if (controls[0] && (controls[0].controlType === ControlType.GROUP || controls[0].controlType === ControlType.ARRAY)) {
             // case where a group is found we first create new group with previous found controls (if any)
             // then we create a new group with only the GROUP or ARRAY
             // then reset the temporary group array
@@ -100,7 +99,7 @@ export class DynamicFormService {
 
             if (control.controlType === ControlType.GROUP) {
                 const groupControl = control as GroupControl;
-                const group = this.toFormGroup(groupControl.groupControls, [], groupControl.groupValidators);
+                const group = this.toFormGroup([], groupControl.groupControls, groupControl.groupValidators);
                 formArray.push(group);
             } else if (control.controlType !== ControlType.ARRAY) {
                 formArray.push(this.createFormControl(control));
@@ -115,6 +114,11 @@ export class DynamicFormService {
     private createControl(group: any, control) {
         if (control instanceof ArrayControl) {
             group[control.key] = this.toFormArray(control);
+        } else if (control instanceof GroupControl) {
+            // TODO this is the case where the form array has a nested group. we want it to be created here,
+            // since we do not render the array. In case we want an array to be rendered this needs more thought.
+            // the groupControls are passe to the customControls parameter for this exact reason
+            group[control.key] = this.toFormGroup([], control.groupControls, control.groupValidators, control.key);
         } else {
             group[control.key] = this.createFormControl(control);
         }

@@ -1,5 +1,5 @@
 <div [formGroup]="parentForm">
-    <dynamic-form [parent]="parentForm" [formName]="'petrol'" (formCreated)="retrievePetrolFormGroup($event)" [controls]="controls"
+    <dynamic-form [parent]="parentForm" [formName]="'petrol'" (formCreated)="retrievePetrolFormGroup($event)" [customControls]="controls"
         [value]="fuelPetrol">
 
 
@@ -15,7 +15,7 @@
             <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                 <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="i">
                     <td *ngFor="let col of columns">
-                        {{rowData[col.field]}}
+                        {{col.field === 'id' ? rowData[col.field] : rowData['basicPetrolInfo'][col.field]}}
                     </td>
                 </tr>
             </ng-template>
@@ -35,111 +35,46 @@
                {{this.petrol.id}}
             </p-header>
 
-            <dynamic-form class="font-style-85em" [form]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex] ? petrolFormGroup.controls.petrols.controls[selectedPetrolIndex] : undefined"
-            [controls]="controls[0].arrayControls[selectedPetrolIndex].groupControls" [groupValidators]="controls[0].arrayControls[selectedPetrolIndex].groupValidators" [parent]="petrolFormGroup.controls.petrols"
-                (formSubmit)="onSubmit($event)" (formCreated)="retrieveFormGroup($event)" 
-                [showErrors]="true" [value]="fuelPetrol.petrols[selectedPetrolIndex]" [controlsPerRow]="3">
+            <error-messages [relatedForm]="this.petrolFormGroup.controls.petrols.controls[this.selectedPetrolIndex]">
 
-                <p-tabView>
-                        <p-tabPanel header="Reporting Results" class="font-style-85em">
+            </error-messages>
 
-                            <reporting-results [reportResultTypes]="reportResultTypes"
-                                                [value]="fuelPetrol.petrols[selectedPetrolIndex]"
-                                               [group]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex]">
-                            </reporting-results>
-
-                        </p-tabPanel>
-
-                        <p-tabPanel header="Sampling Frequency" class="font-style-85em">
-
-                            <sample-frequency [value]="fuelPetrol.petrols[selectedPetrolIndex]?.sampleFrequency"
-                                [group]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex]">
-                            </sample-frequency>
-
-                        </p-tabPanel>
-
-                        <p-tabPanel header="Test Method and Analysis">
-                            Content 3
-                        </p-tabPanel>
-                    </p-tabView>
+            <dynamic-form class="font-style-85em"
+                          [controls]="getBasicPetrolInfoControls()"
+                          [form]="getBasicPetrolInfoFormGroup()"
+                          [showErrors]="true"
+                          [controlsPerRow]="3"
+                          [value]="getBasicPetrolInfoValue()">
             </dynamic-form>
 
-            <!-- <div class="error-background" *ngIf="petrolFormErrors?.invalidCountry">
-            <span class="error-text-class-padding-40">Country should be unique!</span>
-        </div>
-        <div class="error-background"
-             *ngIf="petrolFormErrors?.invalidNumberofSample">
-            <span
-                class="error-text-class-padding-30">{{petrolFormErrors?.tabField}}: NumOfSamples outside of the range!</span>
-        </div>
 
-        <div>
-            <span class="font-style-85em">Basic Info</span>
-        </div>
-        <div class="ui-g font-style-75em">
-            <div class="ui-g-2">
-                <label for="country">Country:</label>
-                <p *ngIf="petrolFormErrors?.country?.required" style="color:red;display:contents">*</p>
-                <input type="text" pInputText formControlName="country">
-            </div>
+            <p-tabView>
+                <p-tabPanel header="Reporting Results" class="font-style-85em">
 
-            <div class="ui-g-2">
-                <label for="reportingYear">Reporting Year:</label>
-                <p *ngIf="petrolFormErrors?.reportingYear?.required" style="color:red;display:contents">*</p>
-                <input type="text" pInputText formControlName="reportingYear">
-            </div>
+                    <reporting-results [controls]="getReportingResultsControls()"
+                                       [reportResultTypes]="reportResultTypes"
+                                       [value]="fuelPetrol.petrols[selectedPetrolIndex]"
+                                       [group]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex]">
+                    </reporting-results>
 
-            <div class="ui-g-2">
-                <label for="period">Period:</label>
-                <p *ngIf="petrolFormErrors?.period?.required" style="color:red;display:contents">*</p>
-                <input type="text" pInputText formControlName="period">
-            </div>
+                </p-tabPanel>
 
-            <div class="ui-g-2">
-                <label for="parentFuelGrade">Parent Fuel Grade:</label>
-                <p *ngIf="petrolFormErrors?.parentFuelGrade?.required" style="color:red;display:contents">*</p>
-                <input type="text" pInputText formControlName="parentFuelGrade">
-            </div>
-            <div class="ui-g-2">
-                <label for="nationalFuelGrade">National Fuel Grade:</label>
-                <input type="text" pInputText formControlName="nationalFuelGrade">
-            </div>
-        </div>
+                <p-tabPanel header="Sampling Frequency" class="font-style-85em">
 
-        <div class="ui-g font-style-75em">
-            <div class="ui-g-2">
-                <label for="summerPeriodNorA">Summer Period:</label>
-                <input type="text" pInputText formControlName="summerPeriodNorA">
-            </div>
-            <div class="ui-g-2">
-                <label for="maximumBioethanolContent">Max Bioethanol Content:</label>
-                <input type="text" pInputText formControlName="maximumBioethanolContent">
-            </div>
-        </div>
+                    <sample-frequency [controls]="getSamplingFrequencyControls()"
+                                      [value]="fuelPetrol.petrols[selectedPetrolIndex]?.sampleFrequency"
+                                      [group]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex]">
+                    </sample-frequency>
 
-        <p-tabView>
-            <p-tabPanel header="Reporting Results" class="font-style-75em">
+                </p-tabPanel>
 
-                <reporting-results [reportResultTypes]="reportResultTypes"
-                                   [controls]="parentForm.controls['petrols'].controls[selectedPetrolIndex].controls"
-                                   [group]="parentForm.controls['petrols'].controls[selectedPetrolIndex]">
-                </reporting-results>
+                <p-tabPanel header="Test Method and Analysis">
+                    Content 3
+                </p-tabPanel>
+            </p-tabView>
 
-            </p-tabPanel>
 
-            <p-tabPanel header="Sampling Frequency">
-
-                <sample-frequency
-                    [group]="parentForm.controls['petrols'].controls[selectedPetrolIndex].controls.sampleFrequency"></sample-frequency>
-
-            </p-tabPanel>
-
-            <p-tabPanel header="Test Method and Analysis">
-                Content 3
-            </p-tabPanel>
-        </p-tabView>
--->
-        <p-footer>
+            <p-footer>
             <div class="ui-dialog-buttonpane ui-helper-clearfix">
                 <button type="button" pButton
                         style="font-size:12px;background-color:grey;padding-left: -1em !important;" (click)="close()"
