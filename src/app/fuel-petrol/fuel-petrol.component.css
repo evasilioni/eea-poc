@@ -53,3 +53,7 @@
     line-height: 30px;
     padding-left: 30%
 }
+
+:host /deep/ .ui-tabview .ui-tabview-nav {
+    background: steelblue;
+}

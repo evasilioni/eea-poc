@@ -63,8 +63,8 @@ export function testCrossFormGroupValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
         // TODO form model is not type-safe so for the moment and since form model === data model we can cast to data model for type safety
         const fuelData = control.value as FuelData;
-        if (fuelData.nestedFormValidation && fuelData.fuelContacts) {
-            return fuelData.nestedFormValidation.testField1 === fuelData.fuelContacts.organisationResponsibleForReport
+        if (fuelData.nestedFormValidation && fuelData.contacts) {
+            return fuelData.nestedFormValidation.testField1 === fuelData.contacts.organisationResponsibleForReport
                 ? null
                 : { 'crossFormGroupError1': 'Test Error' };
         }

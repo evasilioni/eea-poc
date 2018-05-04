@@ -10,7 +10,7 @@ export interface NestedFormData {
 
 
 export interface FuelData {
-    fuelContacts: Contacts;
+    contacts: Contacts;
     petrol: FuelPetrol;
     nestedFormValidation: NestedFormData;
 }

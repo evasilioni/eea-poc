@@ -2,6 +2,7 @@ import {NestedFormData} from '../fuel-data';
 
 export class Contacts {
     country: string;
+    reportingYear: string;
     dateReportCompleted: Date;
     organisationResponsibleForReport: string;
     organisationAddress: Address;
