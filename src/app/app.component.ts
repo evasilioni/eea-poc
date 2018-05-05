@@ -1,12 +1,10 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FuelData, FuelPetrol } from './fuel-data';
-import { parse } from 'js2xmlparser';
-import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
-import { TextboxControl } from './dynamic-forms/controls/textbox-control';
-import { BaseControl } from './dynamic-forms/controls/base-control';
-import { GroupControl } from './dynamic-forms/controls/group-controll';
-import { FuelDataService } from './services/fuel-data-service/fuel-data.service';
-
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {FuelData} from './fuel-data';
+import {parse} from 'js2xmlparser';
+import {AbstractControl, FormGroup, ValidatorFn} from '@angular/forms';
+import {BaseControl} from './dynamic-forms/controls/base-control';
+import {FuelDataService} from './services/fuel-data-service/fuel-data.service';
+import {SuperForm} from 'angular-super-validator';
 
 @Component({
     selector: 'app-root',
@@ -28,7 +26,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     fuelDataXml() {
         if (this.fuelData !== undefined) {
-            return parse('fuel-data', this.fuelData, { format: { pretty: true } });
+            return parse('fuel-data', this.fuelData, {format: {pretty: true}});
         }
     }
 
@@ -56,6 +54,13 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.parentForm = formGroup;
     }
 
+    hasErrors(form: FormGroup) {
+        if (form && !form.valid && form.touched && form.dirty) {
+            const errors = SuperForm.getAllErrorsFlat(form);
+            return Object.keys(errors).length > 0 ? 'tab-error' : '';
+        }
+        return '';
+    }
 }
 
 // testing cross form group validation
@@ -66,7 +71,7 @@ export function testCrossFormGroupValidator(): ValidatorFn {
         if (fuelData.nestedFormValidation && fuelData.contacts) {
             return fuelData.nestedFormValidation.testField1 === fuelData.contacts.organisationResponsibleForReport
                 ? null
-                : { 'crossFormGroupError1': 'Test Error' };
+                : {'crossFormGroupError1': 'Test Error'};
         }
         return null;
     };

@@ -1,9 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {BaseControl} from '../../dynamic-forms/controls/base-control';
 import {GroupControl} from '../../dynamic-forms/controls/group-controll';
-import {ValidatorFn} from '@angular/forms';
+import {FormGroup, ValidatorFn} from '@angular/forms';
 import {PetrolFormValidators} from '../../validators/petrol-form-validators';
 import {ConfigService} from '../../services/config.service';
+import {SuperForm} from 'angular-super-validator';
 
 @Component({
     selector: 'reporting-results',
@@ -37,11 +38,20 @@ export class ReportingResultsComponent implements OnInit {
 
     ngOnInit() {
         this.petrolFormValidator = new PetrolFormValidators(this.configService);
+        console.log('group', this.group)
     }
 
     filteredControls(key) {
         const petrolControls = (this.controls.filter(control => control.key === key)[0] as GroupControl);
         this.groupValidators = petrolControls.groupValidators;
         return petrolControls.groupControls;
+    }
+
+    hasErrors(form: FormGroup) {
+        if (form && !form.valid && form.touched && form.dirty) {
+            const errors = SuperForm.getAllErrorsFlat(form);
+            return Object.keys(errors).length > 0 ? 'tab-error' : '';
+        }
+        return '';
     }
 }

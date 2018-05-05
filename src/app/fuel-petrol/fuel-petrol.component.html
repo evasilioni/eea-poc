@@ -49,7 +49,7 @@
 
 
             <p-tabView>
-                <p-tabPanel header="Reporting Results" class="font-style-85em">
+                <p-tabPanel [tabForm]="getReportingResultsForms(petrolFormGroup.controls.petrols.controls[selectedPetrolIndex])" header="Reporting Results" class="font-style-85em">
 
                     <reporting-results [controls]="getReportingResultsControls()"
                                        [reportResultTypes]="reportResultTypes"
@@ -59,7 +59,7 @@
 
                 </p-tabPanel>
 
-                <p-tabPanel header="Sampling Frequency" class="font-style-85em">
+                <p-tabPanel [tabForm]="[petrolFormGroup.controls.petrols.controls[selectedPetrolIndex].get('samplingFrequency')]" header="Sampling Frequency" class="font-style-85em">
 
                     <sample-frequency [controls]="getSamplingFrequencyControls()"
                                       [value]="fuelPetrol.petrols[selectedPetrolIndex]?.sampleFrequency"

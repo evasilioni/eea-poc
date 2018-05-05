@@ -11,6 +11,7 @@ import {FuelPetrol} from '../fuel-data';
 import {FuelDataService} from '../services/fuel-data-service/fuel-data.service';
 import {GroupControl} from '../dynamic-forms/controls/group-controll';
 import {DynamicFormService} from '../dynamic-forms/dynamic-form/dynamic-form.service';
+import {SuperForm} from 'angular-super-validator';
 
 
 @Component({
@@ -184,6 +185,10 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
             const petrolArray = (this.controls[0] as ArrayControl);
             petrolArray.removeAt(this.selectedPetrolIndex);
             this.selectedPetrolIndex = undefined;
+        } else {
+            // when we close the dialog we don't want the form to be pristine
+            // so that we don't show the tab as invalid (in case it is invalid)
+            this.petrolFormGroup.markAsPristine();
         }
     }
 
@@ -220,6 +225,25 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
         const sampleFrequencyGroupControl = petrolGroupControl.groupControls
             .find(control => control.key === 'sampleFrequency') as GroupControl;
         return sampleFrequencyGroupControl.groupControls;
+    }
+
+    getReportingResultsForms(parent: FormGroup) {
+        const forms: FormGroup[] = [];
+        this.reportResultTypes
+            .map(rr => rr.field)
+            .forEach(rr => {
+                const formFound = Object.keys(parent.controls).find(ck => ck === rr);
+                forms.push(parent.get(formFound) as FormGroup);
+            });
+        return forms;
+    }
+
+    hasErrors(form: FormGroup) {
+        if (form && !form.valid && form.touched && form.dirty) {
+            const errors = SuperForm.getAllErrorsFlat(form);
+            return Object.keys(errors).length > 0 ? 'tab-error' : '';
+        }
+        return '';
     }
 }
 

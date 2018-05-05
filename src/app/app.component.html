@@ -10,10 +10,10 @@
               (formCreated)="retrieveFormGroup($event)" [groupValidators]="topValidators">
 
     <p-tabView>
-        <p-tabPanel header="Contacts & Annual Summary">
+        <p-tabPanel [tabForm]="[parentForm?.get('contacts')]" header="Contacts & Annual Summary">
             <fuel-contacts [parentForm]="parentForm" [contacts]="fuelData?.contacts"></fuel-contacts>
         </p-tabPanel>
-        <p-tabPanel header="Petrol">
+        <p-tabPanel [tabForm]="[parentForm?.get('petrol')]" header="Petrol">
             <fuel-petrol *ngIf="fuelData?.petrol.petrols.length > 0" [parentForm]="parentForm" [fuelPetrol]="fuelData?.petrol"></fuel-petrol>
         </p-tabPanel>
     </p-tabView>

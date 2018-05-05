@@ -1,13 +1,13 @@
 <p-tabView orientation="left" >
     <div>
-            <p-tabPanel *ngFor="let tab of reportResultTypes;let i = index;" [header]="tab.header" [selected]="i==0">
+            <p-tabPanel *ngFor="let tab of reportResultTypes;let i = index;" [header]="tab.header" [selected]="i==0" [tabForm]="[group.get(tab.field)]" >
                 <div class="ui-tabview-title some-class">
-                        <reporting-result [group]="group" [groupName]="tab.field" [controls]="filteredControls(tab.field)" 
-                        [groupValidators]="groupValidators" 
+                        <reporting-result [group]="group" [groupName]="tab.field" [controls]="filteredControls(tab.field)"
+                        [groupValidators]="groupValidators"
                         [value]="value ? value[tab.field] : ''"></reporting-result>
                 </div>
 
-        
+
                 </p-tabPanel>
     </div>
 

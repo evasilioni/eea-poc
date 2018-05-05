@@ -5,3 +5,6 @@
     background-color: rgb(181, 195, 209);
 }
 
+li.tab-error a {
+    color: red !important;
+}

@@ -30,6 +30,7 @@ import { FuelPetrolService } from './fuel-petrol/fuel-petrol.service';
 import { FuelDataService } from './services/fuel-data-service/fuel-data.service';
 
 
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -38,7 +39,8 @@ import { FuelDataService } from './services/fuel-data-service/fuel-data.service'
         FuelPetrolComponent,
         SampleFrequencyComponent,
         ReportingResultsComponent,
-        ReportingResultComponent
+        ReportingResultComponent,
+
     ],
     imports: [
         BrowserModule,

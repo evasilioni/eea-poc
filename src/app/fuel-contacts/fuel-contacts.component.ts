@@ -28,6 +28,7 @@ export class FuelContactsComponent implements OnInit, AfterContentInit {
     generalSummary: BaseControl<string>;
 
     constructor(private http: HttpClient, private fb: FormBuilder, private fuelContactsService: FuelContactsService) {
+        console.log('create fuel contacts')
         this.createCustomControls();
     }
 
