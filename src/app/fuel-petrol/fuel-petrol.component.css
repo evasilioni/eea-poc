@@ -17,10 +17,15 @@
     width: 65%;
 }
 
-.font-style-85em {
+/deep/ .font-style-85em label{
     font-size: 0.85em;
     font-weight: bold;
 }
+
+/deep/ .font-style-85em input, /deep/ .font-style-85em button{
+    font-size: 0.85em;
+}
+
 
 .font-style-75em {
     font-size: 0.75em;
