@@ -1,11 +1,22 @@
-/deep/ .ui-tabview .ui-tabview-panel {
-    border-width: 0;
+/* /deep/ .ui-tabview .ui-tabview-panel {
+    
+} */
+
+/deep/ .ui-tabview-left  .ui-tabview-panel {
+    /* border: 1px solid lightgray;
+    border-left: 0;
+    padding: 0em;
+    background: 0; */
+
+    border: 1px solid #bebebe;
     padding: 0em;
     background: 0;
 }
 
-/deep/  .ui-tabview.ui-tabview-left>.ui-tabview-nav li {
-    /* margin: 0 0 1px 0; */
-    border: 0;
-}
+/* :host /deep/ .ui-tabview  > ul {
+    border-right: 1px solid #ddd;
+} */
 
+:host /deep/ .ui-tabview .ui-tabview-nav > li.ui-state-active {
+    margin-right: -1px;
+}

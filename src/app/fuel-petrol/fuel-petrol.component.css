@@ -6,6 +6,7 @@
 
 :host /deep/ .ui-tabview-left > .ui-tabview-nav {
     width: 15%;
+    padding-top: 0;
 }
 
 :host /deep/ .ui-tabview-left > .ui-tabview-panels {
