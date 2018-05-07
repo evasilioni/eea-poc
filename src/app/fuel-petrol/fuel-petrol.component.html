@@ -30,7 +30,7 @@
         </p-table>
 
         <p-dialog *ngIf="displayDialog" [(visible)]="displayDialog" [closeOnEscape]="false" [closable]="false"
-            showEffect="fade" [responsive]="true" [dismissableMask]="false" [modal]="true" styleClass="ui-fluid ui-dialog-width">
+             [responsive]="true" [dismissableMask]="false" [modal]="true" styleClass="ui-fluid ui-dialog-width font-style-85em">
             <p-header>
                {{this.petrol.id}}
             </p-header>
@@ -39,7 +39,7 @@
 
             </error-messages>
 
-            <dynamic-form class="font-style-85em"
+            <dynamic-form
                           [controls]="getBasicPetrolInfoControls()"
                           [form]="getBasicPetrolInfoFormGroup()"
                           [showErrors]="true"
@@ -49,7 +49,7 @@
 
 
             <p-tabView>
-                <p-tabPanel header="Reporting Results" class="font-style-85em">
+                <p-tabPanel header="Reporting Results">
 
                     <reporting-results [controls]="getReportingResultsControls()"
                                        [reportResultTypes]="reportResultTypes"
@@ -59,7 +59,7 @@
 
                 </p-tabPanel>
 
-                <p-tabPanel header="Sampling Frequency" class="font-style-85em">
+                <p-tabPanel header="Sampling Frequency">
 
                     <sample-frequency [controls]="getSamplingFrequencyControls()"
                                       [value]="fuelPetrol.petrols[selectedPetrolIndex]?.sampleFrequency"
