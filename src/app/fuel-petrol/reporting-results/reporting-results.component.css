@@ -1,9 +1,13 @@
-/* :host /deep/  .ui-tabview-title{       
-    color:red !important; 
-} */
+:host /deep/  .myclass.ui-tabview-title{       
+    /* color:red !important;  */
+}
 
-.some-class{ 
-    /* color:black !important; */
+/deep/ .some-class{ 
+    color:black !important; 
+}
+
+/deep/ .some-class-2{ 
+    color:red !important; 
 }
 
 

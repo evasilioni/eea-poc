@@ -27,20 +27,23 @@ export class SampleFrequencyComponent implements OnInit {
     }
 
     ngOnInit() {
-
         this.monthsArray.forEach(m => {
             if (this.group.controls.sampleFrequency.controls[m]) {
                 this.group.controls.sampleFrequency.controls[m].valueChanges
-                .subscribe(data => this.onChanges(data));
+                .subscribe(data => this.onChanges(m, data));
             }
         });
     }
 
 
-    onChanges(monthValue: any) {
+    onChanges(month: string, monthValue: any) {
         // tslint:disable-next-line:radix
-        const val =  this.getNumber(monthValue) + this.getNumber(this.group.controls.sampleFrequency.controls['totalMonthValue'].value);
-        this.group.controls.sampleFrequency.controls['totalMonthValue'].setValue(val);
+        let totalMonthValue = 0;
+        this.monthsArray.filter(m => m !== month).forEach(m => {
+            totalMonthValue +=  this.getNumber(this.group.controls.sampleFrequency.controls[m].value);
+        });
+        totalMonthValue +=  this.getNumber(monthValue);
+        this.group.controls.sampleFrequency.controls['totalMonthValue'].setValue(totalMonthValue);
     }
 
 

@@ -37,6 +37,8 @@ export class ReportingResultsComponent implements OnInit {
 
     ngOnInit() {
         this.petrolFormValidator = new PetrolFormValidators(this.configService);
+        console.log('group validity', this.group.valid);
+        console.log('group', this.group);
     }
 
     filteredControls(key) {
@@ -44,4 +46,5 @@ export class ReportingResultsComponent implements OnInit {
         this.groupValidators = petrolControls.groupValidators;
         return petrolControls.groupControls;
     }
+
 }

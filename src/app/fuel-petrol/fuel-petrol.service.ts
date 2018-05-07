@@ -171,7 +171,7 @@ export class FuelPetrolService {
             new TextboxControl({key: 'Apr', label: 'April'}),
             new TextboxControl({key: 'May', label: 'May'}),
             new TextboxControl({key: 'Jun', label: 'June'}),
-            new TextboxControl({key: 'Jun', label: 'July'}),
+            new TextboxControl({key: 'Jul', label: 'July'}),
             new TextboxControl({key: 'Aug', label: 'August'}),
             new TextboxControl({key: 'Sep', label: 'September'}),
             new TextboxControl({key: 'Oct', label: 'October'}),
