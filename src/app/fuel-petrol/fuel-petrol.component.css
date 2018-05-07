@@ -1,64 +1,30 @@
+/deep/ .ui-dialog-width {
+    width: 85%;
+}
+
+/* LEF ALIGNED TABS*/
+
 :host /deep/ .ui-tabview-left > .ui-tabview-nav {
-    width: 10%;
+    width: 15%;
 }
 
 :host /deep/ .ui-tabview-left > .ui-tabview-panels {
     float: left;
-    width: 90%;
+    width: 85%;
 }
 
-:host /deep/ .ui-state-disabled, .ui-widget:disabled {
-    opacity: 0.95;
-    border: 1px solid #e2d9d9;
-    background-color: rgb(181, 195, 209);
-}
+/* DIALOG INPUT STYLES */
 
-/deep/ .ui-dialog-width {
-    width: 65%;
-}
-
-/deep/ .font-style-85em label{
+/deep/ .font-style-85em label {
     font-size: 0.85em;
     font-weight: bold;
 }
 
-/deep/ .font-style-85em input, /deep/ .font-style-85em button{
+/deep/ .font-style-85em input, /deep/ .font-style-85em button {
     font-size: 0.85em;
 }
 
-
-.font-style-75em {
-    font-size: 0.75em;
-    font-weight: bold;
-}
-
+/* DIALOG BUTTON ICONS */
 :host /deep/ .ui-fluid .ui-button-text-icon-left .ui-button-text, .ui-fluid .ui-button-text-icon-right .ui-button-text {
     padding-left: 2em;
-}
-
-.error-background {
-    background-color: #ffd8cc;
-    height: 7%;
-    border: 0.35px solid rgb(240, 163, 163);
-    border-radius: 5px;
-}
-
-.error-text-class-padding-40 {
-    color: #801f00;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 30px;
-    padding-left: 40%
-}
-
-.error-text-class-padding-30 {
-    color: #801f00;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 30px;
-    padding-left: 30%
-}
-
-:host /deep/ .ui-tabview .ui-tabview-nav {
-    background: steelblue;
 }

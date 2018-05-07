@@ -1,16 +1,3 @@
-:host /deep/  .myclass.ui-tabview-title{       
-    /* color:red !important;  */
-}
-
-/deep/ .some-class{ 
-    color:black !important; 
-}
-
-/deep/ .some-class-2{ 
-    color:red !important; 
-}
-
-
 /deep/ .ui-tabview .ui-tabview-panel {
     border-width: 0;
     padding: 0em;
