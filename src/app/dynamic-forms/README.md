@@ -64,7 +64,7 @@ let controls: BaseControl<string>[] = [
 
 For the simple example above you just need to add the dynamic form component to your template referencing the array of controls:
 
-```angular2html
+```ts
 <dynamic-form [controls]="controls">
 
 </dynamic-form>
@@ -139,7 +139,7 @@ Using the `customControls` property of the dynamic form we can create FormContro
 This was initially added as a feature because we might want to give complete control to the user to where the control is rendered without reverting back
 to reactive forms. To render manually the control the DynamicFormControl component must be used:
 
-```angular2html
+```ts
  <!--NOTE: this ui-g class is absolutely required so as to not break the grid layout!-->
         <div class="ui-g">
             <dynamic-form-control [control]="generalSummary" [form]="dynamicForm">
@@ -176,7 +176,7 @@ the `controls` property of the dynamic form. This is because that in the normal 
 they are passed as input to nested dynamic forms so as to be rendered as separate forms. This means that if we pass the array to the `controls`
 input property the nested FormGroups will **NOT** be created:
 
-```angular2html
+```ts
 <dynamic-form [customControls]="array"></dynamic-form>
 ```
 
@@ -195,7 +195,7 @@ NOTE: This means that somehow we must get a reference to the FormArray which was
 This is done by passing a method reference to the `@Output` parameter `formCreated`. This event will be fired after the FormArray (or FormGroup) 
 is created. In this method we can get the reference of the FormArray:
 
-```angular2html
+```ts
 <dynamic-form [controls]="array[0].controls" [parent]="parentForm" (formCreated)="retrieveFormArray($event)">
 
 </dynamic-form>
@@ -250,7 +250,7 @@ The dynamic form control component is responsible for showing individual control
  There is also the possibility to mark a PrimeNG tab as invalid when an error occurs in its FormGroup (checking recursively in all nested FormGroups).
  This is achieved using the `tabForm` directive, passing the FormGroup we want the tab to check for errors:
  
- ```angular2html
+ ```ts
 <p-tabPanel [tabForm]="formGroup">
 // ...
 </p-tabPanel>
