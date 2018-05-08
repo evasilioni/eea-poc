@@ -1,14 +1,59 @@
-<p-tabView orientation="left">
-    <div>
-        <p-tabPanel *ngFor="let tab of reportResultTypes;let i = index;" [header]="tab.header" [selected]="i==0">
-            <div>
-                <reporting-result [group]="group" [groupName]="tab.field" [controls]="filteredControls(tab.field)" [groupValidators]="groupValidators"
-                    [value]="value ? value[tab.field] : ''"></reporting-result>
-            </div>
+<h2>Reporting Results</h2>
+<p-table [columns]="cols" [value]="rows" selectionMode="single" (onRowSelect)="openReportingResultDialog($event)"
 
+         [rows]="15">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="rowData">
+            <td *ngFor="let col of columns">
+                {{
+                col.field === 'date' ? value[rowData][col.field]?.year :
+                (
+                value[rowData][col.field] ?
+                value[rowData][col.field] :
+                (reportResultTypes && col.field ==='parameter' ? reportResultTypes[rowIndex]?.header : '')
+                )
+                }}
+            </td>
+        </tr>
+    </ng-template>
 
-        </p-tabPanel>
-    </div>
+</p-table>
 
+<p-dialog *ngIf="displayDialog" [(visible)]="displayDialog" [closeOnEscape]="false" [closable]="false"
+          [responsive]="true" [dismissableMask]="false" [modal]="true"
+          styleClass="ui-fluid ui-dialog-width font-style-85em">
 
-</p-tabView>
+    <p-header>
+        {{selectedReportingResultHeader}}
+    </p-header>
+
+    <error-messages [relatedForm]="group">
+
+    </error-messages>
+
+    <reporting-result [group]="group"
+                      [groupName]="selectedReportingResult"
+                      [controls]="filteredControls(selectedReportingResult)"
+                      [groupValidators]="groupValidators"
+                      [value]="value ? value[selectedReportingResult] : ''">
+
+    </reporting-result>
+
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" pButton
+                    style="font-size:12px;background-color:grey;padding-left: -1em !important;" (click)="close()"
+                    label="Close"></button>
+            <button type="button" pButton icon="fa-check" (click)="save()"
+                    style="font-size:12px;background-color:green" label="Save"></button>
+        </div>
+    </p-footer>
+</p-dialog>
+

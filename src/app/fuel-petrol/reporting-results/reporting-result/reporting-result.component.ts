@@ -22,7 +22,7 @@ export class ReportingResultComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('groupvalidators', this.groupValidators);
+
     }
 
 }

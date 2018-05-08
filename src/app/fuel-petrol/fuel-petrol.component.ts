@@ -49,6 +49,7 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
                 private fuelPetrolService: FuelPetrolService,
                 private cd: ChangeDetectorRef,
                 private dynamicFormService: DynamicFormService) {
+
     }
 
     ngOnInit() {
@@ -57,6 +58,7 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
         this.getPetrols();
         this.getColumns();
         this.getReportResultTypes();
+
     }
 
     // TODO check if there is a better way to avoid error ExpressionChangedAfterItHasBeenCheckedError (comment line to see the error)
@@ -66,6 +68,7 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
 
     getColumns(): void {
         this.configService.getPetrolSettings().subscribe((data: any[]) => {
+            console.log('data', data);
             this.cols = data['cols'];
         });
     }
@@ -220,6 +223,16 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
         const sampleFrequencyGroupControl = petrolGroupControl.groupControls
             .find(control => control.key === 'sampleFrequency') as GroupControl;
         return sampleFrequencyGroupControl.groupControls;
+    }
+
+    getPetrolFormGroup(index: number) {
+        const petrolsFormArray = this.petrolFormGroup.controls.petrols as FormArray;
+        return petrolsFormArray.controls[index] as FormGroup;
+    }
+
+    getPetrolGroupControl(index: number) {
+        const arrayControl = (this.controls[0] as ArrayControl);
+        return arrayControl.arrayControls[index] as GroupControl;
     }
 }
 
