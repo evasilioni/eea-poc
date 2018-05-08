@@ -1,5 +1,6 @@
 /deep/ .ui-dialog-width {
     width: 85%;
+    min-height: 200px;
 }
 
 /* LEF ALIGNED TABS*/

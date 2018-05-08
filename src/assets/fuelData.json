@@ -106,7 +106,56 @@
                     "date": {
                         "year": "2006"
                     }},
+                    "hydrocarbonOlefins": {"unit": "% V/V",
+                    "numOfSamples": 806,
+                    "min": 2.400,
+                    "max": 14.600,
+                    "median": 7.700,
+                    "standardDeviation": 2.024,
+                    "toleranceLimit": 0,
+                    "sampleValue": 7.000,
+                    "nationalMin": "",
+                    "nationalMax": "",
+                    "directiveMin": "",
+                    "directiveMax": 18,
+                    "method": "ASTM D 1319 EN 15553 EN-ISO 22854",
+                    "date": {
+                        "year": "1995"
+                    }},
+                    "hydrocarbonAromatics": {"unit": "% V/V",
+                    "numOfSamples": 806,
+                    "min": 2.400,
+                    "max": 14.600,
+                    "median": 7.700,
+                    "standardDeviation": 2.024,
+                    "toleranceLimit": 0,
+                    "sampleValue": 7.000,
+                    "nationalMin": "",
+                    "nationalMax": "",
+                    "directiveMin": "",
+                    "directiveMax": 18,
+                    "method": "ASTM D 1319 EN 15553 EN-ISO 22854",
+                    "date": {
+                        "year": "1995"
+                    }},
+                    "hydrocarbonBenzene": {"unit": "% V/V",
+                    "numOfSamples": 806,
+                    "min": 2.400,
+                    "max": 14.600,
+                    "median": 7.700,
+                    "standardDeviation": 2.024,
+                    "toleranceLimit": 0,
+                    "sampleValue": 7.000,
+                    "nationalMin": "",
+                    "nationalMax": "",
+                    "directiveMin": "",
+                    "directiveMax": 18,
+                    "method": "ASTM D 1319 EN 15553 EN-ISO 22854",
+                    "date": {
+                        "year": "1995"
+                    }},
                 "sampleFrequency": {
+                    "Jan": 806,
                     "totalMonthValue": 806
                 }
             },
@@ -144,6 +193,8 @@
                 "distillationEvaporated100": {},
                 "distillationEvaporated150": {},
                 "sampleFrequency": {
+                    "Jan": 806,
+                    "Feb": 1000,
                     "totalMonthValue": 1806
                 }
             },

@@ -50,9 +50,13 @@ export class PetrolFormValidators {
             const period = control.get('period');
             const summerPeriodNorA = control.get('summerPeriodNorA');
 
-            // tslint:disable-next-line:radix
-            return period.value === 'Summer' && summerPeriodNorA.value === 'A' ?
-                {'\'Period\' Field': 'Period should be Winter or Summer period should be N'} : null;
+            if (period.value === 'Summer' && summerPeriodNorA.value === 'A') {
+                return {'\'Period\' Field': 'Period should be Winter or Summer period should be N'};
+            } else if (period.value === 'Winter' && summerPeriodNorA.value === 'N') {
+                return {'\'Period\' Field': 'Period should be Summer or Winter period should be A'};
+            }
+
+            return null;
         };
     }
 

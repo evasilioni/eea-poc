@@ -121,7 +121,18 @@ export class FuelPetrolService {
                     key: 'distillationEvaporated150',
                     groupControls: this.getReportResultGroup()
                 }),
-
+                new GroupControl({
+                    key: 'hydrocarbonOlefins',
+                    groupControls: this.getReportResultGroup()
+                }),
+                new GroupControl({
+                    key: 'hydrocarbonAromatics',
+                    groupControls: this.getReportResultGroup()
+                }),
+                new GroupControl({
+                    key: 'hydrocarbonBenzene',
+                    groupControls: this.getReportResultGroup()
+                }),
                 new GroupControl({
                     key: 'sampleFrequency',
                     groupControls: this.getSampleFrequencyControls()

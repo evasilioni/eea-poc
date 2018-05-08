@@ -14,6 +14,9 @@ export class Petrol {
     vapourPressure: ReportResult;
     distillationEvaporated100: ReportResult;
     distillationEvaporated150: ReportResult;
+    hydrocarbonOlefins: ReportResult;
+    hydrocarbonAromatics: ReportResult;
+    hydrocarbonBenzene: ReportResult;
     sampleFrequency: MonthSample;
 }
 

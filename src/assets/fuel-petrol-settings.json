@@ -58,6 +58,21 @@
             "id": 5,
             "field": "distillationEvaporated150",
             "header": "Distillation Evaporated 150"
+        },
+        {
+            "id": 6,
+            "field": "hydrocarbonOlefins",
+            "header": "Hydrocarbon analysis-Olefins"
+        },
+        {
+            "id": 7,
+            "field": "hydrocarbonAromatics",
+            "header": "Hydrocarbon analysis-Aromatics"
+        },
+        {
+            "id": 8,
+            "field": "hydrocarbonBenzene",
+            "header": "Hydrocarbon analysis-Benzene"
         }
     ]
 }
