@@ -73,6 +73,61 @@
             "id": 8,
             "field": "hydrocarbonBenzene",
             "header": "Hydrocarbon analysis-Benzene"
+        },
+        {
+            "id": 9,
+            "field": "oxygenContent",
+            "header": "Oxygen Content"
+        },
+        {
+            "id": 10,
+            "field": "oxygenContent2",
+            "header": "Oxygen Content*"
+        },
+        {
+            "id": 11,
+            "field": "methanol",
+            "header": "Methanol"
+        },
+        {
+            "id": 12,
+            "field": "ethanol",
+            "header": "Ethanol"
+        },
+        {
+            "id": 13,
+            "field": "isoPropylAlcohol",
+            "header": "Iso-Propyl alcohol"
+        },
+        {
+            "id": 14,
+            "field": "tertButylAlcohol",
+            "header": "Tert-butyl alcohol"
+        },
+        {
+            "id": 15,
+            "field": "isoButylAlcohol",
+            "header": "Iso-butyl alcohol"
+        },
+        {
+            "id": 16,
+            "field": "ethers",
+            "header": "Ethers with ≥5 carbon atoms / molecule"
+        },
+        {
+            "id": 17,
+            "field": "sulphurContent",
+            "header": "Sulphur content"
+        },
+        {
+            "id": 18,
+            "field": "leadContent",
+            "header": "Lead Content"
+        },
+        {
+            "id": 19,
+            "field": "manganese",
+            "header": "Manganese"
         }
     ]
 }

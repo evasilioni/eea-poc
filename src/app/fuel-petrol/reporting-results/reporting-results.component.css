@@ -1,11 +1,22 @@
 
 /deep/ .ui-tabview-left  .ui-tabview-panel {
-    border: 1px solid #bebebe;
+    border-top: 1px solid #bebebe;
     padding: 0em;
     background: 0;
-    height:382px;
+    /* height:382px; */
 }
 
 :host /deep/ .ui-tabview .ui-tabview-nav > li.ui-state-active {
     margin-right: -1px;
+}
+
+/deep/ .ui-tabview .ui-tabview-left > .ui-tabview-nav {
+    border-right: 1px solid #bebebe;
+    height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/deep/ .ui-tabview-left>.ui-tabview-nav {
+    height: auto;
 }
