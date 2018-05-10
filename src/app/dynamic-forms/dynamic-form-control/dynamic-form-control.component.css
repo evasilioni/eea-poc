@@ -11,10 +11,6 @@
     border-color: #ebccd1;
 }
 
-:host {
-    /*width: 100%;*/
-}
-
 .is-required {
     color:red;
 }

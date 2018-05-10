@@ -1,90 +1,39 @@
-<div [formGroup]="parentForm">
-    <dynamic-form [parent]="parentForm" [formName]="'petrol'" (formCreated)="retrievePetrolFormGroup($event)" [customControls]="controls"
-        [value]="fuelPetrol">
+<p-card title="Petrol" styleClass="ui-fluid" [formGroup]="parentForm">
+    <dynamic-form [parent]="parentForm" [formName]="'petrol'" (formCreated)="retrievePetrolFormGroup($event)" [controls]="commonControls"
+                  [customControls]="controls"
+                  [value]="fuelPetrol" [controlsPerRow]="3">
 
 
-        <p-table [columns]="cols" [value]="fuelPetrol.petrols" selectionMode="single" (onRowSelect)="openFuelDialog($event)" [paginator]="true"
-            [rows]="15">
-            <ng-template pTemplate="header" let-columns>
-                <tr>
-                    <th *ngFor="let col of columns">
-                        {{col.header}}
-                    </th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
-                <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="i">
-                    <td *ngFor="let col of columns">
-                        {{col.field === 'id' ? rowData[col.field] : rowData['basicPetrolInfo'][col.field]}}
-                    </td>
-                </tr>
-            </ng-template>
 
-            <ng-template pTemplate="summary" let-rowData>
-                <div style="text-align:left">
-                    <button type="button" pButton icon="fa-plus" (click)="showDialogToAdd()" label="Add">
-                    </button>
-                </div>
-            </ng-template>
+        <p-tabView *ngIf="petrolFormGroup.controls.petrols.length === 3 && fuelPetrol.petrols.length === 3 && cols">
+            <p-tabPanel header="Petrol(1)">
+                <fuel-petrol-tab [petrolFormGroup]="getPetrolFormGroup(0)"
+                                 [petrolGroupControl]="getPetrolGroupControl(0)"
+                                 [value]="fuelPetrol.petrols[0]"
+                                 [reportResultTypes]="reportResultTypes"
+                                 [columns]="cols?.reportingResults">
 
-        </p-table>
+                </fuel-petrol-tab>
+            </p-tabPanel>
+            <p-tabPanel header="Petrol(2)">
+                <fuel-petrol-tab [petrolFormGroup]="getPetrolFormGroup(1)"
+                                 [petrolGroupControl]="getPetrolGroupControl(1)"
+                                 [value]="fuelPetrol.petrols[1]"
+                                 [reportResultTypes]="reportResultTypes"
+                                 [columns]="cols?.reportingResults">
 
-        <p-dialog *ngIf="displayDialog" [(visible)]="displayDialog" [closeOnEscape]="false" [closable]="false"
-             [responsive]="true" [dismissableMask]="false" [modal]="true" styleClass="ui-fluid ui-dialog-width font-style-85em">
-            <p-header>
-               {{this.petrol.id}}
-            </p-header>
+                </fuel-petrol-tab>
+            </p-tabPanel>
+            <p-tabPanel header="Petrol(1+2)">
+                <fuel-petrol-tab [petrolFormGroup]="getPetrolFormGroup(2)"
+                                 [petrolGroupControl]="getPetrolGroupControl(2)"
+                                 [value]="fuelPetrol.petrols[2]"
+                                 [reportResultTypes]="reportResultTypes"
+                                 [columns]="cols?.reportingResults">
 
-            <error-messages [relatedForm]="this.petrolFormGroup.controls.petrols.controls[this.selectedPetrolIndex]">
+                </fuel-petrol-tab>
+            </p-tabPanel>
+        </p-tabView>
 
-            </error-messages>
-
-            <dynamic-form
-                          [controls]="getBasicPetrolInfoControls()"
-                          [form]="getBasicPetrolInfoFormGroup()"
-                          [showErrors]="true"
-                          [controlsPerRow]="3"
-                          [value]="getBasicPetrolInfoValue()">
-            </dynamic-form>
-
-
-            <p-tabView>
-                <p-tabPanel header="Reporting Results">
-
-                    <reporting-results [controls]="getReportingResultsControls()"
-                                       [reportResultTypes]="reportResultTypes"
-                                       [value]="fuelPetrol.petrols[selectedPetrolIndex]"
-                                       [group]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex]">
-                    </reporting-results>
-
-                </p-tabPanel>
-
-                <p-tabPanel header="Sampling Frequency">
-
-                    <sample-frequency [controls]="getSamplingFrequencyControls()"
-                                      [value]="fuelPetrol.petrols[selectedPetrolIndex]?.sampleFrequency"
-                                      [group]="petrolFormGroup.controls.petrols.controls[selectedPetrolIndex]">
-                    </sample-frequency>
-
-                </p-tabPanel>
-
-                <!-- <p-tabPanel header="Test Method and Analysis">
-                    Content 3
-                </p-tabPanel> -->
-            </p-tabView>
-
-
-            <p-footer>
-            <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                <button type="button" pButton
-                        style="font-size:12px;background-color:grey;padding-left: -1em !important;" (click)="close()"
-                        label="Close"></button>
-                <button type="button" pButton icon="fa fa-remove" style="font-size:12px;background-color:red"
-                        (click)="delete()" label="Delete"></button>
-                <button type="button" pButton icon="fa-check" (click)="save()"
-                        style="font-size:12px;background-color:green" label="Save"></button>
-            </div>
-        </p-footer>
-        </p-dialog>
     </dynamic-form>
-</div>
+</p-card>
