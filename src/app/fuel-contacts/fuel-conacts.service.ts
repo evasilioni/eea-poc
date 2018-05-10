@@ -48,28 +48,29 @@ export class FuelContactsService {
                 showIcon: true
             }),
 
-            new TextboxControl({
-                key: 'organisationResponsibleForReport',
-                label: 'Organisation',
-                order: 3,
-                validators: [
-                    {
-                        formError: 'required',
-                        validator: Validators.required
-                    },
-                    {
-                        formError: 'forbiddenName',
-                        validator: forbiddenNameValidator(/EEA/i),
-                        validationMessage: 'Organisation responsible for report cannot be EEA'
-                    }
-                ]
-            }),
+
 
             new GroupControl({
                 key: 'organisationAddress',
                 order: 4,
                 controlsPerRow: 2,
                 groupControls: [
+                    new TextboxControl({
+                        key: 'organisationResponsibleForReport',
+                        label: 'Organisation',
+                        order: 3,
+                        validators: [
+                            {
+                                formError: 'required',
+                                validator: Validators.required
+                            },
+                            {
+                                formError: 'forbiddenName',
+                                validator: forbiddenNameValidator(/EEA/i),
+                                validationMessage: 'Organisation responsible for report cannot be EEA'
+                            }
+                        ]
+                    }),
                     new TextboxControl({
                         key: 'address',
                         label: 'Address Of Organisation Street',
@@ -95,17 +96,16 @@ export class FuelContactsService {
                 ]
             }),
 
-            new TextboxControl({
-                key: 'personResponsibleForReport',
-                label: 'Person Responsible for Report',
-                order: 5
-            }),
-
             new GroupControl({
                 key: 'personInfo',
                 order: 6,
                 controlsPerRow: 2,
                 groupControls: [
+                    new TextboxControl({
+                        key: 'personResponsibleForReport',
+                        label: 'Person Responsible for Report',
+                        order: 5
+                    }),
                     new TextboxControl({
                         key: 'telephoneNumber',
                         label: 'Telephone Number',
