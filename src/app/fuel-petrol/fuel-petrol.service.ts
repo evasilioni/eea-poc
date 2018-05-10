@@ -33,7 +33,28 @@ export class FuelPetrolService {
             new ArrayControl({
                 key: 'petrols',
                 arrayControls: []
-            })
+            }),
+            new TextboxControl({
+                key: 'country',
+                label: 'Country',
+                validators: [
+                    {
+                        formError: 'required',
+                        validator: Validators.required,
+                        validationMessage: 'Petrol Country required'
+                    }
+                ],
+                disabled: () => true
+            }),
+            new TextboxControl({
+                key: 'reportingYear',
+                label: 'Reporting Year',
+                disabled: () => true
+            }),
+            new TextboxControl({
+                key: 'nationalFuelGrade',
+                label: 'National Fuel Grade',
+            }),
         ];
 
         // controls.sort((a, b) => a.order - b.order);
@@ -45,46 +66,28 @@ export class FuelPetrolService {
             key: 'petrol',
             groupValidators: [
                 this.petrolFormValidator.numOfSampleFrequencyValidation(),
-                this.petrolFormValidator.uniqueCountry()
+                // this.petrolFormValidator.uniqueCountry()
             ],
             groupControls: [
+
                 new GroupControl({
                     key: 'basicPetrolInfo',
                     groupValidators: [
                         this.petrolFormValidator.periodValidation()
                     ],
                     groupControls: [
-                        new TextboxControl({
-                            key: 'country',
-                            label: 'Country',
-                            validators: [
-                                {
-                                    formError: 'required',
-                                    validator: Validators.required,
-                                    validationMessage: 'Petrol Country required'
-                                }
-                            ],
-                            labelCssClasses: ['ui-g-4 ui-sm-6']
-                        }),
-                        new TextboxControl({
-                            key: 'reportingYear',
-                            label: 'Reporting Year',
-                            labelCssClasses: ['ui-g-4 ui-sm-6']
-                        }),
+
                         new TextboxControl({
                             key: 'period',
                             label: 'Period',
-                            labelCssClasses: ['ui-g-4 ui-sm-6']
+                            labelCssClasses: ['ui-g-4 ui-sm-6'],
+                            disabled: () => true
                         }),
                         new TextboxControl({
                             key: 'parentFuelGrade',
                             label: 'Parent Fuel Grade',
-                            labelCssClasses: ['ui-g-4 ui-sm-6']
-                        }),
-                        new TextboxControl({
-                            key: 'nationalFuelGrade',
-                            label: 'National Fuel Grade',
-                            labelCssClasses: ['ui-g-4 ui-sm-6']
+                            labelCssClasses: ['ui-g-4 ui-sm-6'],
+                            disabled: () => true
                         }),
                         new TextboxControl({
                             key: 'summerPeriodNorA',
@@ -159,17 +162,19 @@ export class FuelPetrolService {
             new TextboxControl({key: 'median', label: 'Median'}),
             new TextboxControl({key: 'standardDeviation', label: 'Standard Deviation'}),
             new TextboxControl({key: 'toleranceLimit', label: 'Tolerance Limit'}),
-            new TextboxControl({key: 'sampleValue', label: 'Sample Value'}),
+            new TextboxControl({key: 'sampleValue25', label: '25% of Sample Value'}),
+            new TextboxControl({key: 'sampleValue75', label: '75% of Sample Value'}),
             new TextboxControl({key: 'nationalMin', label: 'National Min'}),
             new TextboxControl({key: 'nationalMax', label: 'National Max'}),
-            new TextboxControl({key: 'directiveMin', label: 'Directive Min'}),
-            new TextboxControl({key: 'directiveMax', label: 'Directive Max'}),
-            new TextboxControl({key: 'method', label: 'Method'}),
+            new TextboxControl({key: 'directiveMin', label: 'Directive Min', disabled: () => true}),
+            new TextboxControl({key: 'directiveMax', label: 'Directive Max', disabled: () => true}),
+            new TextboxControl({key: 'method', label: 'Method', disabled: () => true}),
             new AutocompleteControl({
                 key: 'date', label: 'Date',
                 suggestions: this.filteredYears,
                 searchFn: this.searchYears,
-                suggestionField: 'year'
+                suggestionField: 'year',
+                disabled: () => true
             })
         ];
     }

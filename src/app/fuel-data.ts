@@ -16,5 +16,8 @@ export interface FuelData {
 }
 
 export interface FuelPetrol {
+    country: string;
+    reportingYear: number;
+    nationalFuelGrade: string;
     petrols: Petrol[];
 }

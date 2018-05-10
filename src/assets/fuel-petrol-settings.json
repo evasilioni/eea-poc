@@ -1,38 +1,107 @@
 {
-    "cols": [
-        {
-            "field": "id",
-            "header": "#"
-        },
-        {
-            "field": "country",
-            "header": "Country"
-        },
-        {
-            "field": "reportingYear",
-            "header": "Reporting Year"
-        },
-        {
-            "field": "period",
-            "header": "Period(Summer or Winter)"
-        },
-        {
-            "field": "parentFuelGrade",
-            "header": "Parent Fuel Grade"
-        },
-        {
-            "field": "nationalFuelGrade",
-            "header": "National Fuel Grade"
-        },
-        {
-            "field": "sumui-g-2merPeriodNorA",
-            "header": "Summer Period (N or A)"
-        },
-        {
-            "field": "maximumBioethanolContent",
-            "header": "The maximum bioethanol content (% v/v)"
-        }
-    ],
+    "cols": {
+        "basicPetrolInfo": [
+            {
+                "field": "id",
+                "header": "#"
+            },
+            {
+                "field": "country",
+                "header": "Country"
+            },
+            {
+                "field": "reportingYear",
+                "header": "Reporting Year"
+            },
+            {
+                "field": "period",
+                "header": "Period(Summer or Winter)"
+            },
+            {
+                "field": "parentFuelGrade",
+                "header": "Parent Fuel Grade"
+            },
+            {
+                "field": "nationalFuelGrade",
+                "header": "National Fuel Grade"
+            },
+            {
+                "field": "sumui-g-2merPeriodNorA",
+                "header": "Summer Period (N or A)"
+            },
+            {
+                "field": "maximumBioethanolContent",
+                "header": "The maximum bioethanol content (% v/v)"
+            }
+        ],
+        "reportingResults": [
+
+            {
+                "field": "parameter",
+                "header": "Parameter"
+            },
+            {
+                "field": "unit",
+                "header": "Unit"
+            },
+            {
+                "field": "numOfSamples",
+                "header": "No of Samples"
+            },
+            {
+                "field": "min",
+                "header": "Minimum"
+            },
+            {
+                "field": "max",
+                "header": "Maximum"
+            },
+            {
+                "field": "median",
+                "header": "Median"
+            },
+            {
+                "field": "standardDeviation",
+                "header": "Standard Deviation"
+            },
+            {
+                "field": "toleranceLimit",
+                "header": "No Samples outside 95% tolerance limit"
+            },
+            {
+                "field": "sampleValue25",
+                "header": "25% of Sample Value"
+            },
+            {
+                "field": "sampleValue75",
+                "header": "75% of Sample Value"
+            },
+            {
+                "field": "nationalMin",
+                "header": "Minimum"
+            },
+            {
+                "field": "nationalMax",
+                "header": "Maximum"
+            },
+            {
+                "field": "directiveMin",
+                "header": "Minimum"
+            },
+            {
+                "field": "directiveMax",
+                "header": "Maximum"
+            },
+            {
+                "field": "method",
+                "header": "Method"
+            },
+            {
+                "field": "date",
+                "header": "Date"
+            }
+        ]
+    },
     "reportResultTypes": [
         {
             "id": 1,

@@ -28,6 +28,7 @@ import { ReportingResultsComponent } from './fuel-petrol/reporting-results/repor
 import { ReportingResultComponent } from './fuel-petrol/reporting-results/reporting-result/reporting-result.component';
 import { FuelPetrolService } from './fuel-petrol/fuel-petrol.service';
 import { FuelDataService } from './services/fuel-data-service/fuel-data.service';
+import { FuelPetrolTabComponent } from './fuel-petrol/fuel-petrol-tab/fuel-petrol-tab.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { FuelDataService } from './services/fuel-data-service/fuel-data.service'
         FuelPetrolComponent,
         SampleFrequencyComponent,
         ReportingResultsComponent,
-        ReportingResultComponent
+        ReportingResultComponent,
+        FuelPetrolTabComponent
     ],
     imports: [
         BrowserModule,
