@@ -115,6 +115,12 @@ export class FuelContactsService {
                     new TextboxControl({
                         key: 'email',
                         label: 'Email',
+                        validators: [
+                            {
+                                formError: 'email',
+                                validator: Validators.email
+                            }
+                        ],
                         order: 2
                     })
                 ]
