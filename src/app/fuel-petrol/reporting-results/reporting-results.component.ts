@@ -106,7 +106,8 @@ export class ReportingResultsComponent implements OnInit {
     save(selectedReportingResult: string) {
         if (this.group.get(selectedReportingResult).valid) {
             this.displayDialog = false;
-            this.value = this.group.value;
+            // NOTE: The raw value is ABSOLUTELY required here, to retrieve values of disabled fields too!!!
+            this.value = this.group.getRawValue();
             this.mapRowData();
         }
     }
