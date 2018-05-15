@@ -21,8 +21,7 @@ export class FuelPetrolTabComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('value fpt', this.value ? this.value : '');
-        console.log('columns fpt', this.columns ? this.columns : '');
+
     }
 
     getBasicPetrolInfoControls() {

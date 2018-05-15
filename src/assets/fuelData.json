@@ -8,17 +8,21 @@
         "dateReportCompleted": "11/04/13"
     },
     "petrol": {
+
+        "country": "Belgium",
+        "reportingYear": 2018,
+        "nationalFuelGrade": "Unleaded petrol 95 RON",
+
         "petrols": [
             {
                 "id": "1",
                 "basicPetrolInfo": {
-                    "country": "Germany",
-                    "reportingYear": 2016,
-                    "period": "Winter",
-                    "parentFuelGrade": "45",
-                    "summerPeriodNorA": "A",
-                    "maximumBioethanolContent": "458",
-                    "nationalFuelGrade": "23"
+
+                    "period": "Summer",
+                    "parentFuelGrade": "Petrol",
+                    "summerPeriodNorA": "N",
+                    "maximumBioethanolContent": "458"
+
                 },
                 "researchOctaneNumber": {
                     "unit": "--",
@@ -28,7 +32,7 @@
                     "median": 95.2,
                     "standardDeviation": 0.579,
                     "toleranceLimit": 3,
-                    "sampleValue": 95,
+                    "sampleValue25": 95,
                     "nationalMin": "",
                     "nationalMax": "",
                     "directiveMin": 95,
@@ -46,7 +50,7 @@
                     "median": 85.100,
                     "standardDeviation": 85.00,
                     "toleranceLimit": 13,
-                    "sampleValue": 85,
+                    "sampleValue25": 85,
                     "nationalMin": "",
                     "nationalMax": "",
                     "directiveMin": 85,
@@ -64,7 +68,7 @@
                     "median": 85.100,
                     "standardDeviation": 85.00,
                     "toleranceLimit": 13,
-                    "sampleValue": 85,
+                    "sampleValue25": 85,
                     "nationalMin": "",
                     "nationalMax": "",
                     "directiveMin": 85,
@@ -81,7 +85,7 @@
                     "median": 85.100,
                     "standardDeviation": 85.00,
                     "toleranceLimit": 13,
-                    "sampleValue": 85,
+                    "sampleValue25": 85,
                     "nationalMin": "",
                     "nationalMax": "",
                     "directiveMin": 85,
@@ -97,7 +101,7 @@
                     "median": 85.100,
                     "standardDeviation": 85.00,
                     "toleranceLimit": 13,
-                    "sampleValue": 85,
+                    "sampleValue25": 85,
                     "nationalMin": "",
                     "nationalMax": "",
                     "directiveMin": 85,
@@ -113,7 +117,7 @@
                     "median": 7.700,
                     "standardDeviation": 2.024,
                     "toleranceLimit": 0,
-                    "sampleValue": 7.000,
+                    "sampleValue25": 7.000,
                     "nationalMin": "",
                     "nationalMax": "",
                     "directiveMin": "",
@@ -129,7 +133,7 @@
                     "median": 7.700,
                     "standardDeviation": 2.024,
                     "toleranceLimit": 0,
-                    "sampleValue": 7.000,
+                    "sampleValue25": 7.000,
                     "nationalMin": "",
                     "nationalMax": "",
                     "directiveMin": "",
@@ -145,7 +149,7 @@
                     "median": 7.700,
                     "standardDeviation": 2.024,
                     "toleranceLimit": 0,
-                    "sampleValue": 7.000,
+                    "sampleValue25": 7.000,
                     "nationalMin": "",
                     "nationalMax": "",
                     "directiveMin": "",
@@ -162,13 +166,11 @@
             {
                 "id": "2",
                 "basicPetrolInfo": {
-                    "country": "Spain",
-                    "reportingYear": 2014,
+
                     "period": "Winter",
-                    "parentFuelGrade": "45",
-                    "summerPeriodNorA": "A",
-                    "maximumBioethanolContent": "458",
-                    "nationalFuelGrade": "23"
+                    "parentFuelGrade": "Petrol",
+                    "summerPeriodNorA": "N",
+                    "maximumBioethanolContent": "458"
                 },
                 "researchOctaneNumber": {
                     "unit": "--",
@@ -178,7 +180,7 @@
                     "median": 45,
                     "standardDeviation": 1.23,
                     "toleranceLimit": 0.78,
-                    "sampleValue": 30,
+                    "sampleValue25": 30,
                     "nationalMin": 0,
                     "nationalMax": 35,
                     "directiveMin": 56,
@@ -201,13 +203,11 @@
             {
                 "id": "3",
                 "basicPetrolInfo": {
-                    "country": "Italy",
-                    "reportingYear": 2017,
-                    "period": "Summer",
-                    "parentFuelGrade": "45",
-                    "summerPeriodNorA": "A",
-                    "maximumBioethanolContent": "458",
-                    "nationalFuelGrade": "23"
+
+                    "period": "Full Year",
+                    "parentFuelGrade": "Petrol",
+                    "summerPeriodNorA": "N",
+                    "maximumBioethanolContent": "458"
                 },
                 "researchOctaneNumber": {
                     "unit": "--",
@@ -217,7 +217,7 @@
                     "median": 45,
                     "standardDeviation": 1.23,
                     "toleranceLimit": 0.78,
-                    "sampleValue": 30,
+                    "sampleValue25": 30,
                     "nationalMin": 0,
                     "nationalMax": 35,
                     "directiveMin": 56,

@@ -6,7 +6,7 @@
     [value]="getBasicPetrolInfoValue()">
 </dynamic-form>
 
-<reporting-results [controls]="getReportingResultsControls()"
+<reporting-results *ngIf="reportResultTypes" [controls]="getReportingResultsControls()"
                    [reportResultTypes]="reportResultTypes"
                    [value]="value"
                    [group]="petrolFormGroup"

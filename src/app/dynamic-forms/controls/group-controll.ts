@@ -2,7 +2,7 @@ import {ValidatorFn} from '@angular/forms';
 import {BaseControl, BaseControlOptions, ControlType} from './base-control';
 
 export class GroupControl extends BaseControl<string> {
-    controlType = ControlType.GROUP;
+    controlType: ControlType = ControlType.GROUP;
     // formName: string;
     groupValidators?: ValidatorFn[];
     groupControls: BaseControl<string>[];

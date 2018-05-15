@@ -31,6 +31,7 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
     petrolFormGroup: FormGroup;
 
     controls: BaseControl<string>[];
+    commonControls: BaseControl<string>[];
 
     petrolFormValidator: PetrolFormValidators;
     cols: any[];
@@ -43,6 +44,7 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
     newPetrol: boolean;
     petrolFormErrors: {};
 
+
     constructor(private petrolService: FuelDataService,
                 private configService: ConfigService,
                 private fb: FormBuilder,
@@ -54,7 +56,9 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.petrolFormValidator = new PetrolFormValidators(this.configService);
-        this.controls = this.fuelPetrolService.getControls();
+        const allControls = this.fuelPetrolService.getControls();
+        this.controls = [allControls[0]];
+        this.commonControls = allControls.slice(1);
         this.getPetrols();
         this.getColumns();
         this.getReportResultTypes();

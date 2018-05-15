@@ -69,32 +69,36 @@
                 "header": "No Samples outside 95% tolerance limit"
             },
             {
-                "field": "sampleValue",
+                "field": "sampleValue25",
                 "header": "25% of Sample Value"
             },
             {
+                "field": "sampleValue75",
+                "header": "75% of Sample Value"
+            },
+            {
                 "field": "nationalMin",
-                "header": "National Minimum"
+                "header": "Minimum"
             },
             {
                 "field": "nationalMax",
-                "header": "National Maximum"
+                "header": "Maximum"
             },
             {
                 "field": "directiveMin",
-                "header": "Directive Minimum"
+                "header": "Minimum"
             },
             {
                 "field": "directiveMax",
-                "header": "Directive Maximum"
+                "header": "Maximum"
             },
             {
                 "field": "method",
-                "header": "Test method"
+                "header": "Method"
             },
             {
                 "field": "date",
-                "header": "Test date"
+                "header": "Date"
             }
         ]
     },

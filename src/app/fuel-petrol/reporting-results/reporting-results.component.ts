@@ -4,6 +4,8 @@ import {GroupControl} from '../../dynamic-forms/controls/group-controll';
 import {ValidatorFn} from '@angular/forms';
 import {PetrolFormValidators} from '../../validators/petrol-form-validators';
 import {ConfigService} from '../../services/config.service';
+import {ReportingResultType} from './reporting-result-type';
+import {Column} from '../../fuel-settings';
 
 @Component({
     selector: 'reporting-results',
@@ -12,7 +14,7 @@ import {ConfigService} from '../../services/config.service';
 })
 export class ReportingResultsComponent implements OnInit {
 
-    @Input() reportResultTypes: any[];
+    @Input() reportResultTypes: ReportingResultType[];
 
     @Input() controls: BaseControl<string>[];
 
@@ -20,20 +22,20 @@ export class ReportingResultsComponent implements OnInit {
 
     @Input() value: any;
 
-    @Input() cols: any;
+    @Input() cols: Column[];
+
+    rows: any[];
 
     years: any[];
+
     petrolFormValidator: PetrolFormValidators;
 
     groupValidators: ValidatorFn[] = [];
 
-    private filteredYears = {value: []};
-
-    rows: any;
-
     displayDialog: boolean;
 
     selectedReportingResult: string;
+
     selectedReportingResultHeader: string;
 
     constructor(private configService: ConfigService) {
@@ -46,12 +48,46 @@ export class ReportingResultsComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('columns rrc', this.cols ? this.cols : '');
-        console.log('value rrc', this.value ? this.value : '');
         this.petrolFormValidator = new PetrolFormValidators(this.configService);
-        // primeng table requires an array for the value but we have an object. so we need to get the keys as a value
-        // and by the way remove the irrelevant keys
-        this.rows = Object.keys(this.value).filter(key => key !== 'id' && key !== 'basicPetrolInfo' && key !== 'sampleFrequency');
+        this.mapRowData();
+    }
+
+    /**
+     * The value of rows the table is coming in the form of an object whereas the table expects an array of objects to render the rows.
+     * For this we need to transform the object to an array and furthermore to add a row in the table
+     * if no value exists in the original value object. So we start with the rows that we need to render
+     * which are the report result types and for each one we create a row object containing the values (if available)
+     * or an empty string if not.
+     */
+    private mapRowData() {
+        this.rows = [];
+        this.reportResultTypes.map(type => {
+            // we need the report type field name on selection
+            const row = {field: type.field};
+            this.cols.forEach(col => {
+                switch (col.field) {
+                    case 'date': {
+                        if (this.value[type.field] && this.value[type.field][col.field]) {
+                            row[col.field] = this.value[type.field][col.field].year;
+                        }
+                        break;
+                    }
+                    case 'parameter': {
+                        row[col.field] = type.header;
+                        break;
+                    }
+                    default: {
+                        if (this.value[type.field]) {
+                            row[col.field] = this.value[type.field][col.field];
+                        } else {
+                            row[col.field] = '';
+                        }
+                        break;
+                    }
+                }
+            });
+            this.rows.push(row);
+        });
     }
 
     filteredControls(key) {
@@ -62,19 +98,21 @@ export class ReportingResultsComponent implements OnInit {
 
     openReportingResultDialog($event) {
         this.displayDialog = true;
-        this.selectedReportingResult = $event.data;
-        this.selectedReportingResultHeader = this.reportResultTypes.find(r => r.field === this.selectedReportingResult).header;
+        this.selectedReportingResult = $event.data.field;
+        this.selectedReportingResultHeader = $event.data.parameter;
     }
 
     save() {
         if (this.group.valid) {
             this.displayDialog = false;
             this.value = this.group.value;
+            this.mapRowData();
         }
     }
 
     close() {
         this.displayDialog = false;
     }
+
 
 }
