@@ -5,7 +5,7 @@
 
 
 
-        <p-tabView *ngIf="petrolFormGroup.controls.petrols.length === 3 && fuelPetrol.petrols.length === 3 && cols">
+        <p-tabView *ngIf="petrolFormGroup.controls && fuelPetrol.petrols.length === 3 && cols">
             <p-tabPanel header="Petrol(1)">
                 <fuel-petrol-tab [petrolFormGroup]="getPetrolFormGroup(0)"
                                  [petrolGroupControl]="getPetrolGroupControl(0)"
