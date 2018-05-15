@@ -8,6 +8,7 @@ const DEFAULT_CONTROL_CSS_CLASSES = ['ui-g-6', 'ui-sm-6'];
 
 export enum ControlType {
     TEXT,
+    NUMBER,
     CALENDAR,
     AUTOCOMPLETE,
     GROUP,

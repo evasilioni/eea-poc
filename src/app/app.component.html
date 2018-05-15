@@ -8,7 +8,12 @@
 
 <dynamic-form formName="parentForm" [controls]="parentControls" [showErrors]="true" [showNestedFormGroupErrors]="true"
               (formCreated)="retrieveFormGroup($event)" [groupValidators]="topValidators">
+    <div class="ui-g">
+        <div class="ui-g-12">
 
+            <button type="button" pButton icon="fa-save" iconPos="left" label="Submit Form" (click)="submit()"></button>
+        </div>
+    </div>
     <p-tabView>
         <p-tabPanel header="Contacts & Annual Summary">
             <fuel-contacts [parentForm]="parentForm" [contacts]="fuelData?.contacts"></fuel-contacts>
@@ -17,6 +22,8 @@
             <fuel-petrol *ngIf="fuelData?.petrol.petrols.length > 0" [parentForm]="parentForm" [fuelPetrol]="fuelData?.petrol"></fuel-petrol>
         </p-tabPanel>
     </p-tabView>
+
+
 
 </dynamic-form>
 

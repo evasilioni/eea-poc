@@ -4,11 +4,13 @@ import {Injectable} from '@angular/core';
 import {ArrayControl} from '../dynamic-forms/controls/array-control';
 import {TextboxControl} from '../dynamic-forms/controls/textbox-control';
 import {GroupControl} from '../dynamic-forms/controls/group-controll';
-import {BaseControl} from '../dynamic-forms/controls/base-control';
+import {BaseControl, ControlType} from '../dynamic-forms/controls/base-control';
 import {Validators} from '@angular/forms';
-import {ConfigService} from '../services/config.service';
-import {PetrolFormValidators} from '../validators/petrol-form-validators';
+
 import {AutocompleteControl} from '../dynamic-forms/controls/autocomplete-control';
+import { NumberControl } from '../dynamic-forms/controls/number-control';
+import {PetrolFormValidators} from './petrol-form-validators';
+import {ConfigService} from '../config.service';
 
 @Injectable()
 export class FuelPetrolService {
@@ -137,6 +139,50 @@ export class FuelPetrolService {
                     groupControls: this.getReportResultGroup()
                 }),
                 new GroupControl({
+                    key: 'oxygenContent',
+                    groupControls: this.getReportResultGroup()
+                }),
+                new GroupControl({
+                    key: 'oxygenContent2',
+                    groupControls: this.getReportResultGroup()
+                }),
+                new GroupControl({
+                    key: 'methanol',
+                    groupControls: this.getReportResultGroup()
+                }),
+                new GroupControl({
+                    key: 'ethanol',
+                    groupControls: this.getReportResultGroup()
+                }),
+                new GroupControl({
+                    key: 'isoPropylAlcohol',
+                    groupControls: this.getReportResultGroup()
+                }),
+                new GroupControl({
+                    key: 'tertButylAlcohol',
+                    groupControls: this.getReportResultGroup()
+                }),
+                new GroupControl({
+                    key: 'isoButylAlcohol',
+                    groupControls: this.getReportResultGroup()
+                }),
+                new GroupControl({
+                    key: 'ethers',
+                    groupControls: this.getReportResultGroup()
+                }),
+                new GroupControl({
+                    key: 'sulphurContent',
+                    groupControls: this.getReportResultGroup()
+                }),
+                new GroupControl({
+                    key: 'leadContent',
+                    groupControls: this.getReportResultGroup()
+                }),
+                new GroupControl({
+                    key: 'manganese',
+                    groupControls: this.getReportResultGroup()
+                }),
+                new GroupControl({
                     key: 'sampleFrequency',
                     groupControls: this.getSampleFrequencyControls()
                 })
@@ -147,8 +193,9 @@ export class FuelPetrolService {
 
     getReportResultGroup(): BaseControl<string>[] {
         return [
-            new TextboxControl({key: 'unit', label: 'Unit', disabled: () => true}),
+            new TextboxControl({controlType: ControlType.TEXT, key: 'unit', label: 'Unit', disabled: () => true}),
             new TextboxControl({
+                controlType: ControlType.TEXT,
                 key: 'numOfSamples', label: 'Number Of Samples',
                 validators: [
                     {
@@ -160,6 +207,7 @@ export class FuelPetrolService {
             new TextboxControl({key: 'min', label: 'Min'}),
             new TextboxControl({key: 'max', label: 'Max'}),
             new TextboxControl({key: 'median', label: 'Median'}),
+            new TextboxControl({key: 'mean', label: 'Mean'}),
             new TextboxControl({key: 'standardDeviation', label: 'Standard Deviation'}),
             new TextboxControl({key: 'toleranceLimit', label: 'Tolerance Limit'}),
             new TextboxControl({key: 'sampleValue25', label: '25% of Sample Value'}),
@@ -181,18 +229,18 @@ export class FuelPetrolService {
 
     getSampleFrequencyControls(): BaseControl<string>[] {
         return [
-            new TextboxControl({key: 'Jan', label: 'January'}),
-            new TextboxControl({key: 'Feb', label: 'February'}),
-            new TextboxControl({key: 'Mar', label: 'March'}),
-            new TextboxControl({key: 'Apr', label: 'April'}),
-            new TextboxControl({key: 'May', label: 'May'}),
-            new TextboxControl({key: 'Jun', label: 'June'}),
-            new TextboxControl({key: 'Jul', label: 'July'}),
-            new TextboxControl({key: 'Aug', label: 'August'}),
-            new TextboxControl({key: 'Sep', label: 'September'}),
-            new TextboxControl({key: 'Oct', label: 'October'}),
-            new TextboxControl({key: 'Nov', label: 'November'}),
-            new TextboxControl({key: 'Dec', label: 'December'}),
+            new NumberControl({key: 'Jan', label: 'January'}),
+            new NumberControl({key: 'Feb', label: 'February'}),
+            new NumberControl({key: 'Mar', label: 'March'}),
+            new NumberControl({key: 'Apr', label: 'April'}),
+            new NumberControl({key: 'May', label: 'May'}),
+            new NumberControl({key: 'Jun', label: 'June'}),
+            new NumberControl({key: 'Jul', label: 'July'}),
+            new NumberControl({key: 'Aug', label: 'August'}),
+            new NumberControl({key: 'Sep', label: 'September'}),
+            new NumberControl({key: 'Oct', label: 'October'}),
+            new NumberControl({key: 'Nov', label: 'November'}),
+            new NumberControl({key: 'Dec', label: 'December'}),
             new TextboxControl({key: 'totalMonthValue', label: 'Total Month Samples', disabled: () => true})
         ];
     }

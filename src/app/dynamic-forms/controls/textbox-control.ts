@@ -1,22 +1,13 @@
 import {BaseControl, BaseControlOptions, ControlType} from './base-control';
+import { InputControl, InputControlOptions } from './input-control';
 
-export class TextboxControl extends BaseControl<string> {
-    controlType = ControlType.TEXT;
-
-    // type: InputType;
+export class TextboxControl extends InputControl<string> {
 
     constructor(options: TextBoxControlOptions<string> = {}) {
         super(options);
-        // this.type = options.type || InputType.TEXT;
     }
 }
 
-export interface TextBoxControlOptions<T> extends BaseControlOptions<string> {
-    // type?: InputType;
+export interface TextBoxControlOptions<T> extends InputControlOptions<string> {
 }
 
-// export enum InputType {
-//     TEXT = 'text',
-//     RADIO = 'radio',
-//     // ...
-// }

@@ -1,11 +1,11 @@
-<div [formGroup]="parentForm">
+<p-card title="Petrol" styleClass="ui-fluid" [formGroup]="parentForm">
     <dynamic-form [parent]="parentForm" [formName]="'petrol'" (formCreated)="retrievePetrolFormGroup($event)" [controls]="commonControls"
                   [customControls]="controls"
                   [value]="fuelPetrol" [controlsPerRow]="3">
 
 
 
-        <p-tabView *ngIf="petrolFormGroup.controls && fuelPetrol.petrols.length === 3 && cols">
+        <p-tabView *ngIf="petrolFormGroup.controls.petrols.length === 3 && fuelPetrol.petrols.length === 3 && cols">
             <p-tabPanel header="Petrol(1)">
                 <fuel-petrol-tab [petrolFormGroup]="getPetrolFormGroup(0)"
                                  [petrolGroupControl]="getPetrolGroupControl(0)"
@@ -36,4 +36,4 @@
         </p-tabView>
 
     </dynamic-form>
-</div>
+</p-card>

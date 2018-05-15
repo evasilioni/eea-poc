@@ -5,7 +5,8 @@ import {ErrorTuple, FormError, ValidationErrorMessage} from './form-error';
 
 export const defaultValidationMessages = {
     'required': 'This field is required',
-    'minlength': 'Minimum length is ${minLength}'
+    'minlength': 'Minimum length is ${minLength}',
+    'email': 'The email is not valid'
 };
 
 @Injectable()

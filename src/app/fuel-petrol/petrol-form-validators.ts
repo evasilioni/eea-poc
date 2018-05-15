@@ -1,5 +1,5 @@
-import {AbstractControl, FormArray} from '@angular/forms';
-import {ConfigService} from '../services/config.service';
+import {AbstractControl, FormArray, FormControl, FormGroup} from '@angular/forms';
+import {ConfigService} from '../config.service';
 
 export class PetrolFormValidators {
 
@@ -75,7 +75,7 @@ export class PetrolFormValidators {
             const errors = {};
 
             if (control.get('sampleFrequency')) {
-                const fieldTotal = control.get('sampleFrequency');
+                const fieldTotal = (control.get('sampleFrequency') as FormGroup).controls['totalMonthValue'];
 
 
                 if (this.reportResultTypes !== undefined && fieldTotal != null) {
@@ -85,8 +85,9 @@ export class PetrolFormValidators {
                         const fieldNumOfSamples = control.get(r.field).get('numOfSamples');
                         invalidNumber = (fieldTotal.value !== undefined) && (fieldNumOfSamples.value !== undefined) &&
                             (fieldTotal.value !== null) && (fieldNumOfSamples.value !== null) &&
+                            fieldTotal.value !== 0 &&
                             // tslint:disable-next-line:radix
-                            (parseInt(fieldNumOfSamples.value) > parseInt(fieldTotal.value.totalMonthValue));
+                            (parseInt(fieldNumOfSamples.value) > parseInt(fieldTotal.value));
 
                         if (invalidNumber) {
                             Object.assign(errors, {

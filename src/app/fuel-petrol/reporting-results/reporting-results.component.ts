@@ -2,10 +2,11 @@ import {Component, Input, OnInit} from '@angular/core';
 import {BaseControl} from '../../dynamic-forms/controls/base-control';
 import {GroupControl} from '../../dynamic-forms/controls/group-controll';
 import {ValidatorFn} from '@angular/forms';
-import {PetrolFormValidators} from '../../validators/petrol-form-validators';
-import {ConfigService} from '../../services/config.service';
+
 import {ReportingResultType} from './reporting-result-type';
 import {Column} from '../../fuel-settings';
+import {PetrolFormValidators} from '../petrol-form-validators';
+import {ConfigService} from '../../config.service';
 
 @Component({
     selector: 'reporting-results',
@@ -102,8 +103,8 @@ export class ReportingResultsComponent implements OnInit {
         this.selectedReportingResultHeader = $event.data.parameter;
     }
 
-    save() {
-        if (this.group.valid) {
+    save(selectedReportingResult: string) {
+        if (this.group.get(selectedReportingResult).valid) {
             this.displayDialog = false;
             this.value = this.group.value;
             this.mapRowData();

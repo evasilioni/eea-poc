@@ -11,7 +11,6 @@ import {FormError} from '../validation/form-error';
 })
 export class DynamicFormControlComponent implements OnInit {
 
-
     @Input() control: BaseControl<any>;
 
     @Input() form: FormGroup;

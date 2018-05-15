@@ -1,11 +1,9 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FuelData, FuelPetrol } from './fuel-data';
-import { parse } from 'js2xmlparser';
-import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
-import { TextboxControl } from './dynamic-forms/controls/textbox-control';
-import { BaseControl } from './dynamic-forms/controls/base-control';
-import { GroupControl } from './dynamic-forms/controls/group-controll';
-import { FuelDataService } from './services/fuel-data-service/fuel-data.service';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {FuelData} from './fuel-data';
+import {parse} from 'js2xmlparser';
+import {AbstractControl, FormGroup, ValidatorFn} from '@angular/forms';
+import {BaseControl} from './dynamic-forms/controls/base-control';
+import {FuelDataService} from './fuel-data.service';
 
 
 @Component({
@@ -54,6 +52,10 @@ export class AppComponent implements OnInit, AfterViewInit {
      */
     retrieveFormGroup(formGroup: FormGroup) {
         this.parentForm = formGroup;
+    }
+
+    submit() {
+        alert('Nothing here yet!');
     }
 
 }
