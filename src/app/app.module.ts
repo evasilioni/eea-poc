@@ -28,7 +28,8 @@ import {FuelPetrolService} from './fuel-petrol/fuel-petrol.service';
 import {FuelPetrolTabComponent} from './fuel-petrol/fuel-petrol-tab/fuel-petrol-tab.component';
 import {FuelDataService} from './fuel-data.service';
 import {ConfigService} from './config.service';
-
+import { HotTableModule } from '@handsontable/angular';
+import {ReportingResultsService} from './fuel-petrol/reporting-results/reporting-results.service';
 
 @NgModule({
     declarations: [
@@ -55,9 +56,10 @@ import {ConfigService} from './config.service';
         DynamicFormsModule,
         MessagesModule,
         TableModule,
-        DialogModule
+        DialogModule,
+        HotTableModule.forRoot()
     ],
-    providers: [FuelContactsService, FuelDataService, ConfigService, FuelPetrolService],
+    providers: [FuelContactsService, FuelDataService, ConfigService, FuelPetrolService, ReportingResultsService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

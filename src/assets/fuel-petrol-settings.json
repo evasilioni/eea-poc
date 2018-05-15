@@ -38,11 +38,13 @@
 
             {
                 "field": "parameter",
-                "header": "Parameter"
+                "header": "Parameter",
+                "readOnly": true
             },
             {
                 "field": "unit",
-                "header": "Unit"
+                "header": "Unit",
+                "readOnly": true
             },
             {
                 "field": "numOfSamples",
@@ -86,19 +88,23 @@
             },
             {
                 "field": "directiveMin",
-                "header": "Minimum"
+                "header": "Minimum",
+                "readOnly":true
             },
             {
                 "field": "directiveMax",
-                "header": "Maximum"
+                "header": "Maximum",
+                "readOnly":true
             },
             {
                 "field": "method",
-                "header": "Method"
+                "header": "Method",
+                "readOnly":true
             },
             {
                 "field": "date",
-                "header": "Date"
+                "header": "Date",
+                "readOnly":true
             }
         ]
     },

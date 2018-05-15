@@ -1,12 +1,15 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {BaseControl} from '../../dynamic-forms/controls/base-control';
-import {GroupControl} from '../../dynamic-forms/controls/group-controll';
-import {ValidatorFn} from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { BaseControl } from '../../dynamic-forms/controls/base-control';
+import { GroupControl } from '../../dynamic-forms/controls/group-controll';
+import { ValidatorFn, FormGroup } from '@angular/forms';
 
-import {ReportingResultType} from './reporting-result-type';
-import {Column} from '../../fuel-settings';
-import {PetrolFormValidators} from '../petrol-form-validators';
-import {ConfigService} from '../../config.service';
+import { ReportingResultType } from './reporting-result-type';
+import { Column } from '../../fuel-settings';
+import { PetrolFormValidators } from '../petrol-form-validators';
+import { ConfigService } from '../../config.service';
+import * as Handsontable from 'handsontable';
+import {ReportingResultsService} from './reporting-results.service';
+import { HotTableRegisterer } from '@handsontable/angular';
 
 @Component({
     selector: 'reporting-results',
@@ -19,7 +22,7 @@ export class ReportingResultsComponent implements OnInit {
 
     @Input() controls: BaseControl<string>[];
 
-    @Input() group: any;
+    @Input() group: FormGroup;
 
     @Input() value: any;
 
@@ -39,56 +42,31 @@ export class ReportingResultsComponent implements OnInit {
 
     selectedReportingResultHeader: string;
 
-    constructor(private configService: ConfigService) {
+    hotTableSettings: Handsontable.GridSettings;
 
-        this.years = [{'year': '2005'},
-            {'year': '2006'},
-            {'year': '2007'},
-            {'year': '2008'},
-            {'year': '2009'}];
+    renderHot: boolean;
+
+    constructor(private configService: ConfigService, private reportingResultsService: ReportingResultsService) {
+
     }
 
     ngOnInit() {
         this.petrolFormValidator = new PetrolFormValidators(this.configService);
-        this.mapRowData();
-    }
 
-    /**
-     * The value of rows the table is coming in the form of an object whereas the table expects an array of objects to render the rows.
-     * For this we need to transform the object to an array and furthermore to add a row in the table
-     * if no value exists in the original value object. So we start with the rows that we need to render
-     * which are the report result types and for each one we create a row object containing the values (if available)
-     * or an empty string if not.
-     */
-    private mapRowData() {
-        this.rows = [];
-        this.reportResultTypes.map(type => {
-            // we need the report type field name on selection
-            const row = {field: type.field};
-            this.cols.forEach(col => {
-                switch (col.field) {
-                    case 'date': {
-                        if (this.value[type.field] && this.value[type.field][col.field]) {
-                            row[col.field] = this.value[type.field][col.field].year;
-                        }
-                        break;
-                    }
-                    case 'parameter': {
-                        row[col.field] = type.header;
-                        break;
-                    }
-                    default: {
-                        if (this.value[type.field]) {
-                            row[col.field] = this.value[type.field][col.field];
-                        } else {
-                            row[col.field] = '';
-                        }
-                        break;
-                    }
+        this.rows = this.reportingResultsService.mapRows(this.reportResultTypes, this.cols, this.value);
+
+        this.hotTableSettings = {
+            colHeaders: this.cols.map(col => col.header),
+            startCols: this.cols.length,
+            data: this.rows,
+            columns: this.cols.map(col => {
+                    return {data: col.field,
+                        readOnly: col.readOnly};
                 }
-            });
-            this.rows.push(row);
-        });
+            ),
+            preventOverflow: 'horizontal'
+        };
+
     }
 
     filteredControls(key) {
@@ -103,12 +81,12 @@ export class ReportingResultsComponent implements OnInit {
         this.selectedReportingResultHeader = $event.data.parameter;
     }
 
-    save(selectedReportingResult: string) {
-        if (this.group.get(selectedReportingResult).valid) {
+    save() {
+        if (this.group.get(this.selectedReportingResult).valid) {
             this.displayDialog = false;
-            // NOTE: The raw value is ABSOLUTELY required here, to retrieve values of disabled fields too!!!
             this.value = this.group.getRawValue();
-            this.mapRowData();
+            const selectedRowIndex = this.rows.findIndex(row => row.field === this.selectedReportingResult);
+            this.replaceRow(selectedRowIndex);
         }
     }
 
@@ -117,4 +95,21 @@ export class ReportingResultsComponent implements OnInit {
     }
 
 
+    toggleEditAllRows() {
+        this.renderHot = !this.renderHot;
+        if (!this.renderHot) {
+            this.value = this.reportingResultsService.mapRowsToValue(this.rows);
+        }
+    }
+
+    /**
+     * Replace row with new data form the form
+     * @param {number} selectedRowIndex
+     */
+    private replaceRow(selectedRowIndex: number) {
+        const selectedType = this.reportResultTypes.find(type => type.field === this.selectedReportingResult);
+        this.rows.splice(selectedRowIndex, 1,
+            this.reportingResultsService.mapRow(selectedType, this.cols, this.value));
+    }
 }
+
