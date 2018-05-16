@@ -1,15 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { BaseControl } from '../../dynamic-forms/controls/base-control';
-import { GroupControl } from '../../dynamic-forms/controls/group-controll';
-import { ValidatorFn, FormGroup } from '@angular/forms';
+import {Component, Input, OnInit} from '@angular/core';
+import {BaseControl} from '../../dynamic-forms/controls/base-control';
+import {GroupControl} from '../../dynamic-forms/controls/group-controll';
+import {FormGroup, ValidatorFn} from '@angular/forms';
 
-import { ReportingResultType } from './reporting-result-type';
-import { Column } from '../../fuel-settings';
-import { PetrolFormValidators } from '../petrol-form-validators';
-import { ConfigService } from '../../config.service';
+import {ReportingResultType} from './reporting-result-type';
+import {Column} from '../../fuel-settings';
+import {PetrolFormValidators} from '../petrol-form-validators';
+import {ConfigService} from '../../config.service';
 import * as Handsontable from 'handsontable';
 import {ReportingResultsService} from './reporting-results.service';
-import { HotTableRegisterer } from '@handsontable/angular';
 
 @Component({
     selector: 'reporting-results',
@@ -46,6 +45,8 @@ export class ReportingResultsComponent implements OnInit {
 
     renderHot: boolean;
 
+    rowsChanged: number[] = [];
+
     constructor(private configService: ConfigService, private reportingResultsService: ReportingResultsService) {
 
     }
@@ -60,8 +61,10 @@ export class ReportingResultsComponent implements OnInit {
             startCols: this.cols.length,
             data: this.rows,
             columns: this.cols.map(col => {
-                    return {data: col.field,
-                        readOnly: col.readOnly};
+                    return {
+                        data: col.field,
+                        readOnly: col.readOnly
+                    };
                 }
             ),
             preventOverflow: 'horizontal'
@@ -87,6 +90,7 @@ export class ReportingResultsComponent implements OnInit {
             this.value = this.group.getRawValue();
             const selectedRowIndex = this.rows.findIndex(row => row.field === this.selectedReportingResult);
             this.replaceRow(selectedRowIndex);
+            // TODO refresh calculated fields
         }
     }
 
@@ -98,7 +102,28 @@ export class ReportingResultsComponent implements OnInit {
     toggleEditAllRows() {
         this.renderHot = !this.renderHot;
         if (!this.renderHot) {
-            this.value = this.reportingResultsService.mapRowsToValue(this.rows);
+            // TODO this does not automatically update the form group! patchValue must be also called if we need this
+            const newValue = this.reportingResultsService.mapRowsToValue(this.rows);
+            this.value = newValue;
+            console.log('patched group', this.group);
+            this.group.patchValue(newValue);
+            // mark all changed fields dirty
+            this.rowsChanged
+                .map(rowIndex => this.rows[rowIndex].field)
+                .map(field => this.group.get(field) as FormGroup)
+                .forEach(group => {
+                    Object.keys(group.controls).forEach(key => group.get(key).markAsDirty());
+                });
+            this.rowsChanged = [];
+        }
+    }
+
+    markRowDirty($event) {
+        if ($event.params[0]) {
+            const rowChanged = $event.params[0][0][0];
+            if (!this.rowsChanged[rowChanged]) {
+                this.rowsChanged.push(rowChanged);
+            }
         }
     }
 
