@@ -1,5 +1,23 @@
 <h2>Reporting Results</h2>
-<p-table [columns]="cols" [value]="rows" selectionMode="single" (onRowSelect)="openReportingResultDialog($event)" [responsive]="true">
+
+<div class="ui-g">
+    <div class="ui-g-2">
+        <button type="button" pButton
+                [label]="!renderHot ? 'Edit all rows' : 'Edit done'"
+                [icon]="!renderHot ? 'fa-pencil' : 'fa-check'"
+                (click)="toggleEditAllRows()"
+                [ngClass]="!renderHot ? '' : 'ui-button-success'">
+
+        </button>
+    </div>
+    <div class="ui-g-12">
+        <hot-table *ngIf="renderHot" [hotId]="'reportingResults'" [settings]="hotTableSettings"></hot-table>
+    </div>
+</div>
+
+
+
+<p-table *ngIf="!renderHot"  [columns]="cols" [value]="rows" selectionMode="single" (onRowSelect)="openReportingResultDialog($event)" [responsive]="true">
     <ng-template pTemplate="header" let-columns>
         <tr>
             <th rowspan="2" colspan="10">
