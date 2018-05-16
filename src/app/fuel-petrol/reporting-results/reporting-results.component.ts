@@ -8,7 +8,7 @@ import { Column } from '../../fuel-settings';
 import { PetrolFormValidators } from '../petrol-form-validators';
 import { ConfigService } from '../../config.service';
 import * as Handsontable from 'handsontable';
-import {ReportingResultsService} from './reporting-results.service';
+import { ReportingResultsService } from './reporting-results.service';
 import { HotTableRegisterer } from '@handsontable/angular';
 
 @Component({
@@ -60,9 +60,11 @@ export class ReportingResultsComponent implements OnInit {
             startCols: this.cols.length,
             data: this.rows,
             columns: this.cols.map(col => {
-                    return {data: col.field,
-                        readOnly: col.readOnly};
-                }
+                return {
+                    data: col.field,
+                    readOnly: col.readOnly
+                };
+            }
             ),
             preventOverflow: 'horizontal'
         };
@@ -95,10 +97,15 @@ export class ReportingResultsComponent implements OnInit {
     }
 
 
+
+
     toggleEditAllRows() {
         this.renderHot = !this.renderHot;
         if (!this.renderHot) {
-            this.value = this.reportingResultsService.mapRowsToValue(this.rows);
+            // TODO this does not automatically update the form group! patchValue must be also called if we need this
+            const newValue = this.reportingResultsService.mapRowsToValue(this.rows);
+            this.value = newValue;
+            this.group.patchValue(newValue);
         }
     }
 
