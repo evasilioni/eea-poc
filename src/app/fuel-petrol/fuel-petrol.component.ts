@@ -66,7 +66,6 @@ export class FuelPetrolComponent implements OnInit, AfterViewInit {
 
     getColumns(): void {
         this.configService.getPetrolSettings().subscribe((data: any[]) => {
-            console.log('data', data);
             this.cols = data['cols'];
         });
     }
