@@ -10,11 +10,11 @@
 }
 
 .ui-table .ui-table-tbody > tr.invalid-row {
-    background-color: #ffcbc8;
+    background-color: #fcdedd ;
 }
 
 .ui-table .ui-table-tbody > tr.invalid-row:not(.ui-state-highlight):hover {
-    background-color: #fcdedd;
+    background-color: #ffcbc8;
 }
 
 .ui-table .ui-table-tbody > tr.invalid-row.ui-state-highlight {
