@@ -136,5 +136,10 @@ export class ReportingResultsComponent implements OnInit {
         this.rows.splice(selectedRowIndex, 1,
             this.reportingResultsService.mapRow(selectedType, this.cols, this.value));
     }
+
+    getInvalidRowStyleClass(rowData: any) {
+        return this.group.controls[rowData.field].invalid &&
+                this.group.controls[rowData.field].dirty ? 'invalid-row' : null;
+    }
 }
 

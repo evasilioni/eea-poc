@@ -54,7 +54,7 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-        <tr [pSelectableRow]="rowData" [ngClass]="group.controls[rowData.field].invalid ? 'invalid-row' : null">
+        <tr [pSelectableRow]="rowData" [ngClass]="getInvalidRowStyleClass(rowData)">
             <td *ngFor="let col of columns" >
                 {{rowData[col.field]}}
             </td>
