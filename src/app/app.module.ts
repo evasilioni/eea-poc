@@ -30,6 +30,7 @@ import {FuelDataService} from './fuel-data.service';
 import {ConfigService} from './config.service';
 import { HotTableModule } from '@handsontable/angular';
 import {ReportingResultsService} from './fuel-petrol/reporting-results/reporting-results.service';
+import { EditableTableComponent } from './editable-table/editable-table.component';
 
 @NgModule({
     declarations: [
@@ -40,7 +41,8 @@ import {ReportingResultsService} from './fuel-petrol/reporting-results/reporting
         SampleFrequencyComponent,
         ReportingResultsComponent,
         ReportingResultComponent,
-        FuelPetrolTabComponent
+        FuelPetrolTabComponent,
+        EditableTableComponent
     ],
     imports: [
         BrowserModule,
