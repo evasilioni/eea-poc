@@ -45,8 +45,6 @@ export class ReportingResultsComponent implements OnInit {
 
     renderHot: boolean;
 
-    rowsChanged: number[] = [];
-
     constructor(private configService: ConfigService, private reportingResultsService: ReportingResultsService) {
 
     }
@@ -105,15 +103,17 @@ export class ReportingResultsComponent implements OnInit {
             // assigning to value does not automatically update the FormGroup...
             const newValue = this.reportingResultsService.mapRowsToValue(this.rows);
             this.value = newValue;
-            // ...patchValue must be also called if we want to immediately update the FormGroup
+            // ...patchValue must be also called to immediately update the FormGroup
             this.group.patchValue(newValue);
-            // finally, for every changed row we must manually mark dirty all fields of corresponding FormGroup
-            this.markGroupControlsDirty();
         }
     }
 
-    private markGroupControlsDirty() {
-        const changedFormGroups = this.rowsChanged
+    /**
+     * For every changed row, manually marks dirty all fields of corresponding FormGroup.
+     * @param $event
+     */
+    markGroupControlsDirty($event) {
+        const changedFormGroups = $event
             .map(rowIndex => this.rows[rowIndex].field)
             .map(field => this.group.get(field) as FormGroup);
 
@@ -121,26 +121,8 @@ export class ReportingResultsComponent implements OnInit {
             Object.keys(group.controls)
                 .forEach(key => group.get(key).markAsDirty());
         });
-        this.rowsChanged = [];
     }
 
-    /**
-     * Adds each unique row to the rowsChanged array.
-     *
-     * $event.params[0] is an array and each of its entries is an array of which the first element is the changed row.
-     *
-     * @param $event
-     */
-    markRowChanged($event) {
-        if ($event.params[0]) {
-            $event.params[0].forEach(change => {
-                const rowChanged = change[0];
-                if (this.rowsChanged.findIndex(row => row === rowChanged) === -1) {
-                    this.rowsChanged.push(rowChanged);
-                }
-            });
-        }
-    }
 
     /**
      * Replace row with new data form the form

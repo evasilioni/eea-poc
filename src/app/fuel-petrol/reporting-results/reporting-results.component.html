@@ -11,12 +11,10 @@
         </button>
     </div>
     <div class="ui-g-12">
-        <hot-table *ngIf="renderHot"
-                   [hotId]="'reportingResults'"
-                   [settings]="hotTableSettings"
-                   (afterChange)="markRowChanged($event)">
-
-        </hot-table>
+        <editable-table *ngIf="renderHot" [hotId]="'reportingResults'"
+                        [hotTableSettings]="hotTableSettings"
+                        (rowsChanged)="markGroupControlsDirty($event)">
+        </editable-table>
     </div>
 </div>
 
