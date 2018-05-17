@@ -35,7 +35,6 @@
             }
         ],
         "reportingResults": [
-
             {
                 "field": "parameter",
                 "header": "Parameter",
@@ -89,22 +88,22 @@
             {
                 "field": "directiveMin",
                 "header": "Minimum",
-                "readOnly":true
+                "readOnly": true
             },
             {
                 "field": "directiveMax",
                 "header": "Maximum",
-                "readOnly":true
+                "readOnly": true
             },
             {
                 "field": "method",
                 "header": "Method",
-                "readOnly":true
+                "readOnly": true
             },
             {
                 "field": "date",
                 "header": "Date",
-                "readOnly":true
+                "readOnly": true
             }
         ]
     },
@@ -204,5 +203,104 @@
             "field": "manganese",
             "header": "Manganese"
         }
-    ]
+    ],
+    "defaultEmptyValues": {
+        "petrols": [
+            {
+                "id": "1",
+                "basicPetrolInfo": {
+                    "period": "Summer",
+                    "parentFuelGrade": "Petrol",
+                    "summerPeriodNorA": "N"
+                },
+                "researchOctaneNumber": {
+                    "unit": "--",
+                    "method": "EN-ISO 5164",
+                    "date": {
+                        "year": "2005"
+                    }
+                },
+                "motorOctaneNumber": {
+                    "unit": "--",
+                    "method": "EN-ISO 5163",
+                    "date": {
+                        "year": "2006"
+                    }
+                },
+                "vapourPressure": {
+                    "unit": "kPa",
+                    "method": "EN-ISO 5163",
+                    "date": {
+                        "year": "2006"
+                    }
+                },
+                "distillationEvaporated100": {
+                    "unit": "% V/V",
+                    "method": "EN-ISO 5163",
+                    "date": {
+                        "year": "2006"
+                    }
+                },
+                "distillationEvaporated150": {
+                    "unit": "% V/V",
+                    "method": "EN-ISO 5163",
+                    "date": {
+                        "year": "2006"
+                    }
+                },
+                "hydrocarbonOlefins": {
+                    "unit": "% V/V",
+                    "method": "ASTM D 1319 EN 15553 EN-ISO 22854",
+                    "date": {
+                        "year": "1995"
+                    }
+                },
+                "hydrocarbonAromatics": {
+                    "unit": "% V/V",
+                    "method": "ASTM D 1319 EN 15553 EN-ISO 22854",
+                    "date": {
+                        "year": "1995"
+                    }
+                },
+                "hydrocarbonBenzene": {
+                    "unit": "% V/V",
+                    "method": "ASTM D 1319 EN 15553 EN-ISO 22854",
+                    "date": {
+                        "year": "1995"
+                    }
+                }
+            },
+            {
+                "id": "2",
+                "basicPetrolInfo": {
+                    "period": "Winter",
+                    "parentFuelGrade": "Petrol",
+                    "summerPeriodNorA": "N",
+                    "maximumBioethanolContent": "458"
+                },
+                "researchOctaneNumber": {
+                    "unit": "--",
+                    "method": "random",
+                    "date": {
+                        "year": "2007"
+                    }
+                }
+            },
+            {
+                "id": "3",
+                "basicPetrolInfo": {
+                    "period": "Full Year",
+                    "parentFuelGrade": "Petrol",
+                    "summerPeriodNorA": "N"
+                },
+                "researchOctaneNumber": {
+                    "unit": "--",
+                    "method": "random",
+                    "date": {
+                        "year": "2008"
+                    }
+                }
+            }
+        ]
+    }
 }

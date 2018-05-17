@@ -55,6 +55,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     submit() {
+        this.fuelData = this.parentForm.getRawValue();
         alert('Nothing here yet!');
     }
 

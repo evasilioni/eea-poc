@@ -35,7 +35,7 @@ export class FuelPetrolTabComponent implements OnInit {
     }
 
     getBasicPetrolInfoValue() {
-        return this.value;
+        return this.value['basicPetrolInfo'];
     }
 
     getReportingResultsControls() {

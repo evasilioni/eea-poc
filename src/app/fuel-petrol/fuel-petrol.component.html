@@ -1,38 +1,36 @@
 <p-card title="Petrol" styleClass="ui-fluid" [formGroup]="parentForm">
-    <dynamic-form [parent]="parentForm" [formName]="'petrol'" (formCreated)="retrievePetrolFormGroup($event)" [controls]="commonControls"
+    <dynamic-form [parent]="parentForm" [formName]="'petrol'" (formCreated)="retrievePetrolFormGroup($event)"
+                  [controls]="commonControls"
                   [customControls]="controls"
                   [value]="fuelPetrol" [controlsPerRow]="3">
 
 
+        <div class="ui-g">
+            <div class="ui-g-2">
+                <button type="button" pButton
+                        label="Add Petrol"
+                        icon="fa-plus"
+                        (click)="addPetrol()">
 
-        <p-tabView *ngIf="petrolFormGroup.controls && fuelPetrol.petrols.length === 3 && cols">
-            <p-tabPanel header="Petrol(1)">
-                <fuel-petrol-tab [petrolFormGroup]="getPetrolFormGroup(0)"
-                                 [petrolGroupControl]="getPetrolGroupControl(0)"
-                                 [value]="fuelPetrol.petrols[0]"
+                </button>
+            </div>
+        </div>
+        <p-tabView *ngIf="petrolFormGroup.controls && fuelPetrol.petrols.length >= 3 && cols"  [controlClose]="true" (onClose)="handleRemovePetrol($event)">
+            <!-- selected tab must be set manually whith dynamic tabs https://www.primefaces.org/primeng/#/tabview -->
+            <p-tabPanel *ngFor="let petrolFormGroup of petrolFormGroup.controls.petrols.controls; index as i" [header]="getPetrolHeader(i)"
+                        [selected]="i == 0"
+                        [closable]="(i + 1) % 3 ===0">
+
+                <fuel-petrol-tab [petrolFormGroup]="getPetrolFormGroup(i)"
+                                 [petrolGroupControl]="getPetrolGroupControl(i)"
+                                 [value]="fuelPetrol.petrols[i]"
                                  [reportResultTypes]="reportResultTypes"
                                  [columns]="cols?.reportingResults">
 
                 </fuel-petrol-tab>
-            </p-tabPanel>
-            <p-tabPanel header="Petrol(2)">
-                <fuel-petrol-tab [petrolFormGroup]="getPetrolFormGroup(1)"
-                                 [petrolGroupControl]="getPetrolGroupControl(1)"
-                                 [value]="fuelPetrol.petrols[1]"
-                                 [reportResultTypes]="reportResultTypes"
-                                 [columns]="cols?.reportingResults">
 
-                </fuel-petrol-tab>
             </p-tabPanel>
-            <p-tabPanel header="Petrol(1+2)">
-                <fuel-petrol-tab [petrolFormGroup]="getPetrolFormGroup(2)"
-                                 [petrolGroupControl]="getPetrolGroupControl(2)"
-                                 [value]="fuelPetrol.petrols[2]"
-                                 [reportResultTypes]="reportResultTypes"
-                                 [columns]="cols?.reportingResults">
 
-                </fuel-petrol-tab>
-            </p-tabPanel>
         </p-tabView>
 
     </dynamic-form>
