@@ -102,28 +102,43 @@ export class ReportingResultsComponent implements OnInit {
     toggleEditAllRows() {
         this.renderHot = !this.renderHot;
         if (!this.renderHot) {
-            // TODO this does not automatically update the form group! patchValue must be also called if we need this
+            // assigning to value does not automatically update the FormGroup...
             const newValue = this.reportingResultsService.mapRowsToValue(this.rows);
             this.value = newValue;
-            console.log('patched group', this.group);
+            // ...patchValue must be also called if we want to immediately update the FormGroup
             this.group.patchValue(newValue);
-            // mark all changed fields dirty
-            this.rowsChanged
-                .map(rowIndex => this.rows[rowIndex].field)
-                .map(field => this.group.get(field) as FormGroup)
-                .forEach(group => {
-                    Object.keys(group.controls).forEach(key => group.get(key).markAsDirty());
-                });
-            this.rowsChanged = [];
+            // finally, for every changed row we must manually mark dirty all fields of corresponding FormGroup
+            this.markGroupControlsDirty();
         }
     }
 
-    markRowDirty($event) {
+    private markGroupControlsDirty() {
+        const changedFormGroups = this.rowsChanged
+            .map(rowIndex => this.rows[rowIndex].field)
+            .map(field => this.group.get(field) as FormGroup);
+
+        changedFormGroups.forEach(group => {
+            Object.keys(group.controls)
+                .forEach(key => group.get(key).markAsDirty());
+        });
+        this.rowsChanged = [];
+    }
+
+    /**
+     * Adds each unique row to the rowsChanged array.
+     *
+     * $event.params[0] is an array and each of its entries is an array of which the first element is the changed row.
+     *
+     * @param $event
+     */
+    markRowChanged($event) {
         if ($event.params[0]) {
-            const rowChanged = $event.params[0][0][0];
-            if (!this.rowsChanged[rowChanged]) {
-                this.rowsChanged.push(rowChanged);
-            }
+            $event.params[0].forEach(change => {
+                const rowChanged = change[0];
+                if (this.rowsChanged.findIndex(row => row === rowChanged) === -1) {
+                    this.rowsChanged.push(rowChanged);
+                }
+            });
         }
     }
 

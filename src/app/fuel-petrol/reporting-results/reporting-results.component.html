@@ -14,7 +14,7 @@
         <hot-table *ngIf="renderHot"
                    [hotId]="'reportingResults'"
                    [settings]="hotTableSettings"
-                   (afterChange)="markRowDirty($event)">
+                   (afterChange)="markRowChanged($event)">
 
         </hot-table>
     </div>
@@ -22,7 +22,7 @@
 
 
 
-<p-table *ngIf="!renderHot"  [columns]="cols" [value]="rows" selectionMode="single" (onRowSelect)="openReportingResultDialog($event)" 
+<p-table *ngIf="!renderHot"  [columns]="cols" [value]="rows" selectionMode="single" (onRowSelect)="openReportingResultDialog($event)"
 [responsive]="true">
     <ng-template pTemplate="header" let-columns>
         <tr>
