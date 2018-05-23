@@ -8,17 +8,21 @@
         "dateReportCompleted": "11/04/13"
     },
     "petrol": {
+
+        "country": "Belgium",
+        "reportingYear": 2018,
+        "nationalFuelGrade": "Unleaded petrol 95 RON",
+
         "petrols": [
             {
                 "id": "1",
                 "basicPetrolInfo": {
-                    "country": "Germany",
-                    "reportingYear": 2016,
-                    "period": "Winter",
-                    "parentFuelGrade": "45",
-                    "summerPeriodNorA": "A",
-                    "maximumBioethanolContent": "458",
-                    "nationalFuelGrade": "23"
+
+                    "period": "Summer",
+                    "parentFuelGrade": "Petrol",
+                    "summerPeriodNorA": "N",
+                    "maximumBioethanolContent": "458"
+
                 },
                 "researchOctaneNumber": {
                     "unit": "--",
@@ -188,13 +192,11 @@
             {
                 "id": "2",
                 "basicPetrolInfo": {
-                    "country": "Spain",
-                    "reportingYear": 2014,
+
                     "period": "Winter",
-                    "parentFuelGrade": "45",
-                    "summerPeriodNorA": "A",
-                    "maximumBioethanolContent": "458",
-                    "nationalFuelGrade": "23"
+                    "parentFuelGrade": "Petrol",
+                    "summerPeriodNorA": "N",
+                    "maximumBioethanolContent": "458"
                 },
                 "researchOctaneNumber": {
                     "unit": "--",
@@ -229,13 +231,11 @@
             {
                 "id": "3",
                 "basicPetrolInfo": {
-                    "country": "Italy",
-                    "reportingYear": 2017,
-                    "period": "Summer",
-                    "parentFuelGrade": "45",
-                    "summerPeriodNorA": "A",
-                    "maximumBioethanolContent": "458",
-                    "nationalFuelGrade": "23"
+
+                    "period": "Full Year",
+                    "parentFuelGrade": "Petrol",
+                    "summerPeriodNorA": "N",
+                    "maximumBioethanolContent": "458"
                 },
                 "researchOctaneNumber": {
                     "unit": "--",
@@ -264,7 +264,7 @@
                 "sampleFrequency": {
                     "Jan": 268,
                     "Mar": 400,
-                    "Apr": 400, 
+                    "Apr": 400,
                     "May": 200,
                     "Jun": 200,
                     "totalMonthValue": 1468

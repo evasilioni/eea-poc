@@ -1,0 +1,28 @@
+<dynamic-form
+    [controls]="getBasicPetrolInfoControls()"
+    [form]="getBasicPetrolInfoFormGroup()"
+    [showErrors]="true"
+    [controlsPerRow]="3"
+    [value]="getBasicPetrolInfoValue()">
+</dynamic-form>
+
+<div class="ui-g">
+    <div class="ui-g-12">
+        <reporting-results *ngIf="reportResultTypes" [controls]="getReportingResultsControls()"
+                           [reportResultTypes]="reportResultTypes"
+                           [value]="value"
+                           [group]="petrolFormGroup"
+                           [cols]="columns">
+
+        </reporting-results>
+    </div>
+</div>
+
+<div class="ui-g">
+    <div class="ui-g-12">
+        <sample-frequency [controls]="getSamplingFrequencyControls()"
+                          [value]="value.sampleFrequency"
+                          [group]="petrolFormGroup">
+        </sample-frequency>
+    </div>
+</div>

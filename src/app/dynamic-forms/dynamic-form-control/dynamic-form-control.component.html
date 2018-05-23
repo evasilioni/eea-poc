@@ -8,7 +8,7 @@
 
         <!-- PRIME NG INPUT TEXT-->
         <input *ngSwitchCase="ControlType.TEXT" pInputText type="text" [id]="control.key"
-               [formControlName]="control.key" [attr.disabled]="control.disabled()?'':null">
+               [formControlName]="control.key">
 
         <input *ngSwitchCase="ControlType.NUMBER" pInputText type="number" [id]="control.key"
                [formControlName]="control.key" [attr.disabled]="control.disabled()?'':null" min="0"
@@ -19,7 +19,7 @@
                         [suggestions]="control['suggestions']"
                         (completeMethod)="filter($event)" [field]="control['suggestionField']"
                         [dropdown]="true" [formControlName]="control.key" [forceSelection]="true"
-                        [attr.disabled]="control.disabled()?'':null">
+                        [disabled]="control.disabled()">
         </p-autoComplete>
 
         <!-- PRIME NG CALENDAR-->
@@ -28,7 +28,7 @@
         </p-calendar>
 
         <div *ngIf="controlErrors?.errors && hasErrors()" class="alert alert-danger" [innerHtml]="getErrorMessages()">
-               
+
 
         </div>
     </div>

@@ -8,8 +8,8 @@ export class ConfigService {
     constructor(private http: HttpClient) {
     }
 
-    getPetrolSettings(): Observable<any[]> {
-        return this.http.get<any[]>('../../assets/fuel-petrol-settings.json');
+    getPetrolSettings(): Observable<any> {
+        return this.http.get<any>('../../assets/fuel-petrol-settings.json');
     }
 
 }

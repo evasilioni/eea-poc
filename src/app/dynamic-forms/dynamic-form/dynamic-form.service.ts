@@ -127,8 +127,8 @@ export class DynamicFormService {
 
     private createFormControl(control) {
         return control.validators
-            ? new FormControl(control.value || '', this.getValidators(control.validators))
-            : new FormControl(control.value || '');
+            ? new FormControl({value: control.value, disabled: control.disabled()} || '', this.getValidators(control.validators))
+            : new FormControl({value: control.value, disabled: control.disabled()} || '');
     }
 
     private addToParent(parent: AbstractControl, name: string, formGroup: FormGroup) {

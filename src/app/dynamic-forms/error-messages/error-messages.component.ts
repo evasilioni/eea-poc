@@ -24,6 +24,7 @@ export class ErrorMessagesComponent implements OnInit {
         this.relatedForm.valueChanges
             .pipe(debounceTime(300))
             .subscribe(value => this.errorMessages = this.getErrorMessages());
+        this.errorMessages = this.getErrorMessages();
     }
 
     private getErrorMessages(): Message[] {

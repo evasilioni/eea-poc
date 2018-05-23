@@ -141,7 +141,6 @@ export class DynamicFormComponent implements OnInit {
             return;
         }
         this.formErrors = this.validationService.updateFormErrors(this.form, this.formErrors, this.validationMessages);
-        // console.log(this.formName, this.formErrors);
         this.disabledControls = this.relationService.handleRelations(this.form, this.controls, this.disabledControls);
     }
 
